@@ -17,6 +17,3 @@ def login(request):
 
 def register(request):
     return render(request, "register.html")
-
-def wishlist(request):
-    return render(request, "wishlist.html")

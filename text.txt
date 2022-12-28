@@ -1,0 +1,13 @@
+Django orm
+
+cat.recipe_set.all() == related_name
+distinct
+values values_list
+get_or_update()
+Recipe.objects.aggregate(Sum('id))
+Recipe.objects.aggregate(Min('id))
+Recipe.objects.aggregate(Max('id))
+Recipe.objects.aggregate(Avg('id))
+
+
+after  generic views were created. Go back to django tags and filters
