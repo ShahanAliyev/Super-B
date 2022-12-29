@@ -22,46 +22,60 @@
               <div class="page-title">
                 <h1>Add New Address</h1>
               </div>
-              <form action="#" method="post" id="form-validate">
+              <form action="{% url 'contact_information' %}" method="POST" id="form-validate">
+                {% csrf_token %}
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
                 <div class="fieldset group-select">
                   <input name="form_key" type="hidden" value="">
                   <input type="hidden" name="success_url" value="">
                   <input type="hidden" name="error_url" value="">
-                  <h2 class="legend">Contact Information</h2>
                   <ul class="">
                     <li class="">
                       <div class="customer-name">
                         <div class="input-box name-firstname">
                           <label for="firstname">First Name<span class="required">*</span></label>
                           <div class="input-box1">
-                            <input type="text" id="firstname" name="" value="John" title="" maxlength="255" class="input-text required-entry">
+                            {{ form.first_name }}
+                            {% for error in form.first_name.errors %}
+                                <li class="alert alert-danger">{{ error }}</li>
+                            {% endfor %}
                           </div>
                         </div>
                         <div class="input-box name-lastname">
                           <label for="lastname">Last Name<span class="required">*</span></label>
                           <div class="input-box1">
-                            <input type="text" id="lastname" name="" value="Deo" title="" maxlength="255" class="input-text required-entry">
+                            {{ form.last_name }}
+                            {% for error in form.last_name.errors %}
+                                <li class="alert alert-danger">{{ error }}</li>
+                            {% endfor %}
                           </div>
                         </div>
-                      </div>
-                    </li>
-                    <li class="">
-                      <div class="">
-                        <label for="company">Company</label>
-                        <br>
-                        <input type="text" name="" id="company" title="" value="" class="input-text ">
                       </div>
                     </li>
                     <li class="">
                       <div class="input-box">
                         <label for="telephone">Telephone<em class="required">*</em></label>
                         <br>
-                        <input type="text" name="" value="" title="" class="input-text   required-entry" id="telephone">
+                        {{ form.phone }}
+                        {% for error in form.phone.errors %}
+                            <li class="alert alert-danger">{{ error }}</li>
+                        {% endfor %}
                       </div>
-                      <div class="input-box">
-                        <label for="fax">Fax</label>
-                        <br>
-                        <input type="text" name="" id="fax" title="" value="" class="input-text ">
+                      <div class="field">
+                        <div class="input-box">
+                          <label for="zip">Zip/Postal Code<em class="required">*</em></label>
+                          <br>
+                            {{ form.postal_code }}
+                            {% for error in form.postal_code.errors %}
+                                <li class="alert alert-danger">{{ error }}</li>
+                            {% endfor %}
+                        </div>
                       </div>
                     </li>
                   </ul>
@@ -72,62 +86,50 @@
                     <li class="">
                       <label for="street_1">Street Address<em class="required">*</em></label>
                       <br>
-                      <input type="text" name="" value="" title="" id="street_1" class="input-text  required-entry">
+                        {{ form.address1 }}
+                        {% for error in form.address1.errors %}
+                            <li class="alert alert-danger">{{ error }}</li>
+                        {% endfor %}
                     </li>
                     <li class="">
-                      <input type="text" name="" value="" title="" id="street_2" class="input-text ">
+                        {{ form.address2 }}
+                        {% for error in form.address2.errors %}
+                            <li class="alert alert-danger">{{ error }}</li>
+                        {% endfor %}
                     </li>
                     <li class="">
                       <div class="field">
                         <div class="input-box">
                           <label for="city">City<em class="required">*</em></label>
                           <br>
-                          <input type="text" name="" value="" title="" class="input-text  required-entry" id="city">
-                        </div>
-                      </div>
-                      <div class="field">
-                        <div class="input-box">
-                          <label for="region_id">State/Province</label>
-                          <br>
-                          <select id="region_id" name="" title="" class="validate-select required-entry" defaultvalue="0">
-                            <option value="">Please select region, state or province</option>
-                            <option value="1" title="Alabama">Alabama</option>
-                            <option value="2" title="Alaska">Alaska</option>
-                            <option value="3" title="American Samoa">American Samoa</option>
-                            <option value="4" title="Arizona">Arizona</option>
-                            <option value="5" title="Arkansas">Arkansas</option>
-                          </select>
-                          <input type="text" id="region" name="region" value="" title="State/Province" class="input-text required-entry" style="display: none;">
-                        </div>
-                      </div>
-                    </li>
-                    <li class="">
-                      <div class="field">
-                        <div class="input-box">
-                          <label for="zip">Zip/Postal Code<em class="required">*</em></label>
-                          <br>
-                          <input type="text" name="postcode" value="" title="Zip/Postal Code" id="zip" class="input-text validate-zip-international  required-entry">
+                        {{ form.city }}
+                            {% for error in form.city.errors %}
+                                <li class="alert alert-danger">{{ error }}</li>
+                            {% endfor %}
                         </div>
                       </div>
                       <div class="field">
                         <div class="input-box">
                           <label for="country">Country<em class="required">*</em></label>
                           <br>
-                          <select name="country_id" id="country" class="validate-select" title="Country">
-                            <option value=""> </option>
-                            <option value="AF">Afghanistan</option>
-                            <option value="AX">Åland Islands</option>
-                            <option value="AL">Albania</option>
-                          </select>
+                          {{ form.country }}
+                          {% for error in country.first_name.errors %}
+                            <li class="alert alert-danger">{{ error }}</li>
+                          {% endfor %}
                         </div>
                       </div>
-                    </li>
                     <li class="control">
-                      <input type="checkbox" id="primary_billing" name="" value="1" title="" class="checkbox">
+                          {{ form.default_billing_address }}
+                          {% for error in form.default_billing_address.errors %}
+                            <li class="alert alert-danger">{{ error }}</li>
+                          {% endfor %}
                       <label for="primary_billing">Use as my default billing address</label>
                     </li>
                     <li class="control">
-                      <input type="checkbox" id="primary_shipping" name="" value="1" title="" class="checkbox">
+                        {{ form.default_shipping_address }}
+                        {% for error in form.default_shipping_address.errors %}
+                                <li class="alert alert-danger">{{ error }}</li>
+                        {% endfor %}
                       <label for="primary_shipping">Use as my default shipping address</label>
                     </li>
                   </ul>

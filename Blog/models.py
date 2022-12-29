@@ -44,6 +44,7 @@ class BlogComment(models.Model):
     name = models.CharField(max_length = 32)
     email = models.EmailField(max_length = 64)
     comment = models.TextField() # rich text field
+    blog = models.ForeignKey(Blog, on_delete = models.CASCADE, related_name = 'comment')
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)

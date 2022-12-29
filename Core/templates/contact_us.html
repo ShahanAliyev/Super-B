@@ -24,63 +24,100 @@
               <h1>Contact Us</h1>
             </div>
             <div class="static-contain">
-              <fieldset class="group-select">
-                <ul>
-                  <li id="billing-new-address-form">
-                    <fieldset>
-                      <legend>New Address</legend>
-                      <input type="hidden"  id="billing:address_id">
-                      <ul>
-                        <li>
-                          <div class="customer-name">
-                            <div class="input-box name-firstname">
-                              <label for="billing:firstname"> First Name<span class="required">*</span></label>
-                              <br>
-                              <input type="text" id="billing:firstname" name="" title="First Name" class="input-text ">
-                            </div>
-                            <div class="input-box name-lastname">
-                              <label for="billing:lastname"> Email Address <span class="required">*</span> </label>
-                              <br>
-                              <input type="text" id="billing:lastname" name="" title="Last Name" class="input-text">
-                            </div>
+              <form action="{% url 'contact_us' %}" method="POST">
+                {% csrf_token %}
+                  <fieldset class="group-select">
+                    <ul>
+                      <li id="billing-new-address-form">
+                        <fieldset>
+                          <legend>New Address</legend>
+                            <ul class="messages">
+                              {% if messages %}
+                              <ul class="messages">
+                                  {% for message in messages %}
+                                  <li{% if message.tags %} class="alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                  {% endfor %}
+                              </ul>
+                              {% endif %}
+                            </ul>
+                          <input type="hidden"  id="billing:address_id">
+                              <ul>
+                                <li>
+                                  <div class="customer-name">
+                                    <div class="input-box name-firstname">
+                                      <label for="billing:firstname"> First Name<span class="required">*</span></label>
+                                      <br>
+                                      <!-- <input type="text" id="billing:firstname" name="" title="First Name" class="input-text "> -->
+                                      {{ form.first_name }}
+
+                                      {% for error in form.first_name.errors %}
+                                        {{ error }}
+                                      {% endfor %}
+                                    </div>
+                                    <div class="input-box name-lastname">
+                                      <label for="billing:lastname"> Email Address <span class="required">*</span> </label>
+                                      <br>
+                                      {{ form.email }}
+                                      {% for error in form.email.errors %}
+                                        {{ error }}
+                                      {% endfor %}
+                                    </div>
+                                  </div>
+                                </li>
+                                <li>
+                                  <div class="input-box">
+                                    <label for="billing:company">Company</label>
+                                    <br>
+                                    {{ form.company }}
+                                    {% for error in form.company.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                  </div>
+                                  <div class="input-box">
+                                    <label for="billing:email">Telephone <span class="required">*</span></label>
+                                    <br>
+                                    <!-- <input type="text" name="" id="billing:email" title="Email Address" class="input-text"> -->
+                                    {{ form.phone }}
+                                    {% for error in form.phone.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                  </div>
+                                </li>
+                                <li>
+                                  <label for="billing:street1">Address <span class="required">*</span></label>
+                                  <br>
+                                  {{ form.address1 }}
+                                  {% for error in form.address1.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                </li>
+                                <li>
+                                  {{ form.address2 }}
+                                  {% for error in form.address2.errors %}
+                                        {{ error }}
+                                  {% endfor %}
+                                </li>
+                                <li class="">
+                                  <label for="comment">Comment<em class="required">*</em></label>
+                                  <br>
+                                  <div style="float:none" class="">
+                                    {{ form.comment }}
+                                    {% for error in form.comment.errors %}
+                                        {{ error }}
+                                    {% endfor %}
+                                  </div>
+                                </li>
+                              </ul>
+                              
+                            </fieldset>
+                          </li>
+                          <span class="require"><em class="required">* </em>Required Fields</span>
+                          <div class="buttons-set">
+                            <button type="submit" title="Submit" class="button submit"> <span> Submit </span> </button>
                           </div>
-                        </li>
-                        <li>
-                          <div class="input-box">
-                            <label for="billing:company">Company</label>
-                            <br>
-                            <input type="text" id="billing:company" name="" title="Company" class="input-text">
-                          </div>
-                          <div class="input-box">
-                            <label for="billing:email">Telephone <span class="required">*</span></label>
-                            <br>
-                            <input type="text" name="" id="billing:email" title="Email Address" class="input-text">
-                          </div>
-                        </li>
-                        <li>
-                          <label for="billing:street1">Address <span class="required">*</span></label>
-                          <br>
-                          <input type="text" title="Street Address" name="" class="input-text">
-                        </li>
-                        <li>
-                          <input type="text" title="Street Address 2" name="" class="input-text">
-                        </li>
-                        <li class="">
-                          <label for="comment">Comment<em class="required">*</em></label>
-                          <br>
-                          <div style="float:none" class="">
-                            <textarea name="" id="comment" title="Comment" class="input-text" cols="5" rows="3"></textarea>
-                          </div>
-                        </li>
-                      </ul>
-                    </fieldset>
-                  </li>
-                  <span class="require"><em class="required">* </em>Required Fields</span>
-                  <div class="buttons-set">
-                    <button type="submit" title="Submit" class="button submit"> <span> Submit </span> </button>
-                  </div>
-                </ul>
-              </fieldset>
+                        </ul>
+                  </fieldset>
+              </form>
             </div>
           </section>
           <aside class="col-right sidebar col-sm-3">

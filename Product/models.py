@@ -27,6 +27,7 @@ class Brand(models.Model):
 
     name = models.CharField(max_length = 32)
     image = models.ImageField(null = True, blank = True, upload_to = 'media/images/brands')
+    admin = models.ForeignKey(User, null = True, blank = True, on_delete = models.CASCADE)  #OneToOne field
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
@@ -89,7 +90,7 @@ class Size(models.Model):
 class ProductVersion(models.Model):
 
     product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = 'version')
-    discount = models.ManyToManyField(Discount)
+    discount = models.ManyToManyField(Discount, blank = True)
     sell_price = models.DecimalField(max_digits = 5, decimal_places = 2)
     color = models.ForeignKey(Color, on_delete = models.CASCADE, related_name = 'version')
 
@@ -112,7 +113,7 @@ class ProductVersionDetail(models.Model):
 
     def __str__(self):
 
-        return f"{self.version.id}'s details {self.size.name} {self.count}"
+        return f"{self.version.product.name}'s details {self.size.name} {self.count}"
 
 
 
@@ -133,10 +134,21 @@ class VersionImage(models.Model):
 
 class VersionReview(models.Model):
 
-    name = models.CharField(max_length = 32)
+    VERSION_RAITING = [
+        ('1', '20'),
+        ('2', '40'),
+        ('3', '60'),
+        ('4', '80'),
+        ('5', '100'),
+    ]
+
+    value = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
+    price = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
+    quality = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
+    first_name = models.CharField(max_length = 32)
+    last_name = models.CharField(max_length = 32)
     email = models.EmailField(max_length = 64)
     description = models.TextField()
-    raiting = models.PositiveIntegerField()
     version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "review")
 
     created_at = models.DateTimeField(auto_now_add = True) 
@@ -144,14 +156,4 @@ class VersionReview(models.Model):
 
     def __str__(self):
 
-        return f"{self.name}'s review {self.id}, {self.version.id}"
-
-
-
-    
-
-
-
-    
-    
-
+        return f"{self.first_name}'s review {self.id}, {self.version.id}"
