@@ -1,6 +1,16 @@
 from django.db import models
-from django.contrib.auth import get_user_model
-User = get_user_model()
+from django.contrib.auth.models import AbstractUser
+from django.utils.translation import gettext_lazy as _
+
+
+class User(AbstractUser):
+    
+    email = models.EmailField(_('email address'), unique=True)
+    bio = models.TextField(max_length=500, blank = True, null = True)
+    image = models.ImageField(upload_to = 'images/avatars', default = 'default/admin-photo.jpg')
+
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username', ]
 
 
 class ContactInformation(models.Model):

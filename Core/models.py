@@ -60,7 +60,7 @@ class AboutUs(models.Model):
 class Social(models.Model):
 
     name = models.CharField(max_length = 32)
-    image = models.ImageField(null = True, blank = True, upload_to = 'media/images/socials')
+    image = models.ImageField(null = True, blank = True, upload_to = 'images/socials')
     us = models.ForeignKey(AboutUs, on_delete = models.CASCADE, related_name = 'socials')
 
     created_at = models.DateTimeField(auto_now_add = True) 

@@ -7,7 +7,7 @@ User = get_user_model()
 class Category(models.Model):
 
     name = models.CharField(max_length = 32)
-    image = models.ImageField(null = True, blank = True, upload_to = 'media/images/categories')
+    image = models.ImageField(null = True, blank = True, upload_to = 'images/categories')
     parent = models.ForeignKey('self', null = True, blank = True, on_delete = models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add = True) 
@@ -26,7 +26,7 @@ class Category(models.Model):
 class Brand(models.Model):
 
     name = models.CharField(max_length = 32)
-    image = models.ImageField(null = True, blank = True, upload_to = 'media/images/brands')
+    image = models.ImageField(null = True, blank = True, upload_to = 'images/brands')
     admin = models.ForeignKey(User, null = True, blank = True, on_delete = models.CASCADE)  #OneToOne field
 
     created_at = models.DateTimeField(auto_now_add = True) 
@@ -120,7 +120,7 @@ class ProductVersionDetail(models.Model):
 class VersionImage(models.Model):
 
     version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "image")
-    image_url = models.ImageField(null = True, blank = True, upload_to = 'media/images/VersionImages')
+    image_url = models.ImageField(null = True, blank = True, upload_to = 'images/VersionImages')
     is_cover = models.BooleanField(default = False)
 
     created_at = models.DateTimeField(auto_now_add = True) 
