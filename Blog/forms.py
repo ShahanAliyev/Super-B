@@ -22,5 +22,18 @@ class BlogCommentForm(forms.ModelForm):
                 'class': 'input-text'
            }),
         }
-        
+
+       
+class AuthBlogCommentForm(forms.ModelForm):
     
+    class Meta:
+
+        model = BlogComment
+        fields = (
+                'comment',
+                )
+        widgets = {
+           'comment': forms.Textarea(attrs = {
+                'class': 'input-text'
+           }),
+        }
