@@ -51,10 +51,10 @@ class BlogDetailView(DetailView, CreateView):
         
         blog = Blog.objects.filter(id = self.kwargs['pk'])
 
-        if request.user.is_anonymous:       
-               
+        if request.user.is_anonymous:     
+
+            form = BlogCommentForm(data = request.POST)
             form.instance.blog = blog.first()
-            print(form)
             if form.is_valid():
                 form.save()
             else:
@@ -79,6 +79,7 @@ class BlogDetailView(DetailView, CreateView):
 
         context = super(BlogDetailView, self).get_context_data(**kwargs)
         context['comments'] = BlogComment.objects.filter(blog__id = self.kwargs['pk'])
+        print(BlogComment.objects.filter(blog__id = self.kwargs['pk']))
 
         return context
 

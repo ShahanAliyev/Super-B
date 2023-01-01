@@ -41,7 +41,8 @@ INSTALLED_APPS = [
     'Core.apps.CoreConfig',
     'Order.apps.OrderConfig',
     'Product.apps.ProductConfig',
-    'User.apps.UserConfig'
+    'User.apps.UserConfig',
+    'ckeditor'
 ]
 
 MIDDLEWARE = [

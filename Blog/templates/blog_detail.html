@@ -48,7 +48,7 @@
                       </a>
                     </div>
                     <div class="entry-content">
-                      <p>{{ blog.description }}</p>
+                      <p>{{ blog.description|safe }}</p>
                     </div>
 
                   </div>
@@ -78,12 +78,14 @@
                               <span class="author">{{ comment.name }}</span>
                             </div>
                             <div class="comment-meta">
-                              <time datetime="2014-07-10T07:26:28+00:00" class="entry-date">{{ comment.created_at|date:"F d, Y" }}</time>
+                              <time datetime="2014-07-10T07:26:28+00:00" class="entry-date">{{ comment.created_at|date:"l d, Y, H i a" }}</time>
                             </div>
                             <div class="comment-body"> {{ comment.comment }} </div>
                           </div>
                         </li>
                         {% endif %}
+                        {% empty %}
+                          <li class="comment-body">This blog does not have comment yet.</li>
                         {% endfor %}
                         
                       </ul>

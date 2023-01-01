@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from ckeditor.fields import RichTextField
 
 User = get_user_model()
 
@@ -26,7 +27,7 @@ class Blog(models.Model):
 
     header = models.CharField(max_length = 64)
     image = models.ImageField(null = True, blank = True, upload_to = 'media/images/blogs')
-    description = models.TextField() # rich text field
+    description = RichTextField(blank = True, null = True)
     user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'blog')
     category = models.ForeignKey(BlogCategory, on_delete = models.CASCADE, related_name = 'blog')
     read_count = models.PositiveIntegerField(default = 0)
@@ -53,5 +54,3 @@ class BlogComment(models.Model):
     def __str__(self):
 
         return f"{self.name}'s comment to {self.id}"
-
-    
