@@ -1,8 +1,11 @@
 from django import forms
 from .models import ContactInformation
 from django.contrib.messages import constants as messages
-from django.contrib.auth import get_user_model
+from django.contrib.auth import get_user_model,password_validation
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.core.exceptions import ValidationError
+from django.utils.translation import gettext_lazy as _
+
 
 User = get_user_model()
 
@@ -59,13 +62,20 @@ class ContactInformationForm(forms.ModelForm):
         }
 
 
-class RegisterationForm(forms.ModelForm):
+class RegistrationForm(UserCreationForm):
 
-     confirm_password = forms.CharField(widget = forms.PasswordInput(attrs = {
-          'class': 'input-text',
-          'placeholder': 'Confirm Password'
-     }))
-
+     password1 = forms.CharField(
+          label=_("Password"),
+          strip=False,
+          widget=forms.PasswordInput(attrs={"autocomplete": "new-password", 'class': 'input-text', 'placeholder': 'Password'}),
+          help_text=password_validation.password_validators_help_text_html(),
+     )
+     password2 = forms.CharField(
+          label=_("Password"),
+          strip=False,
+          widget=forms.PasswordInput(attrs={"autocomplete": "new-password", 'class': 'input-text', 'placeholder': 'Confirm Password'}),
+          help_text=password_validation.password_validators_help_text_html(),
+     )
      class Meta:
 
           model = User
@@ -74,8 +84,7 @@ class RegisterationForm(forms.ModelForm):
                     'last_name',
                     'username',
                     'email',
-                    'password',
-                    'confirm_password')
+                    )
 
           widgets = {
            'first_name': forms.TextInput(attrs = {
@@ -94,26 +103,15 @@ class RegisterationForm(forms.ModelForm):
            }),
            'email': forms.EmailInput(attrs = {
                 'class': 'input-text',
-                'placeholder': 'Email Address'
-           }),
-           'password': forms.PasswordInput(attrs = {
-                'class': 'input-text',
-                'placeholder': 'Password'
-           }),
-           
-        }
+                'placeholder': 'Email'
+           })
+           }
 
-     def clean_confirm_password(self):
-          if self.cleaned_data['confirm_password'] != self.cleaned_data['password']:
-               raise ValidationError('Confirm password did not match with Password')
+class LoginForm(AuthenticationForm):
 
-
-class LoginForm(forms.Form):
-      
-
-     email = forms.EmailField(widget = forms.EmailInput(attrs = {
+     username = forms.CharField(widget = forms.TextInput(attrs = {
           'class': 'input-text',
-          'placeholder': 'Email'
+          'placeholder': 'Username'
      }))
      password = forms.CharField(widget = forms.PasswordInput(attrs = {
           'class': 'input-text',

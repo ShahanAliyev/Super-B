@@ -9,8 +9,8 @@ class User(AbstractUser):
     bio = models.TextField(max_length=500, blank = True, null = True)
     image = models.ImageField(upload_to = 'images/avatars', default = 'default/admin-photo.jpg')
 
-    USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', ]
+    # USERNAME_FIELD = 'email'
+    # REQUIRED_FIELDS = ['username', ]
 
 
 class ContactInformation(models.Model):

@@ -1,18 +1,18 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  <title>Superb, premium HTML5 &amp; CSS3 template</title>
+<title>Superb, premium HTML5 &amp; CSS3 template</title>
 {% endblock %}
 
 
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/internal.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/internal.css' %}">
 {% endblock %}
 
 <body class="customer-account-login inner-page">
-<div id="page"> 
-  
-  {% block content %}
+  <div id="page">
+
+    {% block content %}
     <!-- Main Container -->
     <section class="main-container col1-layout bounceInUp animated">
       <div class="main container">
@@ -20,38 +20,43 @@
           <div class="page-title">
             <h1>Login or Create an Account</h1>
             {% if messages %}
-                <ul class="messages">
-                    {% for message in messages %}
-                    <li{% if message.tags %} class="alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
-                    {% endfor %}
-                </ul>
+            <ul class="messages">
+              {% for message in messages %}
+              <li{% if message.tags %} class="alert-{{ message.tags }}" {% endif %}>{{ message }}</li>
+                {% endfor %}
+            </ul>
             {% endif %}
           </div>
           <fieldset class="col2-set">
             <legend>Login or Create an Account</legend>
             <div class="col-1 new-users"><strong>New Customers</strong>
               <div class="content">
-                <p>By creating an account with our store, you will be able to move through the checkout process faster, store multiple shipping addresses, view and track your orders in your account and more.</p>
+                <p>By creating an account with our store, you will be able to move through the checkout process faster,
+                  store multiple shipping addresses, view and track your orders in your account and more.</p>
                 <div class="buttons-set">
-                  <button class="button create-account"><span>Create an Account</span></button>
+                  <a href="{% url 'register' %}"><button class="button create-account"><span>Create an Account</span></button></a>
                 </div>
               </div>
             </div>
             <div class="col-2 registered-users"><strong>Registered Customers</strong>
               <div class="content">
                 <p>If you have an account with us, please log in.</p>
-                <form action="{% url 'login' %}" method = "POST">
+                <form action="{% url 'login' %}" method="POST">
                   {% csrf_token %}
+                  {% for field in form %}
                   <ul class="form-list">
-                    {% for field in form %}
-                    <li>{{ field }}</li>
-                    {% endfor %}
+                    <li>
+                      {{ field }}
+                      {{ field.errors }}
+                    </li>
                   </ul>
+                  {% endfor %}
+                  <p class="required">* Required Fields</p>
                   <div class="buttons-set">
                     <button id="send2" name="" type="submit" class="button login"><span>Login</span></button>
                     <a class="forgot-word" href="#">Forgot Your Password?</a>
                   </div>
-                  </form>
+                </form>
               </div>
             </div>
           </fieldset>
@@ -63,11 +68,11 @@
         <br>
       </div>
     </section>
-    <!-- Main Container End --> 
-  {% endblock %}
- 
-</div>
-{% block footer %}
+    <!-- Main Container End -->
+    {% endblock %}
+
+  </div>
+  {% block footer %}
   <div id="mobile-menu">
     <ul>
       <li>
@@ -271,26 +276,30 @@
       <li><a href="contact-us.html">Contact Us</a> </li>
     </ul>
     <div class="dropdown block-language-wrapper">
-                  <ul>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/english.png' %}" alt="language"> English </a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/francais.png' %}" alt="language"> French </a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/german.png' %}" alt="language"> German </a></li>
-                  </ul>
-                </div>
-                <div class="dropdown block-currency-wrapper"> 
-                  <ul>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> $ - Dollar </a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> £ - Pound </a></li>
-                    <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> € - Euro </a></li>
-                  </ul>
-                </div>
+      <ul>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/english.png' %}"
+              alt="language"> English </a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/francais.png' %}"
+              alt="language"> French </a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/german.png' %}"
+              alt="language"> German </a></li>
+      </ul>
+    </div>
+    <div class="dropdown block-currency-wrapper">
+      <ul>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> $ - Dollar </a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> £ - Pound </a></li>
+        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> € - Euro </a></li>
+      </ul>
+    </div>
   </div>
-{% endblock %}
+  {% endblock %}
 
-{% block js %}
-  <script type="text/javascript" src="{% static 'js/parallax.js' %}"></script> 
-  <script type="text/javascript" src="{% static 'js/jquery.flexslider.js' %}"></script> 
+  {% block js %}
+  <script type="text/javascript" src="{% static 'js/parallax.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.flexslider.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/cloud-zoom.js' %}"></script>
-{% endblock %}
+  {% endblock %}
 </body>
+
 </html>
