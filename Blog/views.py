@@ -12,6 +12,7 @@ class BlogView(ListView):
     model = Blog
     template_name = 'blog.html'
     context_object_name = 'blogs'
+    # paginate_by = 1
 
     def get_context_data(self, **kwargs):
         context = super(BlogView, self).get_context_data(**kwargs)

@@ -38,8 +38,7 @@
                     </div>
                     <div class="entry-meta">
                       <a href="#">
-                        <span class="author-avatar byline"><img alt="" src="{% static 'images/admin-photo.jpg' %}"
-                            class="avatar avatar-96 photo">By {{ blog.user.first_name }} {{ blog.user.last_name }}
+                        <span class="author-avatar byline"><img alt="" src="{{ blog.user.image.url }}" class="avatar avatar-96 photo">By {{ blog.user.first_name }} {{ blog.user.last_name }}
                         </span> <span class="timestamp"> {{ blog.created_at|date:"F j, o" }}</span>
                       </a>
                     </div>

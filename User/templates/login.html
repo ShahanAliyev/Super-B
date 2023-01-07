@@ -19,6 +19,13 @@
         <div class="account-login">
           <div class="page-title">
             <h1>Login or Create an Account</h1>
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                    <li{% if message.tags %} class="alert-{{ message.tags }}"{% endif %}>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
           </div>
           <fieldset class="col2-set">
             <legend>Login or Create an Account</legend>
@@ -33,22 +40,18 @@
             <div class="col-2 registered-users"><strong>Registered Customers</strong>
               <div class="content">
                 <p>If you have an account with us, please log in.</p>
-                <ul class="form-list">
-                  <li>
-                    <label for="email">Email Address <span class="required">*</span></label>
-                    <br>
-                    <input type="text" title="" class="input-text" id="email" value="" name="">
-                  </li>
-                  <li>
-                    <label for="pass">Password <span class="required">*</span></label>
-                    <br>
-                    <input type="password" title="" id="pass" class="input-text" name="">
-                  </li>
-                </ul>
-                <p class="required">* Required Fields</p>
-                <div class="buttons-set">
-                  <button id="send2" name="" type="submit" class="button login"><span>Login</span></button>
-                  <a class="forgot-word" href="#">Forgot Your Password?</a> </div>
+                <form action="{% url 'login' %}" method = "POST">
+                  {% csrf_token %}
+                  <ul class="form-list">
+                    {% for field in form %}
+                    <li>{{ field }}</li>
+                    {% endfor %}
+                  </ul>
+                  <div class="buttons-set">
+                    <button id="send2" name="" type="submit" class="button login"><span>Login</span></button>
+                    <a class="forgot-word" href="#">Forgot Your Password?</a>
+                  </div>
+                  </form>
               </div>
             </div>
           </fieldset>

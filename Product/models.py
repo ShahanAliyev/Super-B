@@ -149,7 +149,7 @@ class VersionReview(models.Model):
     last_name = models.CharField(max_length = 32)
     email = models.EmailField(max_length = 64)
     description = models.TextField()
-    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "review")
+    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "review", null = True, blank = True)
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)

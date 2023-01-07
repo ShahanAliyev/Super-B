@@ -1344,7 +1344,7 @@ ul.level1 {
 	top: 45px;
 }
 .nav > li > a {
-	color: #fff;
+	color: black !important;
 	padding:15px 0px
 }
 .nav > li.mega-menu {

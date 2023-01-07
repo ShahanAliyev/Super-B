@@ -26,8 +26,7 @@
     <section class="main-container col2-right-layout bounceInUp animated">
       <div class="main container">
         <div class="row">
-          <div class="col-main col-sm-9">
-
+          <div class="col-main col-sm-11">
             <div class="blog-wrapper latest-blog" id="main">
               <div class="site-content" id="primary">
                 <div role="main" id="content">
@@ -43,7 +42,7 @@
                     </div>
                     <div class="entry-meta">
                       <a href="#">
-                        <span class="author-avatar byline"><img alt="" src="{% static 'images/admin-photo.jpg' %}"
+                        <span class="author-avatar byline"><img alt="" src="{{ blog.user.image.url }}"
                             class="avatar avatar-96 photo">By {{blog.user.first_name}} {{blog.user.last_name}}</span> <span class="timestamp">{{ blog.created_at|date:"F d, Y" }}</span>
                       </a>
                     </div>
@@ -68,7 +67,7 @@
                             <div class="comment-meta">
                               <time datetime="2014-07-10T07:26:28+00:00" class="entry-date">{{ comment.created_at|date:"l d, Y, H i a" }}</time>
                             </div>
-                            <div class="comment-body"> {{ comment.comment }} </div>
+                            <div class="comment-body"> {{ comment.comment|safe }} </div>
                           </div>
                         </li>
                         {% else %}
