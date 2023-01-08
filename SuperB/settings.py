@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'Order.apps.OrderConfig',
     'Product.apps.ProductConfig',
     'User.apps.UserConfig',
-    'ckeditor'
+    'ckeditor',
+    'crispy_forms'
 ]
 
 MIDDLEWARE = [
@@ -142,9 +143,10 @@ MEDIA_URL = '/media/'
 LOGIN_REDIRECT_URL = 'index'
 LOGOUT_REDIRECT_URL = 'index'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com '
-# EMAIL_USE_TLS = True
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER ='shahan0020@gmail.com'
-# EMAIL_HOST_PASSWORD = 'cbisdozpjapjakzb'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER ='shahan0020@gmail.com'
+EMAIL_HOST_PASSWORD = 'cbisdozpjapjakzb'

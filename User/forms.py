@@ -107,6 +107,13 @@ class RegistrationForm(UserCreationForm):
            })
            }
 
+     def save(self, commit = True):
+          user = super().save(commit = False)
+          user.is_active = False
+          if commit:
+               user.save()
+          return user
+
 class LoginForm(AuthenticationForm):
 
      username = forms.CharField(widget = forms.TextInput(attrs = {
