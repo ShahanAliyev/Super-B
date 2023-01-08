@@ -20,7 +20,7 @@ class Category(models.Model):
 
     def __str__(self):
 
-        return f"{self.name} {self.id}" 
+        return f"{self.name} {self.parent}" 
     
 
 class Brand(models.Model):
@@ -33,8 +33,7 @@ class Brand(models.Model):
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-
-        return f"{self.name} {self.id}" 
+        return f"{self.name} {self.id}"
 
 
 class Product(models.Model):

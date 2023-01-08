@@ -46,6 +46,11 @@ class ProductAdmin(admin.ModelAdmin):
 class BrandAdmin(admin.ModelAdmin):
 
     search_fields = ('name',)
+    readonly_fields = ('admin',)
+
+    def save_model(self, request, obj, form, change):
+        obj.admin = request.user
+        super().save_model(request, obj, form, change)
 
 
 class ImageInlineAdmin(admin.TabularInline):

@@ -231,30 +231,24 @@
                     <dt class="even">Manufacturer</dt>
                     <dd class="even">
                       <ol>
-                        <li> <a href="#">Superb</a> (9) </li>
-                        <li> <a href="#">Nexus</a> (4) </li>
-                        <li> <a href="#">Xperia</a> (1) </li>
+                        {% for brand in brands %}
+                          <li> <a href="#">{{ brand.name }}</a></li>
+                        {% endfor %}
                       </ol>
                     </dd>
                     <dt class="odd">Color</dt>
                     <dd class="odd">
                       <ol>
-                        <li> <a href="#">Green</a> (1) </li>
-                        <li> <a href="#">White</a> (5) </li>
-                        <li> <a href="#">Black</a> (5) </li>
-                        <li> <a href="#">Gray</a> (4) </li>
-                        <li> <a href="#">Dark Gray</a> (3) </li>
-                        <li> <a href="#">Blue</a> (1) </li>
+                        {% for color in colors %}
+                          <li> <a href="#">{{ color.name }}</a></li>
+                        {% endfor %}
                       </ol>
                     </dd>
                     <dt class="last even">Size</dt>
                     <dd class="last even">
-                      <ol>
-                        <li> <a href="#">S</a> (6) </li>
-                        <li> <a href="#">M</a> (6) </li>
-                        <li> <a href="#">L</a> (4) </li>
-                        <li> <a href="#">XL</a> (4) </li>
-                      </ol>
+                      {% for size in sizes %}
+                          <li> <a href="#">{{ size.name }}</a></li>
+                        {% endfor %}
                     </dd>
                   </dl>
                 </div>
@@ -295,27 +289,6 @@
                   </ul>
                 </div>
               </div>
-              <div class="block block-compare">
-                <div class="block-title ">Compare Products (2)</div>
-                <div class="block-content">
-                  <ol id="compare-items">
-                    <li class="item odd">
-                      <input type="hidden" value="2173" class="compare-item-id">
-                      <a class="btn-remove1" title="Remove This Item" href="#"></a> <a href="#" class="product-name">
-                        Office Colored Ladies Shirt</a>
-                    </li>
-                    <li class="item last even">
-                      <input type="hidden" value="2174" class="compare-item-id">
-                      <a class="btn-remove1" title="Remove This Item" href="#"></a> <a href="#" class="product-name">
-                        Office Colored Ladies Shirt</a>
-                    </li>
-                  </ol>
-                  <div class="ajax-checkout">
-                    <button type="submit" title="Submit" class="button button-compare"><span>Compare</span></button>
-                    <button type="submit" title="Submit" class="button button-clear"><span>Clear</span></button>
-                  </div>
-                </div>
-              </div>
               <div class="block block-list block-viewed">
                 <div class="block-title"> Recently Viewed </div>
                 <div class="block-content">
@@ -330,71 +303,6 @@
                       <p class="product-name"><a href="#"> Retis lapen casen</a></p>
                     </li>
                   </ol>
-                </div>
-              </div>
-              <div class="block block-poll">
-                <div class="block-title">Community Poll </div>
-                <form id="pollForm" action="#" method="post" onSubmit="return validatePollAnswerIsSelected();">
-                  <div class="block-content">
-                    <p class="block-subtitle">What is your favorite Magento feature?</p>
-                    <ul id="poll-answers">
-                      <li class="odd">
-                        <input type="radio" name="vote" class="radio poll_vote" id="vote_5" value="5">
-                        <span class="label">
-                          <label for="vote_5">Layered Navigation</label>
-                        </span>
-                      </li>
-                      <li class="even">
-                        <input type="radio" name="vote" class="radio poll_vote" id="vote_6" value="6">
-                        <span class="label">
-                          <label for="vote_6">Price Rules</label>
-                        </span>
-                      </li>
-                      <li class="odd">
-                        <input type="radio" name="vote" class="radio poll_vote" id="vote_7" value="7">
-                        <span class="label">
-                          <label for="vote_7">Category Management</label>
-                        </span>
-                      </li>
-                      <li class="last even">
-                        <input type="radio" name="vote" class="radio poll_vote" id="vote_8" value="8">
-                        <span class="label">
-                          <label for="vote_8">Compare Products</label>
-                        </span>
-                      </li>
-                    </ul>
-                    <div class="actions">
-                      <button type="submit" title="Vote" class="button button-vote"><span>Vote</span></button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-              <div class="block block-tags">
-                <div class="block-title"> Popular Tags</div>
-                <div class="block-content">
-                  <ul class="tags-list">
-                    <li><a href="#" style="font-size:98.3333333333%;">Camera</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">Hohoho</a></li>
-                    <li><a href="#" style="font-size:145%;">SEXY</a></li>
-                    <li><a href="#" style="font-size:75%;">Tag</a></li>
-                    <li><a href="#" style="font-size:110%;">Test</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">bones</a></li>
-                    <li><a href="#" style="font-size:110%;">cool</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">cool t-shirt</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">crap</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">good</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">green</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">hip</a></li>
-                    <li><a href="#" style="font-size:75%;">laptop</a></li>
-                    <li><a href="#" style="font-size:75%;">mobile</a></li>
-                    <li><a href="#" style="font-size:75%;">nice</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">phone</a></li>
-                    <li><a href="#" style="font-size:98.3333333333%;">red</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">tight</a></li>
-                    <li><a href="#" style="font-size:75%;">trendy</a></li>
-                    <li><a href="#" style="font-size:86.6666666667%;">young</a></li>
-                  </ul>
-                  <div class="actions"> <a href="#" class="view-all">View All Tags</a> </div>
                 </div>
               </div>
             </aside>
@@ -424,28 +332,6 @@
       </li>
       <li>
         <div class="home"><a href="#"><i class="icon-home"></i>Home</a> </div>
-      </li>
-      <li><a href="#">Pages</a>
-        <ul>
-          <li><a href="grid.html">Grid</a> </li>
-          <li> <a href="list.html">List</a> </li>
-          <li> <a href="{% url 'product_detail' %}">Product Detail</a> </li>
-          <li> <a href="{% url 'shopping_cart' %}">Shopping Cart</a> </li>
-          <li><a href="{% url 'checkout' %}">Checkout</a>
-            <ul>
-              <li><a href="checkout_method.html">Checkout Method</a> </li>
-              <li><a href="{% url 'checkout_billing_info' %}">Checkout Billing Info</a> </li>
-            </ul>
-          </li>
-          <li> <a href="{% url 'wishlist' %}">Wishlist</a> </li>
-          <li> <a href="dashboard.html">Dashboard</a> </li>
-          <li> <a href="multiple_addresses.html">Multiple Addresses</a> </li>
-          <li> <a href="{% url 'about_us' %}">About us</a> </li>
-          <li><a href="{% url 'blog' %}">Blog</a>
-          </li>
-          <li><a href="{% url 'contact_us' %}">Contact us</a> </li>
-          <li><a href="{% url 'error' %}">404 Error Page</a> </li>
-        </ul>
       </li>
       <li><a href="#">Women</a>
         <ul>
@@ -551,60 +437,6 @@
           </li>
         </ul>
       </li>
-      <li><a href="#">Electronics</a>
-        <ul>
-          <li> <a href="#"><span>Mobiles</span></a>
-            <ul>
-              <li> <a href="#"><span>Samsung</span></a> </li>
-              <li> <a href="#"><span>Nokia</span></a> </li>
-              <li> <a href="#"><span>IPhone</span></a> </li>
-              <li> <a href="#"><span>Sony</span></a> </li>
-            </ul>
-          </li>
-          <li> <a href="#" class=""><span>Accesories</span></a>
-            <ul>
-              <li> <a href="#"><span>Mobile Memory Cards</span></a> </li>
-              <li> <a href="#"><span>Cases &amp; Covers</span></a> </li>
-              <li> <a href="#"><span>Mobile Headphones</span></a> </li>
-              <li> <a href="#"><span>Bluetooth Headsets</span></a> </li>
-            </ul>
-          </li>
-          <li> <a href="#"><span>Cameras</span></a>
-            <ul>
-              <li> <a href="#"><span>Camcorders</span></a> </li>
-              <li> <a href="#"><span>Point &amp; Shoot</span></a> </li>
-              <li> <a href="#"><span>Digital SLR</span></a> </li>
-              <li> <a href="#"><span>Camera Accesories</span></a> </li>
-            </ul>
-          </li>
-          <li> <a href="#"><span>Audio &amp; Video</span></a>
-            <ul>
-              <li> <a href="#"><span>MP3 Players</span></a> </li>
-              <li> <a href="#"><span>IPods</span></a> </li>
-              <li> <a href="#"><span>Speakers</span></a> </li>
-              <li> <a href="#"><span>Video Players</span></a> </li>
-            </ul>
-          </li>
-          <li> <a href="#"><span>Computer</span></a>
-            <ul>
-              <li> <a href="#"><span>External Hard Disk</span></a> </li>
-              <li> <a href="#"><span>Pendrives</span></a> </li>
-              <li> <a href="#"><span>Headphones</span></a> </li>
-              <li> <a href="#"><span>PC Components</span></a> </li>
-            </ul>
-          </li>
-          <li> <a href="#"><span>Appliances</span></a>
-            <ul>
-              <li> <a href="#"><span>Vaccum Cleaners</span></a> </li>
-              <li> <a href="#"><span>Indoor Lighting</span></a> </li>
-              <li> <a href="#"><span>Kitchen Tools</span></a> </li>
-              <li> <a href="#"><span>Water Purifier</span></a> </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><a href="#">Furniture</a> </li>
-      <li><a href="#">Kids</a> </li>
       <li><a href="{% url 'contact_us' %}">Contact Us</a> </li>
     </ul>
     <div class="dropdown block-language-wrapper">
