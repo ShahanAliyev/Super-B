@@ -46,7 +46,8 @@
               <div class="toolbar">
                 <div class="sorter">
                   <div class="view-mode"> <a href="grid.html" title="Grid" class="button button-grid">&nbsp;</a>&nbsp;
-                    <span title="List" class="button button-active button-list">&nbsp;</span>&nbsp; </div>
+                    <span title="List" class="button button-active button-list">&nbsp;</span>&nbsp;
+                  </div>
                 </div>
                 <div id="sort-by">
                   <label class="left">Sort By: </label>
@@ -91,18 +92,20 @@
               </div>
               <div class="category-products">
                 <ol class="products-list" id="products-list">
-                  <li class="item first">
-                    <div class="product-image"> <a href="#" title="HTC Rhyme Sense"> <img class="small-image"
-                          src="{% static 'products-images/product.jpg' %}" alt="HTC Rhyme Sense"> </a> </div>
+                  {% for version in versions %}
+                  <li class="item">
+                    <div class="product-image"> <a href="#" title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}"> <img
+                          class="small-image" style="width: 210px; height: 270px;"  src="{{ version.image.first.image_url.url }}" alt="HTC Rhyme Sense">
+                      </a> </div>
                     <div class="product-shop">
-                      <h2 class="product-name"><a href="#/htc-rhyme-sense.html" title="HTC Rhyme Sense">HTC Rhyme
-                          Sense</a></h2>
+                      <h2 class="product-name"><a href="#/htc-rhyme-sense.html" title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}</a></h2>
                       <div class="ratings">
                         <div class="rating-box">
                           <div style="width:50%" class="rating"></div>
                         </div>
                         <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/">1 Review(s)</a>
-                          <span class="separator">|</span> <a href="#review-form">Add Your Review</a> </p>
+                          <span class="separator">|</span> <a href="#review-form">Add Your Review</a>
+                        </p>
                       </div>
                       <div class="desc std">
                         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
@@ -126,6 +129,7 @@
                       </div>
                     </div>
                   </li>
+                  {% endfor %}
                 </ol>
               </div>
             </article>
@@ -135,82 +139,25 @@
             <aside class="col-left sidebar">
               <div class="side-nav-categories">
                 <div class="block-title"> Categories </div>
-                <!--block-title-->
-                <!-- BEGIN BOX-CATEGORY -->
                 <div class="box-content box-category">
                   <ul>
-                    <li> <a class="active" href="#/women.html">Women</a> <span class="subDropdown minus"></span>
-                      <ul class="level0_415" style="display:block">
-                        <li> <a href="#/women/tops.html"> Handbags </a> <span class="subDropdown plus"></span>
+                    {% for category in parent_categories %}
+                    <li> <a class="active" href="#/women.html">{{ category.name }}</a> <span
+                        class="subDropdown plus"></span>
+                      <ul class="level0_415" style="display:none">
+                        {% for children in category.children.all %}
+                        <li> <a href="#/women/tops.html"> {{ children.name }} </a> <span
+                            class="subDropdown minus"></span>
                           <ul class="level1" style="display:none">
-                            <li> <a href="#/women/tops/evening-tops.html"> Clutch Handbags </a> </li>
-                            <li> <a href="#/women/tops/shirts-blouses.html"> Diaper Bags </a> </li>
-                            <li> <a href="#/women/tops/tunics.html"> Back Bags </a> </li>
-                            <li> <a href="#/women/tops/vests.html"> Hobo handbags </a> </li>
-                            <!--end for-each -->
+                            {% for grand_children in children.children.all %}
+                            <li> <a href="#/women/tops/evening-tops.html"> {{ grand_children.name }} </a> </li>
+                            {% endfor %}
                           </ul>
-                          <!--level1-->
                         </li>
-                        <!--level1-->
-                        <li> <a href="#/women/bags.html"> Jackets </a> <span class="subDropdown plus"></span>
-                          <ul class="level1" style="display:none">
-                            <li> <a href="#/women/bags/bags.html"> Bags </a> </li>
-                            <li> <a href="#/women/bags/designer-handbags.html"> Designer Handbags </a> </li>
-                            <li> <a href="#/women/bags/purses.html"> Purses </a> </li>
-                            <li> <a href="#/women/bags/shoulder-bags.html"> Shoulder Bags </a> </li>
-                            <!--end for-each -->
-                          </ul>
-                          <!--level1-->
-                        </li>
-                        <!--level1-->
-                        <li> <a href="#/women/shoes.html"> Shoes </a> <span class="subDropdown plus"></span>
-                          <ul class="level1" style="display:none">
-                            <li> <a href="#/women/shoes/flat-shoes.html"> Flat Shoes </a> </li>
-                            <li> <a href="#/women/shoes/flat-sandals.html"> Flat Sandals </a> </li>
-                            <li> <a href="#/women/shoes/boots.html"> Boots </a> </li>
-                            <li> <a href="#/women/shoes/heels.html"> Heels </a> </li>
-                            <!--end for-each -->
-                          </ul>
-                          <!--level1-->
-                        </li>
-                        <!--level1-->
-                        <li> <a href="#/women/Jewellery.html"> Jewellery </a>
-                          <ul class="level1" style="display:none">
-                            <li> <a href="#/women/Jewellery/bracelets.html"> Bracelets </a> </li>
-                            <li> <a href="#/women/Jewellery/necklaces-pendants.html"> Necklaces &amp; Pendants </a>
-                            </li>
-                            <li> <a href="#/women/Jewellery/pins-brooches.html"> Pins &amp; Brooches </a> </li>
-                            <!--end for-each -->
-                          </ul>
-                          <!--level1-->
-                        </li>
-                        <!--level1-->
-                        <li> <a href="#/women/dresses.html"> Dresses </a> <span class="subDropdown plus"></span>
-                          <ul class="level1" style="display:none">
-                            <li> <a href="#/women/dresses/casual-dresses.html"> Casual Dresses </a> </li>
-                            <li> <a href="#/women/dresses/evening.html"> Evening </a> </li>
-                            <li> <a href="#/women/dresses/designer.html"> Designer </a> </li>
-                            <li> <a href="#/women/dresses/party.html"> Party </a> </li>
-                            <!--end for-each -->
-                          </ul>
-                          <!--level1-->
-                        </li>
-
-
-                        <!--level1-->
-                        <li> <a href="#/women/swimwear.html"> Swimwear </a> <span class="subDropdown plus"></span>
-                          <ul class="level1" style="display:none">
-                            <li> <a href="#/women/swimwear/swimsuits.html"> Swimsuits </a> </li>
-                            <li> <a href="#/women/swimwear/beach-clothing.html"> Beach Clothing </a> </li>
-                            <li> <a href="#/women/swimwear/bikinis.html"> Bikinis </a> </li>
-                            <!--end for-each -->
-                          </ul>
-                          <!--level1-->
-                        </li>
-                        <!--level1-->
+                        {% endfor %}
                       </ul>
-                      <!--level0-->
                     </li>
+                    {% endfor %}
                   </ul>
                 </div>
                 <!--box-content box-category-->
@@ -232,7 +179,7 @@
                     <dd class="even">
                       <ol>
                         {% for brand in brands %}
-                          <li> <a href="#">{{ brand.name }}</a></li>
+                        <li> <a href="#">{{ brand.name }}</a> ({{ brand.product.all.count }}) </li>
                         {% endfor %}
                       </ol>
                     </dd>
@@ -240,15 +187,15 @@
                     <dd class="odd">
                       <ol>
                         {% for color in colors %}
-                          <li> <a href="#">{{ color.name }}</a></li>
+                        <li> <a href="#">{{ color.name }}</a> ({{ color.version.all.count }}) </li>
                         {% endfor %}
                       </ol>
                     </dd>
                     <dt class="last even">Size</dt>
                     <dd class="last even">
                       {% for size in sizes %}
-                          <li> <a href="#">{{ size.name }}</a></li>
-                        {% endfor %}
+                      <li> <a href="#">{{ size.name }}</a></li>
+                      {% endfor %}
                     </dd>
                   </dl>
                 </div>
@@ -311,155 +258,9 @@
       </div>
     </section>
     <!-- Main Container End -->
-
     {% endblock %}
 
   </div>
-  {% block footer %}
-  <div id="mobile-menu">
-    <ul>
-      <li>
-        <div class="mm-search">
-          <form id="search_mob" name="search">
-            <div class="input-group">
-              <div class="input-group-btn">
-                <button class="btn btn-default" type="submit"><i class="fa fa-search"></i> </button>
-              </div>
-              <input type="text" class="form-control simple" placeholder="Search ..." name="srch-term" id="srch-term">
-            </div>
-          </form>
-        </div>
-      </li>
-      <li>
-        <div class="home"><a href="#"><i class="icon-home"></i>Home</a> </div>
-      </li>
-      <li><a href="#">Women</a>
-        <ul>
-          <li> <a href="#" class="">Stylish Bag</a>
-            <ul>
-              <li> <a href="#" class="">Clutch Handbags</a> </li>
-              <li> <a href="#l" class="">Diaper Bags</a> </li>
-              <li> <a href="#" class="">Bags</a> </li>
-              <li> <a href="#" class="">Hobo handbags</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Material Bag</a>
-            <ul>
-              <li> <a href="#">Beaded Handbags</a> </li>
-              <li> <a href="#">Fabric Handbags</a> </li>
-              <li> <a href="#">Handbags</a> </li>
-              <li> <a href="#">Leather Handbags</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Shoes</a>
-            <ul>
-              <li> <a href="#">Flat Shoes</a> </li>
-              <li> <a href="#">Flat Sandals</a> </li>
-              <li> <a href="#">Boots</a> </li>
-              <li> <a href="#">Heels</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Jwellery</a>
-            <ul>
-              <li> <a href="#">Bracelets</a> </li>
-              <li> <a href="#">Necklaces &amp; Pendent</a> </li>
-              <li> <a href="#l">Pendants</a> </li>
-              <li> <a href="#">Pins &amp; Brooches</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Dresses</a>
-            <ul>
-              <li> <a href="#">Casual Dresses</a> </li>
-              <li> <a href="#">Evening</a> </li>
-              <li> <a href="#">Designer</a> </li>
-              <li> <a href="#">Party</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Swimwear</a>
-            <ul>
-              <li> <a href="#">Swimsuits</a> </li>
-              <li> <a href="#">Beach Clothing</a> </li>
-              <li> <a href="#">Clothing</a> </li>
-              <li> <a href="#">Bikinis</a> </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><a href="#">Men</a>
-        <ul>
-          <li> <a href="#" class="">Shoes</a>
-            <ul class="level1">
-              <li class="level2 nav-6-1-1"><a href="#">Sport Shoes</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Casual Shoes</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Leather Shoes</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">canvas shoes</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Dresses</a>
-            <ul class="level1">
-              <li class="level2 nav-6-1-1"><a href="#">Casual Dresses</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Evening</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Designer</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Party</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Jackets</a>
-            <ul class="level1">
-              <li class="level2 nav-6-1-1"><a href="#">Coats</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Formal Jackets</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Leather Jackets</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Blazers</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Watches</a>
-            <ul class="level1">
-              <li class="level2 nav-6-1-1"><a href="#">Fasttrack</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Casio</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Titan</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Tommy-Hilfiger</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Sunglasses</a>
-            <ul class="level1">
-              <li class="level2 nav-6-1-1"><a href="#">Ray Ban</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Fasttrack</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Police</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Oakley</a> </li>
-            </ul>
-          </li>
-          <li> <a href="#">Accesories</a>
-            <ul class="level1">
-              <li class="level2 nav-6-1-1"><a href="#">Backpacks</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Wallets</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Laptops Bags</a> </li>
-              <li class="level2 nav-6-1-1"><a href="#">Belts</a> </li>
-            </ul>
-          </li>
-        </ul>
-      </li>
-      <li><a href="{% url 'contact_us' %}">Contact Us</a> </li>
-    </ul>
-    <div class="dropdown block-language-wrapper">
-      <ul>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/english.png' %}"
-              alt="language"> English </a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/francais.png' %}"
-              alt="language"> French </a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img src="{% static 'images/german.png' %}"
-              alt="language"> German </a></li>
-      </ul>
-    </div>
-    <div class="dropdown block-currency-wrapper">
-      <ul>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> $ - Dollar </a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> £ - Pound </a></li>
-        <li role="presentation"><a role="menuitem" tabindex="-1" href="#"> € - Euro </a></li>
-      </ul>
-    </div>
-  </div>
-  {% endblock %}
-
-
   {% block js %}
   <script type="text/javascript" src="{% static 'js/parallax.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/slider.js' %}"></script>

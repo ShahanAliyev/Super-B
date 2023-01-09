@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+from django.utils.text import slugify
+
 
 User = get_user_model()
 
@@ -8,7 +10,7 @@ class Category(models.Model):
 
     name = models.CharField(max_length = 32)
     image = models.ImageField(null = True, blank = True, upload_to = 'images/categories')
-    parent = models.ForeignKey('self', null = True, blank = True, on_delete = models.CASCADE)
+    parent = models.ForeignKey('self', null = True, blank = True, related_name = 'children', on_delete = models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
@@ -60,7 +62,7 @@ class Discount(models.Model):
 
     def __str__(self):
 
-        return f"{self.id}"
+        return f"{self.amount} {self.is_percentage}"
 
 
 class Color(models.Model):
@@ -90,21 +92,43 @@ class ProductVersion(models.Model):
 
     product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = 'version')
     discount = models.ManyToManyField(Discount, blank = True)
-    sell_price = models.DecimalField(max_digits = 5, decimal_places = 2)
+    sell_price = models.DecimalField(max_digits = 5, decimal_places = 2, blank = True, null = True)
     color = models.ForeignKey(Color, on_delete = models.CASCADE, related_name = 'version')
+    slug = models.SlugField(null = True, blank = True)
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
     
     def __str__(self):
-
         return f"{self.color} {self.product.name}"
+    
+    
+    def save(self, *args, **kwargs):
+        
+        self.slug = slugify(f"{self.product.brand.name}-{self.product.name}-{self.color.name}")
+
+        if self.discount.count() == 0:
+            self.sell_price  = self.product.price
+        else:
+            final_price = self.product.price
+            for discount in self.discount.all():
+                if discount.is_percentage == True:
+                    final_price = ((100 - discount.amount) * final_price) / 100
+                elif discount.is_percentage == False and final_price > discount.amount:
+                    final_price = final_price - discount.amount
+                else:
+                    final_price
+                    
+            self.sell_price = final_price
+                
+        super(ProductVersion, self).save(*args, **kwargs)
+
 
 
 class ProductVersionDetail(models.Model):
 
     version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "detail")
-    size = models.ForeignKey(Size, on_delete = models.CASCADE, related_name = "size")
+    size = models.ForeignKey(Size, on_delete = models.CASCADE, related_name = "detail")
     count = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add = True) 
@@ -112,7 +136,7 @@ class ProductVersionDetail(models.Model):
 
     def __str__(self):
 
-        return f"{self.version.product.name}'s details {self.size.name} {self.count}"
+        return f"{self.version.color.name} {self.version.product.name}'s details {self.size.name} {self.count}"
 
 
 
@@ -127,7 +151,7 @@ class VersionImage(models.Model):
 
     def __str__(self):
 
-        return f"{self.version.id}'s image {self.id}"
+        return f"{self.version.color.name} {self.version.product.name}'s image {self.id}"
 
 
 

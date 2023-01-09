@@ -21,7 +21,7 @@ admin.site.register(Discount)
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
 
-    search_fields = ('name', 'parent',)
+    search_fields = ('name', )
 
 
 @admin.register(Size)
@@ -66,8 +66,12 @@ class DetailInlineAdmin(admin.TabularInline):
 @admin.register(ProductVersion)
 class VersionAdmin(admin.ModelAdmin):
 
-    search_fields = ( 'color__name', 'product__name', )
+    search_fields = ('color__name', 'product__name', )
     inlines = (ImageInlineAdmin, DetailInlineAdmin )
+
+    def save_related(self, request, form, formsets, change):
+            super().save_related(request, form, formsets, change)
+            form.instance.save()
 
 
 @admin.register(ProductVersionDetail)

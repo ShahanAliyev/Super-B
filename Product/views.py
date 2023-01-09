@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView
-from .models import Product, Category, Color, Brand, Size
+from .models import Product, Category, Color, Brand, Size, ProductVersion
 
 
 def product_detail(request):
@@ -18,8 +18,9 @@ class ProductListView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = Category.objects.all()
+        context['parent_categories'] = Category.objects.filter(parent = None)
         context['colors'] = Color.objects.all()
+        context['versions'] = ProductVersion.objects.all()
         context['brands'] = Brand.objects.all()
         context['sizes'] = Size.objects.all()
         return context
