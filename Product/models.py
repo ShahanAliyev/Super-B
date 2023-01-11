@@ -1,8 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
-
-
+from django.db.models import F, Sum, Avg, Count
 User = get_user_model()
 
 
@@ -42,8 +41,8 @@ class Product(models.Model):
 
     name = models.CharField(max_length = 32)
     price = models.DecimalField(max_digits = 5, decimal_places = 2)
-    category = models.ForeignKey(Category, on_delete = models.CASCADE, related_name = "product")
-    brand = models.ForeignKey(Brand, on_delete = models.CASCADE, related_name = "product")
+    category = models.ForeignKey(Category, on_delete = models.CASCADE, related_name = "products")
+    brand = models.ForeignKey(Brand, on_delete = models.CASCADE, related_name = "products")
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
@@ -90,11 +89,13 @@ class Size(models.Model):
 
 class ProductVersion(models.Model):
 
-    product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = 'version')
-    discount = models.ManyToManyField(Discount, blank = True)
+    product = models.ForeignKey(Product, on_delete = models.CASCADE, related_name = 'versions') 
+    discount = models.ManyToManyField(Discount, blank = True, related_name = "versions")
     sell_price = models.DecimalField(max_digits = 5, decimal_places = 2, blank = True, null = True)
-    color = models.ForeignKey(Color, on_delete = models.CASCADE, related_name = 'version')
+    color = models.ForeignKey(Color, on_delete = models.CASCADE, related_name = 'versions')
+    description = models.TextField(default = "There is no description, yet")
     slug = models.SlugField(null = True, blank = True)
+    raiting = models.PositiveIntegerField(default = 0)
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
@@ -102,11 +103,13 @@ class ProductVersion(models.Model):
     def __str__(self):
         return f"{self.color} {self.product.name}"
     
-    
     def save(self, *args, **kwargs):
+        super(ProductVersion, self).save(*args, **kwargs)
         
         self.slug = slugify(f"{self.product.brand.name}-{self.product.name}-{self.color.name}")
-
+        self.raiting = self.reviews.aggregate(avg=Avg('avarege_rating'))['avg']
+        self.reviews.aggregate(sum=Sum('avarege_rating'))['sum'] 
+        
         if self.discount.count() == 0:
             self.sell_price  = self.product.price
         else:
@@ -118,7 +121,7 @@ class ProductVersion(models.Model):
                     final_price = final_price - discount.amount
                 else:
                     final_price
-                    
+                     
             self.sell_price = final_price
                 
         super(ProductVersion, self).save(*args, **kwargs)
@@ -127,8 +130,8 @@ class ProductVersion(models.Model):
 
 class ProductVersionDetail(models.Model):
 
-    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "detail")
-    size = models.ForeignKey(Size, on_delete = models.CASCADE, related_name = "detail")
+    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "details")
+    size = models.ForeignKey(Size, on_delete = models.CASCADE, related_name = "details")
     count = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add = True) 
@@ -142,7 +145,7 @@ class ProductVersionDetail(models.Model):
 
 class VersionImage(models.Model):
 
-    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "image")
+    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "images")
     image_url = models.ImageField(null = True, blank = True, upload_to = 'images/VersionImages')
     is_cover = models.BooleanField(default = False)
 
@@ -158,11 +161,11 @@ class VersionImage(models.Model):
 class VersionReview(models.Model):
 
     VERSION_RAITING = [
-        ('1', '20'),
-        ('2', '40'),
-        ('3', '60'),
-        ('4', '80'),
-        ('5', '100'),
+        (1, 20),
+        (2, 40),
+        (3, 60),
+        (4, 80),
+        (5, 100),
     ]
 
     value = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
@@ -172,11 +175,17 @@ class VersionReview(models.Model):
     last_name = models.CharField(max_length = 32)
     email = models.EmailField(max_length = 64)
     description = models.TextField()
-    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "review", null = True, blank = True)
+    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "reviews", null = True, blank = True)
+    avarege_rating = models.FloatField(default = 0)
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-
         return f"{self.first_name}'s review {self.id}, {self.version.id}"
+
+    def save(self, *args, **kwargs):
+        
+        self.avarege_rating = ((self.price + self.value + self.quality)*20)/3
+        super(VersionReview, self).save(*args, **kwargs)
+        self.version.save()

@@ -69,9 +69,9 @@ class VersionAdmin(admin.ModelAdmin):
     search_fields = ('color__name', 'product__name', )
     inlines = (ImageInlineAdmin, DetailInlineAdmin )
 
-    def save_related(self, request, form, formsets, change):
-            super().save_related(request, form, formsets, change)
-            form.instance.save()
+    # def save_related(self, request, form, formsets, change):
+    #             super().save_related(request, form, formsets, change)
+    #             form.instance.save()
 
 
 @admin.register(ProductVersionDetail)
@@ -85,3 +85,4 @@ class ProductVersionDetailAdmin(admin.ModelAdmin):
 class VersionReviewAdmin(admin.ModelAdmin):
 
     search_fields = ('first_name', 'last_name', 'email', 'version__product__name',)
+    readonly_fields = ('avarege_rating',)

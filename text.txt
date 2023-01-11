@@ -11,3 +11,55 @@ Recipe.objects.aggregate(Avg('id))
 
 
 after generic views were created. Go back to django tags and filters
+
+
+
+shell
+
+product = Product.objects.filter(versions__color__name="White").first()
+versions=product.versions
+versions.all()
+versions.first()
+versions.first().details.all()
+version_details_count=versions.first().details.aggregate(count=Count('count'))
+version_details_sum = versions.first().details.aggregate(sum=Sum('count'))
+
+a = ProductVersion.objects.all()
+each_versions_expected_revenue
+for b in a:
+    print(b.details.all())
+    sell_price=b.sell_price
+    sum = b.details.aggregate(sum=Sum('count'))['sum']
+    each_versions_expected_revenue=(sell_price*sum)
+    print(each_versions_expected_revenue)
+
+
+product.versions.all().values_list('sell_price') 
+product.versions.aggregate(sum=Sum('sell_price'))  returns certain product's sell prices
+version = ProductVersion.objects.filter(color__name="White").first()
+version.details.aggregate(sum=Sum('count'))
+
+
+brands = Brand.objects.all()
+for brand in brands:
+    brand_total=0
+    for product in brand.products.all():
+        brand_total += product.versions.count() 
+    print( brand.name ,brand_total)
+
+
+
+print(b.get_price_display())
+
+For version
+version = ProductVersion.objects.filter(Q(color__name="White")&Q(product__name="Sneaker"))
+fv = version.first()
+fv.reviews.count()
+total_sum = fv.reviews.annotate(sum=F("price")+F("value")+F("quality"))
+for t in total_sum:
+     all_total_sum+=t.sum
+avarage_rating = (all_total_sum*20)/(fv.reviews.count()*3)
+
+
+For review
+

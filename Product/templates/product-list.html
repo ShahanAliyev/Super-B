@@ -94,31 +94,42 @@
                 <ol class="products-list" id="products-list">
                   {% for version in versions %}
                   <li class="item">
-                    <div class="product-image"> <a href="#" title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}"> <img
-                          class="small-image" style="width: 210px; height: 270px;"  src="{{ version.image.first.image_url.url }}" alt="HTC Rhyme Sense">
+                    <div class="product-image"> <a href="#"
+                        title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">
+                        <img class="small-image" style="width: 210px; height: 270px;"
+                          src="{{ version.images.first.image_url.url }}"
+                          alt="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">
                       </a> </div>
                     <div class="product-shop">
-                      <h2 class="product-name"><a href="#/htc-rhyme-sense.html" title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}</a></h2>
+                      <h2 class="product-name"><a href=""
+                          title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">
+                          {{version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}</a></h2>
                       <div class="ratings">
                         <div class="rating-box">
-                          <div style="width:50%" class="rating"></div>
+                          <div style="width:{{ version.raiting }}%" class="rating"></div>
                         </div>
-                        <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/">1 Review(s)</a>
+                        <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/"> 
+                          {{version.rewiew|length }} Review(s)</a>
                           <span class="separator">|</span> <a href="#review-form">Add Your Review</a>
                         </p>
                       </div>
                       <div class="desc std">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
-                          tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo
-                          gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla... <a
-                            class="link-learn" title="" href="#">Learn More</a> </p>
+                        <p>{{ version.description }} <a class="link-learn" title="" href="#">Learn More</a> </p>
                       </div>
                       <div class="price-box">
+                        {% if version.sell_price != version.product.price %}
+                        <p class="special-price"> <span class="price-label"></span> <span class="price"> 
+                          {{version.sell_price }} $ </span>
+                        </p>
+                        <p class="old-price"> <span class="price-label"></span> <span class="price"> 
+                          {{version.product.price }} $</span>
+                        </p>
+                        {% else %}
+                        <p class="special-price"> <span class="price-label"></span> <span class="price">
+                          {{version.sell_price }} $</span>
+                        </p>
+                        {% endif %}
 
-                        <p class="special-price"> <span class="price-label"></span> <span class="price"> $222.99 </span>
-                        </p>
-                        <p class="old-price"> <span class="price-label"></span> <span class="price"> $442.99 </span>
-                        </p>
                       </div>
                       <div class="actions">
                         <button class="button btn-cart ajx-cart" title="Add to Cart" type="button"><span>Add to
@@ -142,15 +153,15 @@
                 <div class="box-content box-category">
                   <ul>
                     {% for category in parent_categories %}
-                    <li> <a class="active" href="#/women.html">{{ category.name }}</a> <span
+                    <li> <a class="active" href="?category={{ category.name }}">{{ category.name }}</a> <span
                         class="subDropdown plus"></span>
                       <ul class="level0_415" style="display:none">
                         {% for children in category.children.all %}
-                        <li> <a href="#/women/tops.html"> {{ children.name }} </a> <span
+                        <li> <a href="?category={{ children.name }}"> {{ children.name }} </a> <span
                             class="subDropdown minus"></span>
                           <ul class="level1" style="display:none">
                             {% for grand_children in children.children.all %}
-                            <li> <a href="#/women/tops/evening-tops.html"> {{ grand_children.name }} </a> </li>
+                            <li> <a href="?category={{ grand_children.name }}"> {{ grand_children.name }} </a> </li>
                             {% endfor %}
                           </ul>
                         </li>
@@ -170,16 +181,16 @@
                     <dt class="odd">Price</dt>
                     <dd class="odd">
                       <ol>
-                        <li> <a href="#"><span class="price">$0.00</span> - <span class="price">$199.99</span></a> (6)
+                        <li> <a href="?maxprice={{199.99}}"><span class="price">$0.00</span> - <span class="price">$199.99</span></a> (6)
                         </li>
-                        <li> <a href="#"><span class="price">$200.00</span> and above</a> (6) </li>
+                        <li> <a href="?minprice={{200.00}}"><span class="price">$200.00</span> and above</a> (6) </li>
                       </ol>
                     </dd>
                     <dt class="even">Manufacturer</dt>
                     <dd class="even">
                       <ol>
                         {% for brand in brands %}
-                        <li> <a href="#">{{ brand.name }}</a> ({{ brand.product.all.count }}) </li>
+                        <li> <a href="?brand={{brand.id}}">{{ brand.name }}</a></li>
                         {% endfor %}
                       </ol>
                     </dd>
@@ -187,14 +198,15 @@
                     <dd class="odd">
                       <ol>
                         {% for color in colors %}
-                        <li> <a href="#">{{ color.name }}</a> ({{ color.version.all.count }}) </li>
+                        <li> <a href="?color={{ color.name }}">{{ color.name }}</a> ({{ color.versions.all.count }})
+                        </li>
                         {% endfor %}
                       </ol>
                     </dd>
                     <dt class="last even">Size</dt>
                     <dd class="last even">
                       {% for size in sizes %}
-                      <li> <a href="#">{{ size.name }}</a></li>
+                      <li> <a href="?size={{ size.name }}">{{ size.name }}</a></li>
                       {% endfor %}
                     </dd>
                   </dl>
