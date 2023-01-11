@@ -14,23 +14,6 @@
   <div id="page">
 
     {% block content %}
-    <!-- Breadcrumbs -->
-    <div class="breadcrumbs">
-      <div class="container">
-        <div class="row">
-          <div class="col-xs-12">
-
-            <ul class="breadcrumb">
-              <li><a href="#">Home</a></li>
-              <li><a href="#">Vehicles</a></li>
-            </ul>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Breadcrumbs End -->
-    <!-- Main Container -->
-
     <section class="main-container col2-left-layout bounceInUp animated">
       <div class="container">
 
@@ -54,39 +37,37 @@
                   <ul>
                     <li><a href="#">Position<span class="right-arrow"></span></a>
                       <ul>
-                        <li><a href="#">Name</a></li>
-                        <li><a href="#">Price</a></li>
-                        <li><a href="#">Position</a></li>
+                        <li><a href="?name={{name}}">Name</a></li>
+                        <li><a href="?price={{price}}">Price</a></li>
+                        <li><a href="?position={{position}}">Position</a></li>
                       </ul>
                     </li>
                   </ul>
-                  <a class="button-asc left" href="#" title="Set Descending Direction"><span
-                      class="top_arrow"></span></a>
                 </div>
                 <div class="pager">
-                  <div id="limiter">
-                    <label>View: </label>
-                    <ul>
-                      <li><a href="#">15<span class="right-arrow"></span></a>
-                        <ul>
-                          <li><a href="#">20</a></li>
-                          <li><a href="#">30</a></li>
-                          <li><a href="#">35</a></li>
-                        </ul>
-                      </li>
-                    </ul>
-                  </div>
                   <div class="pages">
                     <label>Page:</label>
+                    {% if is_paginated %}
                     <ul class="pagination">
-                      <li><a href="#">&laquo;</a></li>
-                      <li class="active"><a href="#">1</a></li>
-                      <li><a href="#">2</a></li>
-                      <li><a href="#">3</a></li>
-                      <li><a href="#">4</a></li>
-                      <li><a href="#">5</a></li>
-                      <li><a href="#">&raquo;</a></li>
+                      {% if page_obj.has_previous %}
+                        <li><a href="?page={{ page_obj.previous_page_number }}">&laquo;</a></li>
+                      {% else %}
+                        <li class="disabled"><span>&laquo;</span></li>
+                      {% endif %}
+                      {% for i in paginator.page_range %}
+                        {% if page_obj.number == i %}
+                          <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
+                        {% else %}
+                          <li><a href="?page={{ i }}">{{ i }}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                      {% if page_obj.has_next %}
+                        <li><a href="?page={{ page_obj.next_page_number }}">&raquo;</a></li>
+                      {% else %}
+                        <li class="disabled"><span>&raquo;</span></li>
+                      {% endif %}
                     </ul>
+                    {% endif %}
                   </div>
                 </div>
               </div>
@@ -113,19 +94,20 @@
                         </p>
                       </div>
                       <div class="desc std">
-                        <p>{{ version.description }} <a class="link-learn" title="" href="{% url 'product_detail' version.slug %}">Learn More</a> </p>
+                        <p>{{ version.description }} <a class="link-learn" title=""
+                            href="{% url 'product_detail' version.slug %}">Learn More</a> </p>
                       </div>
                       <div class="price-box">
                         {% if version.sell_price != version.product.price %}
-                        <p class="special-price"> <span class="price-label"></span> <span class="price"> 
-                          {{version.sell_price }} $ </span>
+                        <p class="special-price"> <span class="price-label"></span> <span class="price">
+                            {{version.sell_price }} $ </span>
                         </p>
-                        <p class="old-price"> <span class="price-label"></span> <span class="price"> 
-                          {{version.product.price }} $</span>
+                        <p class="old-price"> <span class="price-label"></span> <span class="price">
+                            {{version.product.price }} $</span>
                         </p>
                         {% else %}
                         <p class="special-price"> <span class="price-label"></span> <span class="price">
-                          {{version.sell_price }} $</span>
+                            {{version.sell_price }} $</span>
                         </p>
                         {% endif %}
 
@@ -180,7 +162,8 @@
                     <dt class="odd">Price</dt>
                     <dd class="odd">
                       <ol>
-                        <li> <a href="?maxprice={{199.99}}"><span class="price">$0.00</span> - <span class="price">$199.99</span></a> (6)
+                        <li> <a href="?maxprice={{199.99}}"><span class="price">$0.00</span> - <span
+                              class="price">$199.99</span></a> (6)
                         </li>
                         <li> <a href="?minprice={{200.00}}"><span class="price">$200.00</span> and above</a> (6) </li>
                       </ol>
