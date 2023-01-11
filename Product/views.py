@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 from django.db.models import Q
 
 from .models import (
@@ -55,3 +55,17 @@ class ProductListView(ListView):
         else:
             queryset = ProductVersion.objects.all()
         return queryset
+
+class ProductDetailView(DetailView):
+
+    template_name = 'product-detail.html'
+    model = ProductVersion
+
+    def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        version = ProductVersion.objects.filter(slug=slug).first()
+        context['version'] = version
+        context['reviews'] = version.reviews.all()
+        return context 

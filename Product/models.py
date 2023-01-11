@@ -107,8 +107,12 @@ class ProductVersion(models.Model):
         super(ProductVersion, self).save(*args, **kwargs)
         
         self.slug = slugify(f"{self.product.brand.name}-{self.product.name}-{self.color.name}")
-        self.raiting = self.reviews.aggregate(avg=Avg('avarege_rating'))['avg']
-        self.reviews.aggregate(sum=Sum('avarege_rating'))['sum'] 
+
+        if self.reviews.count() !=0:
+            self.raiting = self.reviews.aggregate(avg=Avg('avarege_rating'))['avg']
+            self.reviews.aggregate(sum=Sum('avarege_rating'))['sum']
+        else:
+            pass
         
         if self.discount.count() == 0:
             self.sell_price  = self.product.price
@@ -146,7 +150,7 @@ class ProductVersionDetail(models.Model):
 class VersionImage(models.Model):
 
     version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "images")
-    image_url = models.ImageField(null = True, blank = True, upload_to = 'images/VersionImages')
+    image = models.ImageField(null = True, blank = True, upload_to = 'images/VersionImages')
     is_cover = models.BooleanField(default = False)
 
     created_at = models.DateTimeField(auto_now_add = True) 
@@ -171,21 +175,21 @@ class VersionReview(models.Model):
     value = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
     price = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
     quality = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
-    first_name = models.CharField(max_length = 32)
-    last_name = models.CharField(max_length = 32)
-    email = models.EmailField(max_length = 64)
+    summary = models.CharField(blank = True, null = True, default = 'summary', max_length = 64)
     description = models.TextField()
     version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "reviews", null = True, blank = True)
     avarege_rating = models.FloatField(default = 0)
+    user = models.ForeignKey(User, on_delete = models.CASCADE, blank = True, null = True, related_name = 'reviews')
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-        return f"{self.first_name}'s review {self.id}, {self.version.id}"
+        return f"{self.user.username}'s review {self.id}, {self.version.id}"
 
     def save(self, *args, **kwargs):
         
         self.avarege_rating = ((self.price + self.value + self.quality)*20)/3
         super(VersionReview, self).save(*args, **kwargs)
         self.version.save()
+

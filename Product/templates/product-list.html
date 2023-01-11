@@ -94,27 +94,26 @@
                 <ol class="products-list" id="products-list">
                   {% for version in versions %}
                   <li class="item">
-                    <div class="product-image"> <a href="#"
+                    <div class="product-image"> <a href="{% url 'product_detail' version.slug %}"
                         title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">
                         <img class="small-image" style="width: 210px; height: 270px;"
-                          src="{{ version.images.first.image_url.url }}"
+                          src="{{ version.images.first.image.url }}"
                           alt="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">
                       </a> </div>
                     <div class="product-shop">
-                      <h2 class="product-name"><a href=""
+                      <h2 class="product-name"><a href="{% url 'product_detail' version.slug %}"
                           title="{{ version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}">
                           {{version.product.brand.name }} {{ version.product.name }} {{ version.color.name }}</a></h2>
                       <div class="ratings">
                         <div class="rating-box">
                           <div style="width:{{ version.raiting }}%" class="rating"></div>
                         </div>
-                        <p class="rating-links"> <a href="#/review/product/list/id/167/category/35/"> 
-                          {{version.rewiew|length }} Review(s)</a>
+                        <p class="rating-links">{{version.reviews.all|length }} Review(s)
                           <span class="separator">|</span> <a href="#review-form">Add Your Review</a>
                         </p>
                       </div>
                       <div class="desc std">
-                        <p>{{ version.description }} <a class="link-learn" title="" href="#">Learn More</a> </p>
+                        <p>{{ version.description }} <a class="link-learn" title="" href="{% url 'product_detail' version.slug %}">Learn More</a> </p>
                       </div>
                       <div class="price-box">
                         {% if version.sell_price != version.product.price %}
