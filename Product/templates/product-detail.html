@@ -1,5 +1,6 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block title %}
 <title>Superb, premium HTML5 &amp; CSS3 template</title>
 {% endblock %}
@@ -39,14 +40,15 @@
                     <div class="new-label new-top-left"> New </div>
                     <div class="product-image">
                       <div class="large-image"> <a href="{{ version.images.first.image.url }}" class="cloud-zoom"
-                          id="zoom1"> <img style="width: 390px; height: 390px;" src="{{ version.images.first.image.url }}" alt="product image"> </a>
+                          id="zoom1"> <img style="width: 390px; height: 390px;"
+                            src="{{ version.images.first.image.url }}" alt="product image"> </a>
                       </div>
                       <div class="flexslider flexslider-thumb">
                         <ul class="previews-list slides">
                           {% for image in version.images.all %}
                           <li><a href="{{ image.image.url }}" class='cloud-zoom-gallery'
-                            rel="useZoom: 'zoom1', smallImage:' {{ image.image.url }}'"><img
-                           style="width: 76px; height: 76px;" src="{{ image.image.url }}" alt="Thumbnail 1" /></a>
+                              rel="useZoom: 'zoom1', smallImage:' {{ image.image.url }}'"><img
+                                style="width: 76px; height: 76px;" src="{{ image.image.url }}" alt="Thumbnail 1" /></a>
                           </li>
                           {% endfor %}
                         </ul>
@@ -56,7 +58,7 @@
                   </div>
                   <div class="product-shop col-sm-8 col-xs-12">
                     <div class="product-name">
-                      <h1>{{ version.product.brand.name }} {{ version.color.name }}  {{ version.product.name }}</h1>
+                      <h1>{{ version.product.brand.name }} {{ version.color.name }} {{ version.product.name }}</h1>
                     </div>
                     <div class="ratings">
                       <div class="rating-box">
@@ -70,13 +72,15 @@
                         <p class="special-price"> <span class="price-label">Special Price</span> <span
                             id="product-price-48" class="price"> ${{version.sell_price}}</span> </p>
                         <p class="old-price"> <span class="price-label">Regular Price:</span>
-                          <span class="price">${{version.product.price}} </span> </p>
+                          <span class="price">${{version.product.price}} </span>
+                        </p>
                       </div>
                       {% else %}
-                        <p class="special-price"> <span class="price-label">Special Price</span> 
-                          <span id="product-price-48" class="price"> ${{version.sell_price}}</span> </p>
+                      <p class="special-price"> <span class="price-label">Special Price</span>
+                        <span id="product-price-48" class="price"> ${{version.sell_price}}</span>
+                      </p>
                       {% endif %}
-                      
+
                       <p class="availability in-stock pull-right"><span>In Stock</span></p>
                     </div>
                     <div class="short-description">
@@ -159,12 +163,21 @@
                     <div class="tab-pane fade" id="reviews_tabs">
                       <div class="box-collateral box-reviews" id="customer-reviews">
                         <div class="box-reviews1">
+                          {% if user.is_authenticated %}
                           <div class="form-add">
-                            <form id="review-form" method="post"
-                              action="http://www.thmcommerce.com/review/product/post/id/176/">
+                            <form id="review-form" method="POST">
+                              {% csrf_token %}
                               <h3>Write Your Own Review</h3>
                               <fieldset>
                                 <h4>How do you rate this product? <em class="required">*</em></h4>
+                                {% if messages %}
+                                <ul class="messages">
+                                  {% for message in messages %}
+                                  <li{% if message.tags %} class="alert-{{ message.tags }}" {% endif %}>{{ message }}
+                                    </li>
+                                    {% endfor %}
+                                </ul>
+                                {% endif %}
                                 <span id="input-message-box"></span>
                                 <table id="product-review-table" class="data-table">
 
@@ -181,42 +194,59 @@
                                   <tbody>
                                     <tr class="first odd">
                                       <th>Price</th>
-                                      <td class="value"><input type="radio" class="radio" value="11" id="Price_1"
-                                          name="ratings[3]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="12" id="Price_2"
-                                          name="ratings[3]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="13" id="Price_3"
-                                          name="ratings[3]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="14" id="Price_4"
-                                          name="ratings[3]"></td>
-                                      <td class="value last"><input type="radio" class="radio" value="15" id="Price_5"
-                                          name="ratings[3]"></td>
+                                      <td class="value">
+                                        {{ form.price.0.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.price.1.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.price.2.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.price.3.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.price.4.tag }}
+                                      </td>
+
                                     </tr>
                                     <tr class="even">
                                       <th>Value</th>
-                                      <td class="value"><input type="radio" class="radio" value="6" id="Value_1"
-                                          name="ratings[2]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="7" id="Value_2"
-                                          name="ratings[2]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="8" id="Value_3"
-                                          name="ratings[2]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="9" id="Value_4"
-                                          name="ratings[2]"></td>
-                                      <td class="value last"><input type="radio" class="radio" value="10" id="Value_5"
-                                          name="ratings[2]"></td>
+                                      <td class="value">
+                                        {{ form.value.0.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.value.1.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.value.2.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.value.3.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.value.4.tag }}
+                                      </td>
                                     </tr>
+
                                     <tr class="last odd">
                                       <th>Quality</th>
-                                      <td class="value"><input type="radio" class="radio" value="1" id="Quality_1"
-                                          name="ratings[1]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="2" id="Quality_2"
-                                          name="ratings[1]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="3" id="Quality_3"
-                                          name="ratings[1]"></td>
-                                      <td class="value"><input type="radio" class="radio" value="4" id="Quality_4"
-                                          name="ratings[1]"></td>
-                                      <td class="value last"><input type="radio" class="radio" value="5" id="Quality_5"
-                                          name="ratings[1]"></td>
+                                      <td class="value">
+                                        {{ form.quality.0.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.quality.1.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.quality.2.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.quality.3.tag }}
+                                      </td>
+                                      <td class="value">
+                                        {{ form.quality.4.tag }}
+                                      </td>
                                     </tr>
                                   </tbody>
                                 </table>
@@ -224,15 +254,9 @@
                                 <div class="review1">
                                   <ul class="form-list">
                                     <li>
-                                      <label class="required" for="nickname_field">Nickname<em>*</em></label>
-                                      <div class="input-box">
-                                        <input type="text" class="input-text" id="nickname_field" name="nickname">
-                                      </div>
-                                    </li>
-                                    <li>
                                       <label class="required" for="summary_field">Summary<em>*</em></label>
                                       <div class="input-box">
-                                        <input type="text" class="input-text" id="summary_field" name="title">
+                                        {{ form.summary }}
                                       </div>
                                     </li>
                                   </ul>
@@ -242,7 +266,7 @@
                                     <li>
                                       <label class="required " for="review_field">Review<em>*</em></label>
                                       <div class="input-box">
-                                        <textarea rows="3" cols="5" id="review_field" name="detail"></textarea>
+                                        {{ form.review }}
                                       </div>
                                     </li>
                                   </ul>
@@ -253,6 +277,9 @@
                                 </div>
                               </fieldset>
                             </form>
+                            {% else %}
+                            <h4> You have to login to write a comment to the product </h4>
+                            {% endif %}
                           </div>
                         </div>
                         <div class="box-reviews2">
@@ -295,15 +322,16 @@
                                 </table>
                                 <div class="review">
                                   <h6><a href="#">{{ review.summary }}</a></h6>
-                                  Review by <span>{{ review.user.get_full_name }} </span>on  {{ review.created_at|date:"M/d/Y" }} 
+                                  Review by <span>{{ review.user.get_full_name }} </span>on {{
+                                  review.created_at|date:"M/d/Y" }}
                                   <div class="review-txt"> {{ review.description }}</div>
                                 </div>
                               </li>
                               {% endfor %}
                             </ul>
                           </div>
-                          <div class="actions"> <a class="button view-all" id="revies-button" href="#"><span><span>View
-                                  all</span></span></a> </div>
+                          <!-- <div class="actions"> <a class="button view-all" id="revies-button" href="#"><span><span>
+                            View all</span></span></a> </div> -->
                         </div>
                         <div class="clear"></div>
                       </div>
@@ -327,11 +355,14 @@
           </div>
           <div id="related-products-slider" class="product-flexslider hidden-buttons">
             <div class="slider-items slider-width-col4 products-grid">
+              {% for related in relateds %}
               <div class="item">
                 <div class="item-inner">
                   <div class="item-img">
-                    <div class="item-img-info"><a href="#" title="Retis lapen casen" class="product-image"><img
-                          src="{% static 'products-images/product.jpg' %}" alt="Retis lapen casen"></a>
+                    <div class="item-img-info"><a href="{% url 'product_detail' related.slug %}"
+                        title="{{ related.product.brand.name }} {{ related.product.name }} {{ related.color.name }}"
+                        class="product-image"><img src="{{ related.images.first.image.url }}"
+                          alt="Retis lapen casen"></a>
 
                       <div class="actions">
                         <div class="quick-view-btn"><a href="#" data-toggle="tooltip" data-placement="right" title=""
@@ -348,7 +379,7 @@
                       <div class="rating">
                         <div class="ratings">
                           <div class="rating-box">
-                            <div class="rating" style="width:80%"></div>
+                            <div class="rating" style="width:{{ related.rating }}%"></div>
                           </div>
                           <p class="rating-links"><a href="#">1 Review(s)</a> <span class="separator">|</span> <a
                               href="#">Add Review</a> </p>
@@ -358,10 +389,11 @@
                   </div>
                   <div class="item-info">
                     <div class="info-inner">
-                      <div class="item-title"><a href="#" title="Retis lapen casen">Retis lapen casen</a> </div>
+                      <div class="item-title"><a href="{% url 'product_detail' related.slug %}" title="Retis lapen casen">{{ related.product.brand.name }}
+                        {{ related.product.name }} {{ related.color.name }}</a> </div>
                       <div class="item-content">
                         <div class="item-price">
-                          <div class="price-box"><span class="regular-price"><span class="price">$125.00</span> </span>
+                          <div class="price-box"><span class="regular-price"><span class="price">${{ related.sell_price }}</span> </span>
                           </div>
                         </div>
                       </div>
@@ -369,6 +401,7 @@
                   </div>
                 </div>
               </div>
+              {% endfor %}
             </div>
           </div>
         </div>

@@ -175,17 +175,17 @@ class VersionReview(models.Model):
     value = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
     price = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
     quality = models.PositiveIntegerField(choices = VERSION_RAITING, default = 0)
-    summary = models.CharField(blank = True, null = True, default = 'summary', max_length = 64)
-    description = models.TextField()
-    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "reviews", null = True, blank = True)
-    avarege_rating = models.FloatField(default = 0)
-    user = models.ForeignKey(User, on_delete = models.CASCADE, blank = True, null = True, related_name = 'reviews')
+    summary = models.CharField(max_length = 64)
+    review = models.TextField()
+    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "reviews")
+    avarege_rating = models.FloatField(default = 0, blank = True, null = True)
+    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'reviews')
 
     created_at = models.DateTimeField(auto_now_add = True) 
     updated_at = models.DateTimeField(auto_now = True)
 
     def __str__(self):
-        return f"{self.user.username}'s review {self.id}, {self.version.id}"
+        return f"{self.user.username}'s review {self.id} to { self.version }"
 
     def save(self, *args, **kwargs):
         
