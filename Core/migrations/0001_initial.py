@@ -47,10 +47,16 @@ class Migration(migrations.Migration):
                 ),
                 ("first_name", models.CharField(max_length=32)),
                 ("email", models.EmailField(max_length=64)),
-                ("company", models.CharField(blank=True, max_length=32, null=True)),
+                (
+                    "company",
+                    models.CharField(blank=True, max_length=32, null=True),
+                ),
                 ("phone", models.CharField(max_length=16)),
                 ("address1", models.CharField(max_length=64)),
-                ("address2", models.CharField(blank=True, max_length=64, null=True)),
+                (
+                    "address2",
+                    models.CharField(blank=True, max_length=64, null=True),
+                ),
                 ("comment", models.TextField()),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),

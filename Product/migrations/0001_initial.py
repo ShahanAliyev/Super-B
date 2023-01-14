@@ -26,7 +26,9 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=32)),
                 (
                     "image",
-                    models.ImageField(blank=True, null=True, upload_to="images/brands"),
+                    models.ImageField(
+                        blank=True, null=True, upload_to="images/brands"
+                    ),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
@@ -149,7 +151,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("sell_price", models.DecimalField(decimal_places=2, max_digits=5)),
+                (
+                    "sell_price",
+                    models.DecimalField(decimal_places=2, max_digits=5),
+                ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
                 ("updated_at", models.DateTimeField(auto_now=True)),
                 (
@@ -160,7 +165,10 @@ class Migration(migrations.Migration):
                         to="Product.color",
                     ),
                 ),
-                ("discount", models.ManyToManyField(blank=True, to="Product.discount")),
+                (
+                    "discount",
+                    models.ManyToManyField(blank=True, to="Product.discount"),
+                ),
                 (
                     "product",
                     models.ForeignKey(

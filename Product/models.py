@@ -9,9 +9,15 @@ User = get_user_model()
 class Category(models.Model):
 
     name = models.CharField(max_length=32)
-    image = models.ImageField(null=True, blank=True, upload_to="images/categories")
+    image = models.ImageField(
+        null=True, blank=True, upload_to="images/categories"
+    )
     parent = models.ForeignKey(
-        "self", null=True, blank=True, related_name="children", on_delete=models.CASCADE
+        "self",
+        null=True,
+        blank=True,
+        related_name="children",
+        on_delete=models.CASCADE,
     )
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -49,7 +55,9 @@ class Product(models.Model):
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="products"
     )
-    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, related_name="products")
+    brand = models.ForeignKey(
+        Brand, on_delete=models.CASCADE, related_name="products"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -101,11 +109,15 @@ class ProductVersion(models.Model):
     product = models.ForeignKey(
         Product, on_delete=models.CASCADE, related_name="versions"
     )
-    discount = models.ManyToManyField(Discount, blank=True, related_name="versions")
+    discount = models.ManyToManyField(
+        Discount, blank=True, related_name="versions"
+    )
     sell_price = models.DecimalField(
         max_digits=5, decimal_places=2, blank=True, null=True
     )
-    color = models.ForeignKey(Color, on_delete=models.CASCADE, related_name="versions")
+    color = models.ForeignKey(
+        Color, on_delete=models.CASCADE, related_name="versions"
+    )
     description = models.TextField(default="There is no description, yet")
     slug = models.SlugField(null=True, blank=True)
     raiting = models.PositiveIntegerField(default=0)
@@ -124,7 +136,9 @@ class ProductVersion(models.Model):
         )
 
         if self.reviews.count() != 0:
-            self.raiting = self.reviews.aggregate(avg=Avg("avarege_rating"))["avg"]
+            self.raiting = self.reviews.aggregate(avg=Avg("avarege_rating"))[
+                "avg"
+            ]
             self.reviews.aggregate(sum=Sum("avarege_rating"))["sum"]
         else:
             pass
@@ -136,7 +150,10 @@ class ProductVersion(models.Model):
             for discount in self.discount.all():
                 if discount.is_percentage == True:
                     final_price = ((100 - discount.amount) * final_price) / 100
-                elif discount.is_percentage == False and final_price > discount.amount:
+                elif (
+                    discount.is_percentage == False
+                    and final_price > discount.amount
+                ):
                     final_price = final_price - discount.amount
                 else:
                     final_price
@@ -151,7 +168,9 @@ class ProductVersionDetail(models.Model):
     version = models.ForeignKey(
         ProductVersion, on_delete=models.CASCADE, related_name="details"
     )
-    size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="details")
+    size = models.ForeignKey(
+        Size, on_delete=models.CASCADE, related_name="details"
+    )
     count = models.PositiveIntegerField()
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -167,7 +186,9 @@ class VersionImage(models.Model):
     version = models.ForeignKey(
         ProductVersion, on_delete=models.CASCADE, related_name="images"
     )
-    image = models.ImageField(null=True, blank=True, upload_to="images/VersionImages")
+    image = models.ImageField(
+        null=True, blank=True, upload_to="images/VersionImages"
+    )
     is_cover = models.BooleanField(default=False)
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -175,9 +196,7 @@ class VersionImage(models.Model):
 
     def __str__(self):
 
-        return (
-            f"{self.version.color.name} {self.version.product.name}'s image {self.id}"
-        )
+        return f"{self.version.color.name} {self.version.product.name}'s image {self.id}"
 
 
 class VersionReview(models.Model):
@@ -199,7 +218,9 @@ class VersionReview(models.Model):
         ProductVersion, on_delete=models.CASCADE, related_name="reviews"
     )
     avarege_rating = models.FloatField(default=0, blank=True, null=True)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="reviews")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="reviews"
+    )
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -209,6 +230,8 @@ class VersionReview(models.Model):
 
     def save(self, *args, **kwargs):
 
-        self.avarege_rating = ((self.price + self.value + self.quality) * 20) / 3
+        self.avarege_rating = (
+            (self.price + self.value + self.quality) * 20
+        ) / 3
         super(VersionReview, self).save(*args, **kwargs)
         self.version.save()

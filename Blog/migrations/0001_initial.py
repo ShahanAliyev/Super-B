@@ -52,7 +52,9 @@ class Migration(migrations.Migration):
                 (
                     "image",
                     models.ImageField(
-                        blank=True, null=True, upload_to="images/blog_categories"
+                        blank=True,
+                        null=True,
+                        upload_to="images/blog_categories",
                     ),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),

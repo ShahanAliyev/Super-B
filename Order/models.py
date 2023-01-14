@@ -7,7 +7,9 @@ User = get_user_model()
 
 class Basket(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="basket")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="basket"
+    )
     is_active = models.BooleanField(default=True)
     total_price = models.DecimalField(
         max_digits=6, decimal_places=2, null=True, blank=True
@@ -23,7 +25,9 @@ class Basket(models.Model):
 
 class BasketItem(models.Model):
 
-    basket = models.ForeignKey(Basket, on_delete=models.CASCADE, related_name="item")
+    basket = models.ForeignKey(
+        Basket, on_delete=models.CASCADE, related_name="item"
+    )
     version = models.ForeignKey(
         ProductVersion, on_delete=models.CASCADE, related_name="item"
     )
@@ -39,7 +43,9 @@ class BasketItem(models.Model):
 
 class Wishlist(models.Model):
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
+    user = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="wishlist"
+    )
     version = models.ForeignKey(
         ProductVersion, on_delete=models.CASCADE, related_name="wishlist"
     )

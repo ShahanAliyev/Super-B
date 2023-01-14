@@ -94,18 +94,24 @@ class ProductDetailView(DetailView, CreateView):
         version = ProductVersion.objects.filter(slug=slug).first()
         context["version"] = version
         context["reviews"] = version.reviews.all()
-        context["relateds"] = ProductVersion.objects.exclude(id=version.id).filter(
+        context["relateds"] = ProductVersion.objects.exclude(
+            id=version.id
+        ).filter(
             Q(product__id=version.product.id)
             | Q(product__category__name=version.product.category.name)
             | Q(color__name=version.color.name)
-        )[:6]
+        )[
+            :6
+        ]
 
         return context
 
     def post(self, request, *args, **kwargs):
 
         form = VersionReviewForm(data=request.POST)
-        version = ProductVersion.objects.filter(slug=self.kwargs["slug"]).first()
+        version = ProductVersion.objects.filter(
+            slug=self.kwargs["slug"]
+        ).first()
         if form.is_valid():
             form.instance.user = request.user
             form.instance.version = version

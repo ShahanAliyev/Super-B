@@ -29,7 +29,10 @@ class Migration(migrations.Migration):
                         verbose_name="ID",
                     ),
                 ),
-                ("password", models.CharField(max_length=128, verbose_name="password")),
+                (
+                    "password",
+                    models.CharField(max_length=128, verbose_name="password"),
+                ),
                 (
                     "last_login",
                     models.DateTimeField(
@@ -74,7 +77,9 @@ class Migration(migrations.Migration):
                 (
                     "email",
                     models.EmailField(
-                        blank=True, max_length=254, verbose_name="email address"
+                        blank=True,
+                        max_length=254,
+                        verbose_name="email address",
                     ),
                 ),
                 (
@@ -96,14 +101,19 @@ class Migration(migrations.Migration):
                 (
                     "date_joined",
                     models.DateTimeField(
-                        default=django.utils.timezone.now, verbose_name="date joined"
+                        default=django.utils.timezone.now,
+                        verbose_name="date joined",
                     ),
                 ),
-                ("bio", models.TextField(blank=True, max_length=500, null=True)),
+                (
+                    "bio",
+                    models.TextField(blank=True, max_length=500, null=True),
+                ),
                 (
                     "image",
                     models.ImageField(
-                        default="default/admin-photo.jpg", upload_to="images/avatars"
+                        default="default/admin-photo.jpg",
+                        upload_to="images/avatars",
                     ),
                 ),
                 (
@@ -154,7 +164,10 @@ class Migration(migrations.Migration):
                 ("last_name", models.CharField(max_length=32)),
                 ("phone", models.CharField(max_length=16)),
                 ("address1", models.CharField(max_length=64)),
-                ("address2", models.CharField(blank=True, max_length=64, null=True)),
+                (
+                    "address2",
+                    models.CharField(blank=True, max_length=64, null=True),
+                ),
                 (
                     "country",
                     models.CharField(
@@ -169,9 +182,18 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("city", models.CharField(max_length=64)),
-                ("postal_code", models.CharField(blank=True, max_length=8, null=True)),
-                ("default_billing_address", models.BooleanField(default=False)),
-                ("default_shipping_address", models.BooleanField(default=False)),
+                (
+                    "postal_code",
+                    models.CharField(blank=True, max_length=8, null=True),
+                ),
+                (
+                    "default_billing_address",
+                    models.BooleanField(default=False),
+                ),
+                (
+                    "default_shipping_address",
+                    models.BooleanField(default=False),
+                ),
                 (
                     "user",
                     models.ForeignKey(

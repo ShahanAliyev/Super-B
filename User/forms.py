@@ -45,7 +45,9 @@ class ContactInformationForm(forms.ModelForm):
             "country": forms.Select(attrs={"class": "input-text"}),
             "city": forms.TextInput(attrs={"class": "input-text"}),
             "postal_code": forms.TextInput(attrs={"class": "input-text"}),
-            "default_billing_address": forms.CheckboxInput(attrs={"class": "checkbox"}),
+            "default_billing_address": forms.CheckboxInput(
+                attrs={"class": "checkbox"}
+            ),
             "default_shipping_address": forms.CheckboxInput(
                 attrs={"class": "checkbox"}
             ),
@@ -119,7 +121,9 @@ class RegistrationForm(UserCreationForm):
 class LoginForm(AuthenticationForm):
 
     username = forms.CharField(
-        widget=forms.TextInput(attrs={"class": "input-text", "placeholder": "Username"})
+        widget=forms.TextInput(
+            attrs={"class": "input-text", "placeholder": "Username"}
+        )
     )
     password = forms.CharField(
         widget=forms.PasswordInput(
