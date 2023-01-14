@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Product', '0013_remove_versionreview_email_and_more'),
+        ("Product", "0013_remove_versionreview_email_and_more"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='versionreview',
-            name='avarege_rating',
+            model_name="versionreview",
+            name="avarege_rating",
             field=models.FloatField(blank=True, default=0, null=True),
         ),
     ]

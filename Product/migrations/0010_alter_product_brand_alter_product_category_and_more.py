@@ -7,68 +7,131 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Product', '0009_productversion_raiting'),
+        ("Product", "0009_productversion_raiting"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='product',
-            name='brand',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='Product.brand'),
+            model_name="product",
+            name="brand",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="products",
+                to="Product.brand",
+            ),
         ),
         migrations.AlterField(
-            model_name='product',
-            name='category',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='products', to='Product.category'),
+            model_name="product",
+            name="category",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="products",
+                to="Product.category",
+            ),
         ),
         migrations.AlterField(
-            model_name='productversion',
-            name='color',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='versions', to='Product.color'),
+            model_name="productversion",
+            name="color",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="versions",
+                to="Product.color",
+            ),
         ),
         migrations.AlterField(
-            model_name='productversion',
-            name='discount',
-            field=models.ManyToManyField(blank=True, related_name='versions', to='Product.discount'),
+            model_name="productversion",
+            name="discount",
+            field=models.ManyToManyField(
+                blank=True, related_name="versions", to="Product.discount"
+            ),
         ),
         migrations.AlterField(
-            model_name='productversion',
-            name='product',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='versions', to='Product.product'),
+            model_name="productversion",
+            name="product",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="versions",
+                to="Product.product",
+            ),
         ),
         migrations.AlterField(
-            model_name='productversiondetail',
-            name='size',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='details', to='Product.size'),
+            model_name="productversiondetail",
+            name="size",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="details",
+                to="Product.size",
+            ),
         ),
         migrations.AlterField(
-            model_name='productversiondetail',
-            name='version',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='details', to='Product.productversion'),
+            model_name="productversiondetail",
+            name="version",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="details",
+                to="Product.productversion",
+            ),
         ),
         migrations.AlterField(
-            model_name='versionimage',
-            name='version',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='images', to='Product.productversion'),
+            model_name="versionimage",
+            name="version",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="images",
+                to="Product.productversion",
+            ),
         ),
         migrations.AlterField(
-            model_name='versionreview',
-            name='price',
-            field=models.PositiveIntegerField(choices=[('20', '1'), ('40', '2'), ('60', '3'), ('80', '4'), ('100', '5')], default=0),
+            model_name="versionreview",
+            name="price",
+            field=models.PositiveIntegerField(
+                choices=[
+                    ("20", "1"),
+                    ("40", "2"),
+                    ("60", "3"),
+                    ("80", "4"),
+                    ("100", "5"),
+                ],
+                default=0,
+            ),
         ),
         migrations.AlterField(
-            model_name='versionreview',
-            name='quality',
-            field=models.PositiveIntegerField(choices=[('20', '1'), ('40', '2'), ('60', '3'), ('80', '4'), ('100', '5')], default=0),
+            model_name="versionreview",
+            name="quality",
+            field=models.PositiveIntegerField(
+                choices=[
+                    ("20", "1"),
+                    ("40", "2"),
+                    ("60", "3"),
+                    ("80", "4"),
+                    ("100", "5"),
+                ],
+                default=0,
+            ),
         ),
         migrations.AlterField(
-            model_name='versionreview',
-            name='value',
-            field=models.PositiveIntegerField(choices=[('20', '1'), ('40', '2'), ('60', '3'), ('80', '4'), ('100', '5')], default=0),
+            model_name="versionreview",
+            name="value",
+            field=models.PositiveIntegerField(
+                choices=[
+                    ("20", "1"),
+                    ("40", "2"),
+                    ("60", "3"),
+                    ("80", "4"),
+                    ("100", "5"),
+                ],
+                default=0,
+            ),
         ),
         migrations.AlterField(
-            model_name='versionreview',
-            name='version',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='Product.productversion'),
+            model_name="versionreview",
+            name="version",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reviews",
+                to="Product.productversion",
+            ),
         ),
     ]

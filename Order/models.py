@@ -7,12 +7,14 @@ User = get_user_model()
 
 class Basket(models.Model):
 
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'basket')
-    is_active = models.BooleanField(default = True)
-    total_price = models.DecimalField(max_digits = 6, decimal_places = 2, null = True, blank = True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="basket")
+    is_active = models.BooleanField(default=True)
+    total_price = models.DecimalField(
+        max_digits=6, decimal_places=2, null=True, blank=True
+    )
 
-    created_at = models.DateTimeField(auto_now_add = True) 
-    updated_at = models.DateTimeField(auto_now = True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
 
@@ -21,13 +23,14 @@ class Basket(models.Model):
 
 class BasketItem(models.Model):
 
-    basket = models.ForeignKey(Basket, on_delete = models.CASCADE, related_name = "item")
-    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "item")
+    basket = models.ForeignKey(Basket, on_delete=models.CASCADE, related_name="item")
+    version = models.ForeignKey(
+        ProductVersion, on_delete=models.CASCADE, related_name="item"
+    )
     count = models.PositiveIntegerField()
 
-
-    created_at = models.DateTimeField(auto_now_add = True) 
-    updated_at = models.DateTimeField(auto_now = True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
 
@@ -36,11 +39,13 @@ class BasketItem(models.Model):
 
 class Wishlist(models.Model):
 
-    user = models.ForeignKey(User, on_delete = models.CASCADE, related_name = 'wishlist')
-    version = models.ForeignKey(ProductVersion, on_delete = models.CASCADE, related_name = "wishlist")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="wishlist")
+    version = models.ForeignKey(
+        ProductVersion, on_delete=models.CASCADE, related_name="wishlist"
+    )
 
-    created_at = models.DateTimeField(auto_now_add = True) 
-    updated_at = models.DateTimeField(auto_now = True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
 

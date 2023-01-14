@@ -9,10 +9,10 @@ admin.site.register(BlogCategory)
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
 
-    search_fields = ('header', 'user__username', 'category__name')
+    search_fields = ("header", "user__username", "category__name")
 
 
 @admin.register(BlogComment)
 class BlogCommentAdmin(admin.ModelAdmin):
 
-    search_fields = ('name', 'blog__header')
+    search_fields = ("name", "blog__header")

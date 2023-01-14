@@ -6,28 +6,27 @@ from .forms import BlogCommentForm, AuthBlogCommentForm
 from django.contrib import messages
 
 
-
 class BlogView(ListView):
 
     model = Blog
-    template_name = 'blog.html'
-    context_object_name = 'blogs'
+    template_name = "blog.html"
+    context_object_name = "blogs"
     # paginate_by = 1
 
     def get_context_data(self, **kwargs):
         context = super(BlogView, self).get_context_data(**kwargs)
-        context['categories'] = BlogCategory.objects.all()
-        context['popular'] = Blog.objects.order_by('-read_count')[:4]
+        context["categories"] = BlogCategory.objects.all()
+        context["popular"] = Blog.objects.order_by("-read_count")[:4]
         return context
-    
+
     def get_queryset(self):
 
-        category = self.request.GET.get('category')
-        blog = self.request.GET.get('blog')
+        category = self.request.GET.get("category")
+        blog = self.request.GET.get("blog")
         if category:
-            queryset = Blog.objects.filter(category__name = category)
+            queryset = Blog.objects.filter(category__name=category)
         elif blog:
-            queryset = Blog.objects.filter(id = blog)
+            queryset = Blog.objects.filter(id=blog)
         else:
             queryset = Blog.objects.all()
         return queryset
@@ -36,35 +35,35 @@ class BlogView(ListView):
 class BlogDetailView(DetailView, CreateView):
 
     model = Blog
-    template_name = 'blog_detail.html'
-    context_object_name = 'blog'
+    template_name = "blog_detail.html"
+    context_object_name = "blog"
     form_class = BlogCommentForm
 
     def get(self, request, *args, **kwargs):
 
-        blog = Blog.objects.filter(id = self.kwargs['pk']).first()
+        blog = Blog.objects.filter(id=self.kwargs["pk"]).first()
         blog.read_count += 1
         blog.save()
 
         return super().get(request, *args, **kwargs)
 
     def post(self, request, *args, **kwargs):
-        
-        blog = Blog.objects.filter(id = self.kwargs['pk'])
 
-        if request.user.is_anonymous:     
+        blog = Blog.objects.filter(id=self.kwargs["pk"])
 
-            form = BlogCommentForm(data = request.POST)
+        if request.user.is_anonymous:
+
+            form = BlogCommentForm(data=request.POST)
             form.instance.blog = blog.first()
             if form.is_valid():
                 form.save()
             else:
-                messages.add_message(request, messages.WARNING, 'Unsuccessfull')
-            return redirect('blog_detail', self.kwargs['pk'])
-        
+                messages.add_message(request, messages.WARNING, "Unsuccessfull")
+            return redirect("blog_detail", self.kwargs["pk"])
+
         else:
 
-            form = AuthBlogCommentForm(data = request.POST)
+            form = AuthBlogCommentForm(data=request.POST)
             form.instance.blog = blog.first()
             form.instance.user = request.user
             form.instance.name = request.user.username
@@ -73,17 +72,13 @@ class BlogDetailView(DetailView, CreateView):
             if form.is_valid():
                 form.save()
             else:
-                messages.add_message(request, messages.WARNING, 'Unsuccessfull')
-            return redirect('blog_detail', self.kwargs['pk'])
-    
+                messages.add_message(request, messages.WARNING, "Unsuccessfull")
+            return redirect("blog_detail", self.kwargs["pk"])
+
     def get_context_data(self, **kwargs):
 
         context = super(BlogDetailView, self).get_context_data(**kwargs)
-        context['comments'] = BlogComment.objects.filter(blog__id = self.kwargs['pk'])
-        print(BlogComment.objects.filter(blog__id = self.kwargs['pk']))
+        context["comments"] = BlogComment.objects.filter(blog__id=self.kwargs["pk"])
+        print(BlogComment.objects.filter(blog__id=self.kwargs["pk"]))
 
         return context
-
-
-
-

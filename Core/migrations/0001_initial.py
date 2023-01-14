@@ -8,64 +8,107 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='AboutUs',
+            name="AboutUs",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('address', models.CharField(max_length=64)),
-                ('email', models.EmailField(max_length=64)),
-                ('phone', models.CharField(max_length=16)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("address", models.CharField(max_length=64)),
+                ("email", models.EmailField(max_length=64)),
+                ("phone", models.CharField(max_length=16)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name_plural': 'About Us',
+                "verbose_name_plural": "About Us",
             },
         ),
         migrations.CreateModel(
-            name='ContactUs',
+            name="ContactUs",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('first_name', models.CharField(max_length=32)),
-                ('email', models.EmailField(max_length=64)),
-                ('company', models.CharField(blank=True, max_length=32, null=True)),
-                ('phone', models.CharField(max_length=16)),
-                ('address1', models.CharField(max_length=64)),
-                ('address2', models.CharField(blank=True, max_length=64, null=True)),
-                ('comment', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("first_name", models.CharField(max_length=32)),
+                ("email", models.EmailField(max_length=64)),
+                ("company", models.CharField(blank=True, max_length=32, null=True)),
+                ("phone", models.CharField(max_length=16)),
+                ("address1", models.CharField(max_length=64)),
+                ("address2", models.CharField(blank=True, max_length=64, null=True)),
+                ("comment", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name_plural': 'Contact Us',
+                "verbose_name_plural": "Contact Us",
             },
         ),
         migrations.CreateModel(
-            name='SubscribeEmail',
+            name="SubscribeEmail",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('email', models.EmailField(max_length=60)),
-                ('is_active', models.BooleanField(default=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("email", models.EmailField(max_length=60)),
+                ("is_active", models.BooleanField(default=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'verbose_name_plural': 'Subscribed Emails',
+                "verbose_name_plural": "Subscribed Emails",
             },
         ),
         migrations.CreateModel(
-            name='Social',
+            name="Social",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=32)),
-                ('image', models.ImageField(blank=True, null=True, upload_to='images/socials')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('us', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='socials', to='Core.aboutus')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("name", models.CharField(max_length=32)),
+                (
+                    "image",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="images/socials"
+                    ),
+                ),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "us",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="socials",
+                        to="Core.aboutus",
+                    ),
+                ),
             ],
         ),
     ]

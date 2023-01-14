@@ -61,5 +61,8 @@ for t in total_sum:
 avarage_rating = (all_total_sum*20)/(fv.reviews.count()*3)
 
 
-For review
+brand_product_count
 
+brand = Brand.objects.filter(name="Pull&Bear").first()
+products = brand.products.all()
+products.aggregate(versions=Count('versions'))['versions']

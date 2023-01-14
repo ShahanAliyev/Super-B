@@ -10,35 +10,55 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('Product', '0001_initial'),
+        ("Product", "0001_initial"),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('Order', '0001_initial'),
+        ("Order", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='wishlist',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='wishlist', to=settings.AUTH_USER_MODEL),
+            model_name="wishlist",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="wishlist",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
         migrations.AddField(
-            model_name='wishlist',
-            name='version',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='wishlist', to='Product.productversion'),
+            model_name="wishlist",
+            name="version",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="wishlist",
+                to="Product.productversion",
+            ),
         ),
         migrations.AddField(
-            model_name='basketitem',
-            name='basket',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='item', to='Order.basket'),
+            model_name="basketitem",
+            name="basket",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="item",
+                to="Order.basket",
+            ),
         ),
         migrations.AddField(
-            model_name='basketitem',
-            name='version',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='item', to='Product.productversion'),
+            model_name="basketitem",
+            name="version",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="item",
+                to="Product.productversion",
+            ),
         ),
         migrations.AddField(
-            model_name='basket',
-            name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='basket', to=settings.AUTH_USER_MODEL),
+            model_name="basket",
+            name="user",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="basket",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]

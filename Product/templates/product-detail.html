@@ -16,9 +16,10 @@
         <div class="row">
           <div class="col-xs-12">
             <ul class="breadcrumb">
-              <li><a href="#">{{ version.product.category.parent.parent.name }}</a></li>
-              <li><a href="#">{{ version.product.category.parent.name }}</a></li>
-              <li><a href="#">{{ version.product.category.name }}</a></li>
+              <li><a href="{% url 'product_list' %}?category={{ version.product.category.parent.parent.name }}">{{ version.product.category.parent.parent.name }}</a></li>
+              <li><a href="{% url 'product_list'%}?category={{ version.product.category.parent.name }}">{{ version.product.category.parent.name }}</a></li>
+              <li><a href="{% url 'product_list'%}?category={{ version.product.category.name }}">{{ version.product.category.name }}</a></li>
+              <li></li>
             </ul>
           </div>
         </div>
@@ -85,10 +86,7 @@
                     </div>
                     <div class="short-description">
                       <h2>Quick Overview</h2>
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est tristique
-                        auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo gravida semper.
-                        Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla. Donec a neque libero.
-                        Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem. </p>
+                      <p> {{ version.description|slice:"11" }} </p>
                     </div>
                     <div class="add-to-box">
                       <div class="add-to-cart">
@@ -112,9 +110,17 @@
                         <ul class="add-to-links">
                           <li> <a class="link-wishlist" href="#"><span>Add to Wishlist</span></a></li>
                           <li><span class="separator">|</span> <a class="link-compare" href="#"><span>Add to
-                                Compare</span></a></li>
+                                Compare</span></a>
+                          </li>
                         </ul>
                       </div>
+                    </div>
+                    <br>
+                    <div>
+                      <h5>Sizes:</h5>
+                      {% for size in version.details.all %}
+                        <button type="button" class="btn btn-outline-dark">{{ size.size.name }}</button>
+                      {% endfor %}
                     </div>
                   </div>
                 </form>
@@ -124,40 +130,12 @@
                   <ul id="product-detail-tab" class="nav nav-tabs product-tabs">
                     <li class="active"> <a href="#product_tabs_description" data-toggle="tab"> Product Description </a>
                     </li>
-                    <li><a href="#product_tabs_tags" data-toggle="tab">Tags</a></li>
                     <li> <a href="#reviews_tabs" data-toggle="tab">Reviews</a> </li>
                   </ul>
                   <div id="productTabContent" class="tab-content">
                     <div class="tab-pane fade in active" id="product_tabs_description">
                       <div class="std">
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam fringilla augue nec est
-                          tristique auctor. Donec non est at libero vulputate rutrum. Morbi ornare lectus quis justo
-                          gravida semper. Nulla tellus mi, vulputate adipiscing cursus eu, suscipit id nulla. Donec a
-                          neque libero. Pellentesque aliquet, sem eget laoreet ultrices, ipsum metus feugiat sem, quis
-                          fermentum turpis eros eget velit.</p>
-                        <p> Nunc facilisis sagittis ullamcorper. Proin lectus ipsum, gravida et mattis vulputate,
-                          tristique ut lectus. Sed et lorem nunc. Vestibulum ante ipsum primis in faucibus orci luctus
-                          et ultrices posuere cubilia Curae; Aenean eleifend laoreet congue. Vivamus adipiscing nisl ut
-                          dolor dignissim semper.</p>
-                      </div>
-                    </div>
-                    <div class="tab-pane fade" id="product_tabs_tags">
-                      <div class="box-collateral box-tags">
-                        <div class="tags">
-                          <form id="addTagForm" action="#" method="get">
-                            <div class="form-add-tags">
-                              <label for="productTagName">Add Tags:</label>
-                              <div class="input-box">
-                                <input class="input-text" name="productTagName" id="productTagName" type="text">
-                                <button type="button" title="Add Tags" class=" button btn-add"
-                                  onClick="submitTagForm()"> <span>Add Tags</span> </button>
-                              </div>
-                              <!--input-box-->
-                            </div>
-                          </form>
-                        </div>
-                        <!--tags-->
-                        <p class="note">Use spaces to separate tags. Use single quotes (') for phrases.</p>
+                        <p> {{ version.description }} </p>
                       </div>
                     </div>
                     <div class="tab-pane fade" id="reviews_tabs">
@@ -361,8 +339,8 @@
                   <div class="item-img">
                     <div class="item-img-info"><a href="{% url 'product_detail' related.slug %}"
                         title="{{ related.product.brand.name }} {{ related.product.name }} {{ related.color.name }}"
-                        class="product-image"><img src="{{ related.images.first.image.url }}"
-                          alt="Retis lapen casen"></a>
+                        class="product-image"><img style="width: 220px; height: 220px;" src="{{ related.images.first.image.url }}"
+                          alt="{{ related.product.brand.name }} {{ related.product.name }} {{ related.color.name }}"></a>
 
                       <div class="actions">
                         <div class="quick-view-btn"><a href="#" data-toggle="tooltip" data-placement="right" title=""
@@ -409,62 +387,6 @@
     </section>
     <!-- Related Products Slider End -->
 
-    <!-- Upsell Product Slider -->
-    <section class="upsell-pro wow bounceInUp animated">
-      <div class="container">
-        <div class="slider-items-products">
-          <div class="new_title center">
-            <h2>Upsell Products</h2>
-          </div>
-          <div id="upsell-products-slider" class="product-flexslider hidden-buttons">
-            <div class="slider-items slider-width-col4 products-grid">
-              <div class="item">
-                <div class="item-inner">
-                  <div class="item-img">
-                    <div class="item-img-info"><a href="#" title="Retis lapen casen" class="product-image"><img
-                          src="{% static 'products-images/product.jpg' %}" alt="Retis lapen casen"></a>
-
-                      <div class="actions">
-                        <div class="quick-view-btn"><a href="#" data-toggle="tooltip" data-placement="right" title=""
-                            data-original-title="Quick View"> <span>Quick View</span></a></div>
-                        <div class="link-wishlist"><a href="#" data-toggle="tooltip" data-placement="right" title=""
-                            data-original-title="Wishlist"><span>Add to Wishlist</span></a></div>
-                        <div class="link-compare"><a href="#" data-toggle="tooltip" data-placement="right" title=""
-                            data-original-title="Compare"><span>Add to Compare</span></a></div>
-                        <div class="add_cart">
-                          <button class="button btn-cart" type="button" data-toggle="tooltip" data-placement="right"
-                            title="" data-original-title="Add to Cart"><span>Add to Cart</span></button>
-                        </div>
-                      </div>
-                      <div class="rating">
-                        <div class="ratings">
-                          <div class="rating-box">
-                            <div class="rating" style="width:80%"></div>
-                          </div>
-                          <p class="rating-links"><a href="#">1 Review(s)</a> <span class="separator">|</span> <a
-                              href="#">Add Review</a> </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="item-info">
-                    <div class="info-inner">
-                      <div class="item-title"><a href="#" title="Retis lapen casen">Retis lapen casen</a> </div>
-                      <div class="item-content">
-                        <div class="item-price">
-                          <div class="price-box"><span class="regular-price"><span class="price">$125.00</span> </span>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
     {% endblock %}
 
   </div>

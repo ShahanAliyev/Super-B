@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Blog', '0006_alter_blogcomment_email_alter_blogcomment_name'),
+        ("Blog", "0006_alter_blogcomment_email_alter_blogcomment_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='blogcomment',
-            name='email',
+            model_name="blogcomment",
+            name="email",
             field=models.EmailField(max_length=64),
         ),
         migrations.AlterField(
-            model_name='blogcomment',
-            name='name',
+            model_name="blogcomment",
+            name="name",
             field=models.CharField(max_length=32),
         ),
     ]

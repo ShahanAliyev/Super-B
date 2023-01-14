@@ -7,13 +7,19 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('Product', '0002_initial'),
+        ("Product", "0002_initial"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='versionreview',
-            name='version',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='review', to='Product.productversion'),
+            model_name="versionreview",
+            name="version",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="review",
+                to="Product.productversion",
+            ),
         ),
     ]

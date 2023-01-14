@@ -9,30 +9,38 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('Product', '0012_rename_image_url_versionimage_image'),
+        ("Product", "0012_rename_image_url_versionimage_image"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='versionreview',
-            name='email',
+            model_name="versionreview",
+            name="email",
         ),
         migrations.RemoveField(
-            model_name='versionreview',
-            name='first_name',
+            model_name="versionreview",
+            name="first_name",
         ),
         migrations.RemoveField(
-            model_name='versionreview',
-            name='last_name',
+            model_name="versionreview",
+            name="last_name",
         ),
         migrations.AddField(
-            model_name='versionreview',
-            name='summary',
-            field=models.CharField(blank=True, default='summary', max_length=64, null=True),
+            model_name="versionreview",
+            name="summary",
+            field=models.CharField(
+                blank=True, default="summary", max_length=64, null=True
+            ),
         ),
         migrations.AddField(
-            model_name='versionreview',
-            name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to=settings.AUTH_USER_MODEL),
+            model_name="versionreview",
+            name="user",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="reviews",
+                to=settings.AUTH_USER_MODEL,
+            ),
         ),
     ]
