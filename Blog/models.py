@@ -36,7 +36,7 @@ class Blog(models.Model):
         User, on_delete=models.CASCADE, related_name="blog"
     )
     category = models.ForeignKey(
-        BlogCategory, on_delete=models.CASCADE, related_name="blog"
+        BlogCategory, on_delete=models.CASCADE, related_name="blogs"
     )
     read_count = models.PositiveIntegerField(default=0)
 
