@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import (
     account_information,
     address_book,
@@ -9,7 +9,6 @@ from .views import (
 from .views import CustomLoginView, ActivateAccoontView, RegisterView
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import views as auth_views
-
 
 urlpatterns = [
     path(
@@ -55,4 +54,5 @@ urlpatterns = [
         ),
         name="password_reset_complete",
     ),
+    path("api/", include('User.api.urls'))
 ]

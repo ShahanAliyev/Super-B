@@ -1,39 +1,64 @@
-from rest_framework.views import APIView
-from Blog.models import Blog, BlogCategory, BlogComment
-from django.http import JsonResponse
-from .serializers import BlogSerializer, CategorySerializer, CategoryPostSerializer
+from rest_framework.generics import (
+                                    RetrieveUpdateDestroyAPIView,
+                                    ListCreateAPIView,
+                                    )
+from Blog.models import Blog, BlogCategory
+from .serializers import    (
+                            BlogSerializer, 
+                            BlogPostSerializer, 
+                            CategorySerializer, 
+                            CategoryPostSerializer,
+                            )
+
+import django_filters.rest_framework
+from rest_framework import filters
+from rest_framework.permissions import (IsAuthenticatedOrReadOnly,
+                                        IsAuthenticated)
 
 
-class BlogAPIView(APIView):
-    def get(self, *args, **kwargs):
-        blogs = Blog.objects.all()
-        serializer = BlogSerializer(blogs, context={"request": self.request}, many=True)
+class GenericApiSerializerMixin:
 
-        return JsonResponse(serializer.data, safe=False)
-
-    def post(self, request, *args, **kwargs):
-        form_data = self.request.data
-        serializer = BlogSerializer(data=form_data)
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, safe=False)
-        return JsonResponse(serializer.errors, safe=False)
+    def get_serializer_class(self):
+        return self.serializer_classes[self.request.method]
 
 
-class CategoryAPIView(APIView):
-    def get(self, *args, **kwargs):
+class BlogAPIView(GenericApiSerializerMixin, ListCreateAPIView):
 
-        categories = BlogCategory.objects.all()
-        serializer = CategorySerializer(
-            categories, context={"request": self.request}, many=True
-        )
+    queryset = Blog.objects.all()
+    permission_classes = (IsAuthenticated,)
+    filter_backends = [django_filters.rest_framework.DjangoFilterBackend, filters.SearchFilter]
+    filterset_fields = ['header', 'category',]
+    search_fields = ['user__username', 'header']
+    serializer_classes = {
+        "POST": BlogPostSerializer,
+        "GET": BlogSerializer,
+    }
 
-        return JsonResponse(serializer.data, safe=False)
+class BlogRetriveUpdateDeleteView(GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView):
 
-    def post(self, request, *args, **kwargs):
-        form_data = request.data
-        serializer = CategoryPostSerializer(data=form_data, context={'request': request})
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, safe=False, status=201)
-        return JsonResponse(serializer.errors, safe=False, status=400)
+    queryset = Blog.objects.all()
+    serializer_classes = {
+        "PATCH": BlogPostSerializer,
+        "PUT": BlogPostSerializer,
+        "GET": BlogSerializer,
+    }
+
+
+class CategoryAPIView(GenericApiSerializerMixin, ListCreateAPIView):
+
+    queryset = BlogCategory.objects.all()
+    serializer_classes = {
+        "POST": CategoryPostSerializer,
+        "GET": CategorySerializer,
+    }
+
+
+
+class CategoryRetriveUpdateDeleteView(GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView):
+
+    queryset = BlogCategory.objects.all()
+    serializer_classes = {
+        "PATCH": CategoryPostSerializer,
+        "PUT": CategoryPostSerializer,
+        "GET": CategorySerializer,
+    }
