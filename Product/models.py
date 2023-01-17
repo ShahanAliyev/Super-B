@@ -129,7 +129,9 @@ class ProductVersion(models.Model):
         return f"{self.color} {self.product.name}"
 
     def save(self, *args, **kwargs):
-        super(ProductVersion, self).save(*args, **kwargs)
+        # created
+        if not self.id:
+            super(ProductVersion, self).save(*args, **kwargs)
 
         self.slug = slugify(
             f"{self.product.brand.name}-{self.product.name}-{self.color.name}"

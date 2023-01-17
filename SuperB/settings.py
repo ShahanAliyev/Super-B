@@ -53,11 +53,13 @@ INSTALLED_APPS = [
     "rest_framework",
     "rest_framework_simplejwt",
     "django_filters",
+    "corsheaders",
 ]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
@@ -86,6 +88,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "SuperB.wsgi.application"
+
+CORS_ALLOW_ALL_ORIGINS =  True
+
+# CORS_ALLOWED_ORIGINS = [
+    # "https://sub.example.com",
+# ]
 
 REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],

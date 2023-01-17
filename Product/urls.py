@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 from .views import quick_view, ProductListView, ProductDetailView
 
 urlpatterns = [
@@ -9,4 +9,5 @@ urlpatterns = [
         name="product_detail",
     ),
     path("quick_view/", quick_view, name="quick_view"),
+    path("api/", include("Product.api.urls")),
 ]
