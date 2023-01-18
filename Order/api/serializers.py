@@ -83,8 +83,24 @@ class BasketItemPostSerializer(serializers.ModelSerializer):
     class Meta:
         model = BasketItem
         fields = (
-            'id','basket', 'version', 'count',
+            'basket', 'version', 'count', 'size'
         )
+    
+    def create(self, validated_data):
+        basket, _ = Basket.objects.get_or_create(user=validated_data.get('user'), is_active=True)
+        instance, created = BasketItem.objects.get_or_create(version=validated_data.get('version'), size = validated_data.get('size'),basket=basket)
+        if created:
+            print('created')
+        elif instance:
+            instance.delete()
+            print('deleted')
+
+        return self.data
+
+    def validate(self, data):
+        request = self.context['request']
+        data ['user'] = request.user
+        return super().validate(data)
 
 
 class ItemForBasketSerializer(serializers.ModelSerializer):

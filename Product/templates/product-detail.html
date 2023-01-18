@@ -91,18 +91,7 @@
                     <div class="add-to-box">
                       <div class="add-to-cart">
                         <div class="pull-left">
-                          <div class="custom pull-left">
-                            <button
-                              onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty ) &amp; qty &gt; 0) result.value--;return false;"
-                              class="reduced items-count" type="button"><i class="fa fa-minus">&nbsp;</i></button>
-                            <input type="text" id="version-count" class="input-text qty" title="Qty" value="1" maxlength="12" id="qty"
-                              name="qty">
-                            <button
-                              onClick="var result = document.getElementById('qty'); var qty = result.value; if( !isNaN( qty )) result.value++;return false;"
-                              class="increase items-count" type="button"><i class="fa fa-plus">&nbsp;</i></button>
-                          </div>
-                        </div>
-                        <button onClick="productAddToCartForm.submit(this)" value="{{ version.id }}" class="button btn-cart" title="Add to Cart"
+                        <button  value="{{ version.id }}" class="button btn-cart" title="Add to Cart"
                           type="button"><span>Add to Cart</span></button>
                       </div>
                       <div class="email-addto-box">
@@ -119,7 +108,7 @@
                     <div>
                       <h5>Sizes:</h5>
                       {% for size in version.details.all %}
-                        <button type="button" class="btn btn-outline-dark versionsizes" value="{{ size.id }}">{{ size.size.name }}</button>
+                        <button type="button" class="btn btn-outline-dark versionsizes" value="{{ size.size.id }}">{{ size.size.name }}</button>
                       {% endfor %}
                     </div>
                   </div>

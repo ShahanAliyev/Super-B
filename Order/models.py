@@ -26,7 +26,8 @@ class Basket(models.Model):
 class BasketItem(models.Model):
 
     basket = models.ForeignKey(
-        Basket, on_delete=models.CASCADE, related_name="items"
+        Basket, on_delete=models.CASCADE, related_name="items",
+        null = True, blank = True
     )
     version = models.ForeignKey(
         ProductVersion, on_delete=models.CASCADE, related_name="items"
