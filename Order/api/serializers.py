@@ -47,7 +47,7 @@ class BasketSerializer(serializers.ModelSerializer):
     class Meta:
         model = Basket
         fields = (
-            'id','user', 'is_active', 'total_price', 'items',
+            'user', 'is_active', 'total_price', 'items',
         )
 
     def get_items(self, obj):
@@ -57,10 +57,28 @@ class BasketSerializer(serializers.ModelSerializer):
         return serializer.data
 
 
+class BasketForItemSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Basket
+        fields = (
+            'user', 'is_active', 'total_price',
+        )
+
+
 class BasketItemSerializer(serializers.ModelSerializer):
 
-    basket = BasketSerializer()
+    basket = BasketForItemSerializer()
     version = ProductVersionGetSerializer()
+
+    class Meta:
+        model = BasketItem
+        fields = (
+            'id','basket', 'version', 'count',
+        )
+
+        
+class BasketItemPostSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = BasketItem
@@ -71,7 +89,6 @@ class BasketItemSerializer(serializers.ModelSerializer):
 
 class ItemForBasketSerializer(serializers.ModelSerializer):
 
-    basket = BasketSerializer()
     version = ProductVersionGetSerializer()
 
     class Meta:

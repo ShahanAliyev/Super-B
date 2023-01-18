@@ -114,7 +114,7 @@
                         <button class="button btn-cart ajx-cart" title="Add to Cart" type="button"><span>Add to
                             Cart</span></button>
                         <span class="add-to-links"> <a title="Add to Wishlist" class="button link-wishlist"
-                            href="#"><span>Add to Wishlist</span></a> <a title="Add to Compare"
+                            value="{{ version.id }}"><span>Add to Wishlist</span></a> <a title="Add to Compare"
                             class="button link-compare" href="#"><span>Add to Compare</span></a> </span>
                       </div>
                     </div>
@@ -254,6 +254,8 @@
 
   </div>
   {% block js %}
+  <script type="text/javascript" src="{% static 'js/wishlist.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/basket.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/parallax.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/slider.js' %}"></script>
   {% endblock %}

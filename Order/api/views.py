@@ -4,7 +4,8 @@ from rest_framework.generics import (
 from Order.models import Basket, BasketItem, Wishlist
 from .serializers import (
     WishListSerializer, BasketItemSerializer,
-    BasketSerializer, WishListPostSerializer)
+    BasketSerializer, WishListPostSerializer,
+    BasketItemPostSerializer)
 
 
 class GenericApiSerializerMixin:
@@ -28,7 +29,10 @@ class BasketApiView(ListCreateAPIView):
     serializer_class = BasketSerializer
 
 
-class BasketItemApiView(ListCreateAPIView):
+class BasketItemApiView(GenericApiSerializerMixin, ListCreateAPIView):
 
     queryset = BasketItem.objects.all()
-    serializer_class = BasketItemSerializer
+    serializer_classes = {
+        "GET": BasketItemSerializer,
+        "POST": BasketItemPostSerializer,
+    }

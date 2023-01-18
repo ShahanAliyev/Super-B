@@ -31,7 +31,7 @@ class BasketItem(models.Model):
     version = models.ForeignKey(
         ProductVersion, on_delete=models.CASCADE, related_name="items"
     )
-    count = models.PositiveIntegerField()
+    count = models.PositiveIntegerField(default = 1)
     size = models.ForeignKey(Size, null = True, blank = True, on_delete = models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
