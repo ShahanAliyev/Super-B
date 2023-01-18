@@ -108,7 +108,7 @@
                       <div class="email-addto-box">
                         <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>
                         <ul class="add-to-links">
-                          <li> <a class="link-wishlist" href="#"><span>Add to Wishlist</span></a></li>
+                          <li> <a class="link-wishlist" href="" id="add-to-wishlist" value="{{ version.id }}"><span>Add to Wishlist</span></a></li>
                           <li><span class="separator">|</span> <a class="link-compare" href="#"><span>Add to
                                 Compare</span></a>
                           </li>
@@ -119,7 +119,7 @@
                     <div>
                       <h5>Sizes:</h5>
                       {% for size in version.details.all %}
-                        <button type="button" class="btn btn-outline-dark">{{ size.size.name }}</button>
+                        <button type="button" class="btn btn-outline-dark versionsizes" value="{{ size.id }}">{{ size.size.name }}</button>
                       {% endfor %}
                     </div>
                   </div>
@@ -396,6 +396,7 @@
 
 
   {% block js %}
+  <script type="text/javascript" src="{% static 'js/order.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/parallax.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/jquery.flexslider.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/cloud-zoom.js' %}"></script>

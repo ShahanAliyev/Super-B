@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth import get_user_model
-from Product.models import ProductVersion
+from Product.models import ProductVersion, Size
 
 User = get_user_model()
 
@@ -26,12 +26,13 @@ class Basket(models.Model):
 class BasketItem(models.Model):
 
     basket = models.ForeignKey(
-        Basket, on_delete=models.CASCADE, related_name="item"
+        Basket, on_delete=models.CASCADE, related_name="items"
     )
     version = models.ForeignKey(
-        ProductVersion, on_delete=models.CASCADE, related_name="item"
+        ProductVersion, on_delete=models.CASCADE, related_name="items"
     )
     count = models.PositiveIntegerField()
+    size = models.ForeignKey(Size, null = True, blank = True, on_delete = models.CASCADE)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -44,7 +45,8 @@ class BasketItem(models.Model):
 class Wishlist(models.Model):
 
     user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="wishlist"
+        User, on_delete=models.CASCADE, related_name="wishlist",
+        null = True, blank = True
     )
     version = models.ForeignKey(
         ProductVersion, on_delete=models.CASCADE, related_name="wishlist"
