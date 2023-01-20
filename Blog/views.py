@@ -58,9 +58,7 @@ class BlogDetailView(DetailView, CreateView):
             if form.is_valid():
                 form.save()
             else:
-                messages.add_message(
-                    request, messages.WARNING, "Unsuccessfull"
-                )
+                messages.add_message(request, messages.WARNING, "Unsuccessfull")
             return redirect("blog_detail", self.kwargs["pk"])
 
         else:
@@ -74,17 +72,13 @@ class BlogDetailView(DetailView, CreateView):
             if form.is_valid():
                 form.save()
             else:
-                messages.add_message(
-                    request, messages.WARNING, "Unsuccessfull"
-                )
+                messages.add_message(request, messages.WARNING, "Unsuccessfull")
             return redirect("blog_detail", self.kwargs["pk"])
 
     def get_context_data(self, **kwargs):
 
         context = super(BlogDetailView, self).get_context_data(**kwargs)
-        context["comments"] = BlogComment.objects.filter(
-            blog__id=self.kwargs["pk"]
-        )
+        context["comments"] = BlogComment.objects.filter(blog__id=self.kwargs["pk"])
         print(BlogComment.objects.filter(blog__id=self.kwargs["pk"]))
 
         return context

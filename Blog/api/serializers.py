@@ -39,23 +39,21 @@ class BlogSerializer(serializers.ModelSerializer):
         )
 
 
-
 class BlogPostSerializer(serializers.ModelSerializer):
 
     user = serializers.PrimaryKeyRelatedField(read_only=True)
 
     class Meta:
         model = Blog
-        fields = ('header','category', 'user')
+        fields = ("header", "category", "user")
 
     def validate(self, data):
-        request = self.context['request']
-        data['user'] = request.user
+        request = self.context["request"]
+        data["user"] = request.user
         return super().validate(data)
 
 
 class BlogCategorySerializer(serializers.ModelSerializer):
-    
     class Meta:
         model = Blog
         fields = (
@@ -69,7 +67,6 @@ class BlogCategorySerializer(serializers.ModelSerializer):
 
 
 class CategoryPostSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = BlogCategory
         fields = ("name", "image")

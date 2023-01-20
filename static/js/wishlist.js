@@ -12,7 +12,6 @@ if(wishlist_buttons){
         button.addEventListener('click', async function(event) {
             event.preventDefault()
             let version = button.getAttribute('value')
-            console.log(version);
             let response = await fetch('/api/wishlists/', {
             headers: {
                 'Content-Type': 'application/json',

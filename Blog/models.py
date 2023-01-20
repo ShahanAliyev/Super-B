@@ -8,9 +8,7 @@ User = get_user_model()
 class BlogCategory(models.Model):
 
     name = models.CharField(max_length=32)
-    image = models.ImageField(
-        null=True, blank=True, upload_to="images/blog_categories"
-    )
+    image = models.ImageField(null=True, blank=True, upload_to="images/blog_categories")
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -28,13 +26,9 @@ class BlogCategory(models.Model):
 class Blog(models.Model):
 
     header = models.CharField(max_length=64)
-    image = models.ImageField(
-        null=True, blank=True, upload_to="media/images/blogs"
-    )
+    image = models.ImageField(null=True, blank=True, upload_to="media/images/blogs")
     description = RichTextField(blank=True, null=True)
-    user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="blog"
-    )
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="blog")
     category = models.ForeignKey(
         BlogCategory, on_delete=models.CASCADE, related_name="blogs"
     )

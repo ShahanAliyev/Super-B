@@ -1,23 +1,21 @@
 from rest_framework.generics import (
-                                    RetrieveUpdateDestroyAPIView,
-                                    ListCreateAPIView,
-                                    )
+    RetrieveUpdateDestroyAPIView,
+    ListCreateAPIView,
+)
 from Blog.models import Blog, BlogCategory
-from .serializers import    (
-                            BlogSerializer, 
-                            BlogPostSerializer, 
-                            CategorySerializer, 
-                            CategoryPostSerializer,
-                            )
+from .serializers import (
+    BlogSerializer,
+    BlogPostSerializer,
+    CategorySerializer,
+    CategoryPostSerializer,
+)
 
 import django_filters.rest_framework
 from rest_framework import filters
-from rest_framework.permissions import (IsAuthenticatedOrReadOnly,
-                                        IsAuthenticated)
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 
 
 class GenericApiSerializerMixin:
-
     def get_serializer_class(self):
         return self.serializer_classes[self.request.method]
 
@@ -26,15 +24,24 @@ class BlogAPIView(GenericApiSerializerMixin, ListCreateAPIView):
 
     queryset = Blog.objects.all()
     permission_classes = (IsAuthenticated,)
-    filter_backends = [django_filters.rest_framework.DjangoFilterBackend, filters.SearchFilter]
-    filterset_fields = ['header', 'category',]
-    search_fields = ['user__username', 'header']
+    filter_backends = [
+        django_filters.rest_framework.DjangoFilterBackend,
+        filters.SearchFilter,
+    ]
+    filterset_fields = [
+        "header",
+        "category",
+    ]
+    search_fields = ["user__username", "header"]
     serializer_classes = {
         "POST": BlogPostSerializer,
         "GET": BlogSerializer,
     }
 
-class BlogRetriveUpdateDeleteView(GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView):
+
+class BlogRetriveUpdateDeleteView(
+    GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView
+):
 
     queryset = Blog.objects.all()
     serializer_classes = {
@@ -53,8 +60,9 @@ class CategoryAPIView(GenericApiSerializerMixin, ListCreateAPIView):
     }
 
 
-
-class CategoryRetriveUpdateDeleteView(GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView):
+class CategoryRetriveUpdateDeleteView(
+    GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView
+):
 
     queryset = BlogCategory.objects.all()
     serializer_classes = {

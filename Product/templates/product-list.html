@@ -111,11 +111,12 @@
 
                       </div>
                       <div class="actions">
-                        <button class="button btn-cart ajx-cart" title="Add to Cart" type="button"><span>Add to
-                            Cart</span></button>
                         <span class="add-to-links"> <a title="Add to Wishlist" class="button link-wishlist"
-                            value="{{ version.id }}"><span>Add to Wishlist</span></a> <a title="Add to Compare"
-                            class="button link-compare" href="#"><span>Add to Compare</span></a> </span>
+                          value="{{ version.id }}"><span>Add to Wishlist</span></a> <a title="Add to Compare"
+                          class="button link-compare" href="{% url 'product_detail' version.slug %}"><span>See More</span></a> </span>
+                          <button class="button btn-cart ajx-cart" title="Add to Cart" value="{{ version.id }}" type="button">
+                            <span>Add to Cart</span>
+                          </button>
                       </div>
                     </div>
                   </li>

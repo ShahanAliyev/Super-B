@@ -19,7 +19,7 @@
               <li><a href="{% url 'product_list' %}?category={{ version.product.category.parent.parent.name }}">{{ version.product.category.parent.parent.name }}</a></li>
               <li><a href="{% url 'product_list'%}?category={{ version.product.category.parent.name }}">{{ version.product.category.parent.name }}</a></li>
               <li><a href="{% url 'product_list'%}?category={{ version.product.category.name }}">{{ version.product.category.name }}</a></li>
-              <li></li>
+              <li><a>{{ version.product.brand.name }} {{ version.color.name }} {{ version.product.name }}</a></li>
             </ul>
           </div>
         </div>
@@ -95,12 +95,10 @@
                           type="button"><span>Add to Cart</span></button>
                       </div>
                       <div class="email-addto-box">
-                        <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>
+                        <!-- <p class="email-friend"><a href="#" class=""><span>Email to a Friend</span></a></p>F -->
                         <ul class="add-to-links">
-                          <li> <a class="link-wishlist" href="" id="add-to-wishlist" value="{{ version.id }}"><span>Add to Wishlist</span></a></li>
-                          <li><span class="separator">|</span> <a class="link-compare" href="#"><span>Add to
-                                Compare</span></a>
-                          </li>
+                            <li> <a class="link-wishlist" href="" id="add-to-wishlist" value="{{ version.id }}"><span>Add to Wishlist</span></a></li>
+                            </li>
                         </ul>
                       </div>
                     </div>
@@ -336,12 +334,6 @@
                             data-original-title="Quick View"> <span>Quick View</span></a></div>
                         <div value="{{ related.id }}" class="link-wishlist"><a  data-toggle="tooltip" data-placement="right" title=""
                             data-original-title="Wishlist"><span>Add to Wishlist</span></a></div>
-                        <div class="link-compare"><a href="#" data-toggle="tooltip" data-placement="right" title=""
-                            data-original-title="Compare"><span>Add to Compare</span></a></div>
-                        <div class="add_cart">
-                          <button class="button btn-cart" type="button" data-toggle="tooltip" data-placement="right"
-                            title="" data-original-title="Add to Cart"><span>Add to Cart</span></button>
-                        </div>
                       </div>
                       <div class="rating">
                         <div class="ratings">
@@ -369,6 +361,7 @@
                 </div>
               </div>
               {% endfor %}
+            </div>
             </div>
           </div>
         </div>
