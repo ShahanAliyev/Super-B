@@ -3,6 +3,7 @@
 //     let wishlists = await response.json();
 //     console.log(wishlists);
 // })
+const csrftoken = getCookie('csrftoken');
 
 
 let sizes = document.getElementsByClassName('versionsizes')
@@ -16,6 +17,8 @@ if (sizes) {
 
 
 let basket_buttons = document.getElementsByClassName('btn-cart');
+let remove_buttons = document.getElementsByClassName('btn-remove1');
+
 if (basket_buttons) {
     basket_buttons_function()
 }
@@ -43,6 +46,7 @@ function basket_buttons_function() {
                         'size': size_id,
                     }),
                 })
+                remove_buttons_function()
                 show_basket_items()
                 cart_dropdown.style.display = "block";
                 console.log(response.ok);
@@ -53,6 +57,7 @@ function basket_buttons_function() {
         })
     })
 }
+
 
 function sizes_function(event, size) {
 
@@ -65,6 +70,24 @@ function sizes_function(event, size) {
     } else {
         size.setAttribute('id', 'version_size')
     }
+}
+
+
+async function remove_buttons_function(){
+    Array.from(remove_buttons).forEach(remove_button=>{
+        remove_button.addEventListener('click', async function(event){
+            event.preventDefault()
+            let version = remove_button.getAttribute('value')
+            let response = await fetch(`/api/basket_items/${version}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': csrftoken
+                },
+                method: 'DELETE',
+            }); console.log(response.ok);
+               await show_basket_items()
+        })
+    })
 }
 
 
@@ -81,11 +104,7 @@ async function show_basket_items() {
               src="${item.version.images[0].image}" style="width:60px"; he></a>
           <div class="product-details">
             <div class="access">
-              <a class="btn-remove1" title="Remove This Item" href="#">Remove</a>
-              <a class="btn-edit" title="Edit item" href="#">
-                <i class="icon-pencil"></i>
-                <span class="hidden">Edit item</span>
-              </a>
+              <a class="btn-remove1" value=${item.id} title="Remove This Item">Remove</a>
             </div>
              <strong>Size: ${item.size.name} </strong>
              <strong>Count: ${item.count}</strong> x <span class="price">$${item.version.sell_price}</span>
@@ -94,5 +113,7 @@ async function show_basket_items() {
         </div>
         </li>
         `
-    })
+    }); await remove_buttons_function();
 }
+
+remove_buttons_function()

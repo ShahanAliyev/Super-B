@@ -1,4 +1,5 @@
 let form = document.getElementById("send2")
+
 form.addEventListener('submit', async function(event) {
     let postData = {
         username: form.username.value,

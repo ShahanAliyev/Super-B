@@ -26,7 +26,7 @@ class BasketApiView(ListCreateAPIView):
     serializer_class = BasketSerializer
 
 
-class BasketItemApiView(GenericApiSerializerMixin, ListCreateAPIView):
+class BasketItemsApiView(GenericApiSerializerMixin, ListCreateAPIView):
 
     serializer_classes = {
         "GET": BasketItemSerializer,
@@ -35,5 +35,18 @@ class BasketItemApiView(GenericApiSerializerMixin, ListCreateAPIView):
 
     def get_queryset(self):
         queryset = BasketItem.objects.filter(basket__user=self.request.user)
-        print(queryset)
+        return queryset
+
+
+class RetriveUpdateDeleteBasketItemApiView(GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView):
+
+    serializer_classes = {
+        "GET": BasketItemSerializer,
+        "PATCH": BasketItemPostSerializer,
+        "PUT": BasketItemPostSerializer,
+        "DELETE": BasketItemPostSerializer,
+    }
+
+    def get_queryset(self):
+        queryset = BasketItem.objects.filter(basket__user=self.request.user)
         return queryset

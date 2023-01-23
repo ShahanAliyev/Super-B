@@ -99,7 +99,7 @@
                               alt="{{basket_item.version.product.brand.name}} {{ basket_item.version.color.name }} {{ basket_item.version.product.name }}"
                               src="{{ basket_item.version.images.first.image.url }}"></a>
                           <div class="product-details">
-                            <div class="access"><a class="btn-remove1" title="Remove This Item" href="#">Remove</a>  </div>
+                            <div class="access"><a class="btn-remove1" value="{{ basket_item.id }}"  title="Remove This Item" href="">Remove</a>  </div>
                             <!--access--> <strong> Size: {{ basket_item.size.name }} Count: {{ basket_item.count }}</strong> x <span class="price">${{ basket_item.version.sell_price }}</span>
                             <p class="product-name"><a href="#">{{basket_item.version.product.brand.name}} {{ basket_item.version.color.name }} {{ basket_item.version.product.name }}</a></p>
                           </div>
@@ -608,6 +608,7 @@
 <script type="text/javascript" src="{% static 'js/common.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/owl.carousel.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.mobile-menu.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/basket.js' %}"></script>
 
 
 {% block js %}
