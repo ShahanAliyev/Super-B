@@ -1,8 +1,3 @@
-// window.addEventListener('load', async function() {
-//     let response =  await fetch('/api/wishlists/')
-//     let wishlists = await response.json();
-//     console.log(wishlists);
-// })
 const csrftoken = getCookie('csrftoken');
 
 

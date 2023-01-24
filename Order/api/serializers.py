@@ -90,7 +90,7 @@ class BasketItemPostSerializer(serializers.ModelSerializer):
         fields = ("basket", "version", "count", "size")
 
     def create(self, validated_data):
-        basket, _ = Basket.objects.get_or_create(
+        basket, created_now = Basket.objects.get_or_create(
             user=validated_data.get("user"), is_active=True
         )
         instance, created = BasketItem.objects.get_or_create(

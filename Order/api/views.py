@@ -10,6 +10,7 @@ from .serializers import (
 
 
 class GenericApiSerializerMixin:
+
     def get_serializer_class(self):
         return self.serializer_classes[self.request.method]
 
@@ -20,7 +21,13 @@ class WishlistApiView(GenericApiSerializerMixin, ListCreateAPIView):
     serializer_classes = {"GET": WishListSerializer, "POST": WishListPostSerializer}
 
 
-class BasketApiView(ListCreateAPIView):
+class BasketsApiView(ListCreateAPIView):
+
+    queryset = Basket.objects.all()
+    serializer_class = BasketSerializer
+
+
+class BasketApiView(RetrieveUpdateDestroyAPIView):
 
     queryset = Basket.objects.all()
     serializer_class = BasketSerializer
@@ -34,7 +41,7 @@ class BasketItemsApiView(GenericApiSerializerMixin, ListCreateAPIView):
     }
 
     def get_queryset(self):
-        queryset = BasketItem.objects.filter(basket__user=self.request.user)
+        queryset = BasketItem.objects.filter(basket__user=self.request.user, basket__is_active= True)
         return queryset
 
 
