@@ -16,6 +16,7 @@ if(wishlist_buttons){
             }),
         })
         console.log(response.ok);
+        alert('Wislist changed')
         } )
     })
 }

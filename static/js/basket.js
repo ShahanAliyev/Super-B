@@ -28,7 +28,7 @@ function basket_buttons_function() {
             event.preventDefault()
             let version = button.getAttribute('value')
             let final_size = document.getElementById('version_size')
-            if (final_size && sizes) {
+            if (final_size) {
                 let size_id = final_size.getAttribute('value')
                 let response = await fetch('/api/basket_items/', {
                     headers: {
@@ -47,7 +47,20 @@ function basket_buttons_function() {
                 console.log(response.ok);
             }
             else {
-                alert('Select size to add product to your basket')
+                let response = await fetch('/api/basket_items/', {
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': csrftoken
+                    },
+                    method: 'POST',
+                    body: JSON.stringify({
+                        'version': version,
+                    }),
+                })
+                remove_buttons_function()
+                show_basket_items()
+                cart_dropdown.style.display = "block";
+                console.log(response.ok);
             }
         })
     })

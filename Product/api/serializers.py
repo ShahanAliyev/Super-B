@@ -87,6 +87,7 @@ class ProductVersionGetSerializer(serializers.ModelSerializer):
 
         model = ProductVersion
         fields = (
+            "id",
             "product",
             "sell_price",
             "color",

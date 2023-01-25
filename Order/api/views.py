@@ -15,10 +15,26 @@ class GenericApiSerializerMixin:
         return self.serializer_classes[self.request.method]
 
 
-class WishlistApiView(GenericApiSerializerMixin, ListCreateAPIView):
+class WishlistsApiView(GenericApiSerializerMixin, ListCreateAPIView):
 
-    queryset = Wishlist.objects.all()
     serializer_classes = {"GET": WishListSerializer, "POST": WishListPostSerializer}
+
+    def get_queryset(self):
+        queryset = Wishlist.objects.filter(user = self.request.user)
+        return queryset
+
+
+class WishlistApiView(GenericApiSerializerMixin, RetrieveUpdateDestroyAPIView):
+
+    serializer_classes = {
+        "DELETE": WishListPostSerializer, 
+        "PATCH": WishListPostSerializer,
+        "PUT": WishListPostSerializer,
+        }
+
+    def get_queryset(self):
+        queryset = Wishlist.objects.filter(user = self.request.user)
+        return queryset
 
 
 class BasketsApiView(ListCreateAPIView):

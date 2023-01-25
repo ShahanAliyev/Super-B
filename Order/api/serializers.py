@@ -18,6 +18,7 @@ class WishListSerializer(serializers.ModelSerializer):
 
 
 class WishListPostSerializer(serializers.ModelSerializer):
+    
     class Meta:
         model = Wishlist
         fields = (
@@ -85,6 +86,7 @@ class BasketItemSerializer(serializers.ModelSerializer):
 
 
 class BasketItemPostSerializer(serializers.ModelSerializer):
+
     class Meta:
         model = BasketItem
         fields = ("basket", "version", "count", "size")

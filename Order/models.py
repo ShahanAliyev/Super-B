@@ -47,10 +47,14 @@ class BasketItem(models.Model):
         return f"{self.basket.user.username}'s basket item {self.version.id} {self.id}"
 
     def save(self, *args, **kwargs):
+        if not self.size:
+            self.size = self.version.details.first().size
+        
         self.subtotal = self.count * self.version.sell_price
         super().save()
         self.basket.like_save()
-
+        print(self.size)
+        
         return self
 
 class Wishlist(models.Model):
