@@ -10,7 +10,9 @@ class User(AbstractUser):
     image = models.ImageField(
         upload_to="images/avatars", default="default/admin-photo.jpg"
     )
-
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     # USERNAME_FIELD = 'email'
     # REQUIRED_FIELDS = ['username', ]
 
@@ -45,6 +47,21 @@ class ContactInformation(models.Model):
     default_billing_address = models.BooleanField(default=False)
     default_shipping_address = models.BooleanField(default=False)
 
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
     def __str__(self):
 
         return f"{self.first_name}' contact information "
+
+
+class SubsciriberEmail(models.Model):
+
+    email = models.EmailField(max_length = 64, unique = True)
+
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.email
+    

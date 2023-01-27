@@ -50,7 +50,7 @@ async function remove_wishlist_buttons_function(){
         })
     })
 }
-
+ 
 
 
 let turn_items_to_basket = document.getElementsByClassName('turn-items-to-basket')
@@ -90,6 +90,7 @@ async function send_to_basket(wishlist, version){
         show_basket_items()
         cart_dropdown.style.display = "block";
 }
+
 
 all_adder.addEventListener('click', async function(){
     Array.from(turn_items_to_basket).forEach(item => {

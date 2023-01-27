@@ -550,7 +550,8 @@
           <div class="footer-column-last">
             <div class="newsletter-wrap">
               <h4>Sign up for emails</h4>
-              <form id="newsletter-validate-detail" method="post" action="#">
+              <form id="newsletter-validate-detail" method="post">
+                {% csrf_token %}
                 <div id="container_form_news">
                   <div id="container_form_news2">
                     <input type="text" class="input-text required-entry validate-email" value="Enter your email address"
@@ -609,6 +610,7 @@
 <script type="text/javascript" src="{% static 'js/owl.carousel.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/jquery.mobile-menu.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/basket.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/subscribe.js' %}"></script>
 
 
 {% block js %}
