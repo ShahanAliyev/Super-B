@@ -2,6 +2,8 @@ from django.shortcuts import render, redirect
 from .forms import ContactUsForm
 from django.urls import reverse_lazy
 from django.contrib import messages
+from django.http import HttpResponse
+from .tasks import export
 
 
 def error(request):
@@ -38,3 +40,7 @@ def faq(request):
 
 def index(request):
     return render(request, "index.html")
+
+def export_view(request):
+    export.delay()
+    return HttpResponse('<h1 style="color:red;">Export edildi</h1>')

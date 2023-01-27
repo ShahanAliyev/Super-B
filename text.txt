@@ -66,3 +66,16 @@ brand_product_count
 brand = Brand.objects.filter(name="Pull&Bear").first()
 products = brand.products.all()
 products.aggregate(versions=Count('versions'))['versions']
+
+
+
+Celery Redis
+
+docker ps -a
+docker exec -it b11bd77797fe /bin/sh
+python -m celery -A SuperB  worker -l info
+python -m celery -A SuperB worker -l info --without-gossip --without-mingle --without-heartbeat -Ofair --pool=solo
+
+Celery Beat for periodic or scheduled tasks
+
+celery -A SuperB beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
