@@ -16,6 +16,7 @@ form.addEventListener('submit', function (event) {
       .then((response) => {
         if (response.ok){
             alert('Succesfully Registered')
+            // email.innerHTML = 's'
         }else{
             alert('Something went wrong, please try again')
         }

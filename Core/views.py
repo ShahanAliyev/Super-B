@@ -4,11 +4,22 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from django.http import HttpResponse
 from .tasks import export
+from django.views.generic import ListView
+from Blog.models import Blog
 
 
 def error(request):
     return render(request, "404error.html")
 
+
+# class SendEmailview(ListView):
+
+#     template_name = 'email-subscribers.html'
+#     queryset = Blog.objects.all()
+#     context_object_name = 'blogs'
+
+# def send_email(request):
+#     return render(request, "email-subscribers.html")
 
 def about_us(request):
     return render(request, "about_us.html")

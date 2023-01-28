@@ -131,3 +131,8 @@ dmypy.json
 .pyre/
 env
 pgdb
+
+
+celerybeat-schedule.bak
+celerybeat-schedule.dat
+celerybeat-schedule.dir

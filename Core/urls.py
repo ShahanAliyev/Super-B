@@ -1,5 +1,9 @@
 from django.urls import path
-from .views import error, about_us, contact_us, faq, index, export_view
+from .views import (
+        error, about_us, contact_us,
+        faq, index, export_view
+        # ,SendEmailview
+        ) 
 
 urlpatterns = [
     path("", index, name="index"),
@@ -8,4 +12,5 @@ urlpatterns = [
     path("contact_us/", contact_us, name="contact_us"),
     path("faq/", faq, name="faq"),
     path("export/", export_view, name="export"),
+    # path("subscribe/", SendEmailview.as_view(), name="subscribe"),
 ]

@@ -6,6 +6,9 @@ from django.utils.http import urlsafe_base64_encode
 from django.template.loader import render_to_string
 from .tokens import account_activation_token
 
+from celery import shared_task
+from .models import SubsciriberEmail
+from Blog.models import Blog
 
 def send_confirmation_mail(user, current_site):
 
@@ -25,6 +28,28 @@ def send_confirmation_mail(user, current_site):
     host = settings.EMAIL_HOST_USER
     mail = EmailMultiAlternatives(
         subject=subject, body=message, from_email=host, to=recipient
+    )
+    mail.content_subtype = "html"
+    mail.send()
+
+
+@shared_task
+def send_mail_to_subscribers():
+
+    email_list = SubsciriberEmail\
+        .objects.values_list('email', flat = True)
+    blogs = Blog.objects.all()
+
+    message = render_to_string(
+        "email-subscribers.html",
+        {
+            'blogs': blogs
+        },
+    )
+    subject = "Lern about SuperB blogs"
+    host = settings.EMAIL_HOST_USER
+    mail = EmailMultiAlternatives(
+        subject=subject, body=message, from_email=host, to=email_list
     )
     mail.content_subtype = "html"
     mail.send()

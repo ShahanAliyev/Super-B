@@ -73,9 +73,14 @@ Celery Redis
 
 docker ps -a
 docker exec -it b11bd77797fe /bin/sh
+
 python -m celery -A SuperB  worker -l info
 python -m celery -A SuperB worker -l info --without-gossip --without-mingle --without-heartbeat -Ofair --pool=solo
 
 Celery Beat for periodic or scheduled tasks
 
 celery -A SuperB beat -l info --scheduler django_celery_beat.schedulers:DatabaseScheduler
+
+To work with tasks both have to be used
+celery -A SuperB beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
+celery -A SuperB worker --pool=solo -l info
