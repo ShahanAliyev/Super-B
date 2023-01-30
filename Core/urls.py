@@ -1,9 +1,13 @@
 from django.urls import path
 from .views import (
-        error, about_us, contact_us,
-        faq, index, export_view
-        # ,SendEmailview
-        ) 
+    error,
+    about_us,
+    contact_us,
+    faq,
+    index,
+    export_view,
+    # ,SendEmailview
+)
 
 urlpatterns = [
     path("", index, name="index"),

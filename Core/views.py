@@ -6,20 +6,12 @@ from django.http import HttpResponse
 from .tasks import export
 from django.views.generic import ListView
 from Blog.models import Blog
+from django.utils.translation import gettext_lazy as _
 
 
 def error(request):
     return render(request, "404error.html")
 
-
-# class SendEmailview(ListView):
-
-#     template_name = 'email-subscribers.html'
-#     queryset = Blog.objects.all()
-#     context_object_name = 'blogs'
-
-# def send_email(request):
-#     return render(request, "email-subscribers.html")
 
 def about_us(request):
     return render(request, "about_us.html")
@@ -37,7 +29,7 @@ def contact_us(request):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                "Your Contact Informations have been saved successfully ",
+                _("Your Contact Informations have been saved successfully "),
             )
             return redirect(reverse_lazy("contact_us"))
 
@@ -51,6 +43,7 @@ def faq(request):
 
 def index(request):
     return render(request, "index.html")
+
 
 def export_view(request):
     export.delay()

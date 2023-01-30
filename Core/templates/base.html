@@ -1,4 +1,6 @@
 {% load static %}
+{% load i18n %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -50,21 +52,25 @@
         <div class="row">
           <!-- Header Language -->
           <div class="col-xs-7 col-sm-6">
-            <div class="dropdown block-language-wrapper hidden-xs"> <a role="button" data-toggle="dropdown"
-                data-target="#" class="block-language dropdown-toggle" href="#"> <img
-                  src="{% static 'images/english.png' %}" alt="language"> English <span class="caret"></span> </a>
-              <ul class="dropdown-menu" role="menu">
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img
-                      src="{% static 'images/english.png' %}" alt="language"> English </a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img
-                      src="{% static 'images/francais.png' %}" alt="language"> French </a></li>
-                <li role="presentation"><a role="menuitem" tabindex="-1" href="#"><img
-                      src="{% static 'images/german.png' %}" alt="language"> German </a></li>
-              </ul>
+            
+            <div class="dropdown block-language-wrapper hidden-xs">
+              <div class="dropdown block-language-wrapper hidden-xs"> <a role="button" data-toggle="dropdown" data-target="#" class="block-language dropdown-toggle" href="#">Language <span class="caret"></span> </a>
+                <ul class="dropdown-menu" role="menu">
+                  {% get_current_language as CURRENT_LANGUAGE %}
+                  {% get_available_languages as AVAILABLE_LANGUAGES %}
+                  {% get_language_info_list for AVAILABLE_LANGUAGES as languages %}
+                  
+                  <div class="container">              
+                    
+                    <div class="languages">
+                        {% for language in languages %}
+                          <p role="presentation"><a role="menuitem" tabindex="-1" href="/{{ language.code }}/" {% if language.code == CURRENT_LANGUAGE %} class="active"{% endif %}>{{ language.name_local }}</a></p>
+                        {% endfor %}
+                    </div>
+                </ul>
+              </div>
             </div>
-            <!-- End Header Language -->
 
-            <!-- Header Currency -->
             <div class="dropdown block-currency-wrapper hidden-xs"> <a role="button" data-toggle="dropdown"
                 data-target="#" class="block-currency dropdown-toggle" href="#"> USD <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
@@ -75,33 +81,38 @@
             </div>
             <!-- End Header Currency -->
 
-            <div class="welcome-msg hidden-xs"> Default welcome msg! </div>
+            <div class="welcome-msg hidden-xs"> {% trans 'Welcome' %} </div>
           </div>
           <div class="col-xs-5 col-sm-6">
 
             <div class="top-cart-contain pull-right">
               <!-- Top Cart -->
               <div class="mini-cart">
-                <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"><a href="#"> My Cart
-                    <span class="cart_count">2</span></a></div>
+                <div data-toggle="dropdown" data-hover="dropdown" class="basket dropdown-toggle"><a href="#">
+                    {% trans 'My Cart' %} <span class="cart_count"></span></a></div>
                 <div>
                   <div class="top-cart-content" id="cart-dropdown" style="display: none;">
                     <div class="actions">
-                      <button class="btn-checkout" title="Checkout" type="button"><span>Checkout</span></button>
-                      <a href="#" class="view-cart"><span>View Cart</span></a>
+                      <button class="btn-checkout" title="Checkout" type="button"><span>{% trans 'Checkout'
+                          %}</span></button>
+                      <a href="#" class="view-cart"><span>{% trans 'View Cart' %}</span></a>
                     </div>
                     <!--block-subtitle-->
                     <ul class="mini-products-list" id="cart-sidebar">
                       {% for basket_item in basket_items %}
                       <li class="item last">
                         <div class="item-inner"><a class="product-image"
-                            title="{{basket_item.version.product.brand.name}} {{ basket_item.version.color.name }} {{ basket_item.version.product.name }}" href="#"><img
+                            title="{{basket_item.version.product.brand.name}} {{ basket_item.version.color.name }} {{ basket_item.version.product.name }}"
+                            href="#"><img
                               alt="{{basket_item.version.product.brand.name}} {{ basket_item.version.color.name }} {{ basket_item.version.product.name }}"
                               src="{{ basket_item.version.images.first.image.url }}"></a>
                           <div class="product-details">
-                            <div class="access"><a class="btn-remove1" value="{{ basket_item.id }}"  title="Remove This Item" href="">Remove</a>  </div>
-                            <!--access--> <strong> Size: {{ basket_item.size.name }} Count: {{ basket_item.count }}</strong> x <span class="price">${{ basket_item.version.sell_price }}</span>
-                            <p class="product-name"><a href="#">{{basket_item.version.product.brand.name}} {{ basket_item.version.color.name }} {{ basket_item.version.product.name }}</a></p>
+                            <div class="access"><a class="btn-remove1" value="{{ basket_item.id }}"
+                                title="Remove This Item" href="">Remove</a> </div>
+                            <!--access--> <strong> Size: {{ basket_item.size.name }} Count: {{ basket_item.count
+                              }}</strong> x <span class="price">${{ basket_item.version.sell_price }}</span>
+                            <p class="product-name"><a href="#">{{basket_item.version.product.brand.name}} {{
+                                basket_item.version.color.name }} {{ basket_item.version.product.name }}</a></p>
                           </div>
                         </div>
                       </li>
@@ -151,18 +162,19 @@
             <div class="toplinks">
               <div class="links">
 
-                <div class="myaccount"><a title="My Account" href="{% url 'index' %}"><span class="hidden-xs">My
-                      Account</span></a></div>
-                <div class="check"><a title="Checkout" href="{% url 'checkout' %}"><span
-                      class="hidden-xs">Checkout</span></a></div>
-                <div class="demo"><a title="Blog" href="{% url 'blog' %}"><span class="hidden-xs">Blog</span></a></div>
+                <div class="myaccount"><a title="My Account" href="{% url 'index' %}"><span class="hidden-xs">
+                      {% trans 'My Account' %}</span></a></div>
+                <div class="demo"><a title="Blog" href="{% url 'blog' %}"><span class="hidden-xs">{% trans 'Blog'
+                      %}</span></a></div>
                 <!-- Header Company -->
 
                 <!-- End Header Company -->
                 {% if user.is_authenticated %}
-                <div class="login"><a href="{% url 'logout' %}"><span class="hidden-xs">Log Out</span></a></div>
+                <div class="login"><a href="{% url 'logout' %}"><span class="hidden-xs">{% trans 'Log out' %}</span></a>
+                </div>
                 {% else %}
-                <div class="login"><a href="{% url 'login' %}"><span class="hidden-xs">Log In</span></a></div>
+                <div class="login"><a href="{% url 'login' %}"><span class="hidden-xs">{% trans 'Log in' %}</span></a>
+                </div>
                 {% endif %}
 
               </div>
@@ -235,6 +247,8 @@
           <li class="level1"><a href="{% url 'error' %}"><span>404 Error Page</span></a> </li>
         </ul>
       </li>
+    </ul>
+    <ul class="nav hidden-xs menu-item menu-item-right">
       <li class="mega-menu"><a href="grid.html" class="level-top"><span>Women</span></a>
         <div style="left: 0px; display: none;" class="level0-wrapper dropdown-6col">
           <div class="container">
@@ -375,88 +389,6 @@
         </div>
       </li>
     </ul>
-    <ul class="nav hidden-xs menu-item menu-item-right">
-      <li class="mega-menu"><a href="grid.html" class="level-top"><span>Electronics</span></a>
-        <div style="left: 0px; display: none;" class="level0-wrapper dropdown-6col">
-          <div class="container">
-            <div class="level0-wrapper2">
-              <div class="nav-block nav-block-center">
-                <ul class="level0">
-                  <li class="level1 nav-6-1 parent item"><a href="#/mobiles.html"><span>Mobiles</span></a>
-                    <ul class="level1">
-                      <li class="level2 nav-6-1-1"><a href="#/mobiles/samsung.html"><span>Samsung</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/mobiles/nokia.html"><span>Nokia</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/mobiles/iphone.html"><span>IPhone</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/mobiles/sony.html"><span>Sony</span></a></li>
-                    </ul>
-                  </li>
-                  <li class="level1 nav-6-1 parent item"><a href="#.html" class=""><span>Accesories</span></a>
-                    <ul class="level1">
-                      <li class="level2 nav-6-1-1"><a href="#/mobile-memory-cards.html"><span>Mobile Memory
-                            Cards</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/cases-covers.html"><span>Cases &amp; Covers</span></a>
-                      </li>
-                      <li class="level2 nav-6-1-1"><a href="#/mobile-haedphones.html"><span>Mobile Headphones</span></a>
-                      </li>
-                      <li class="level2 nav-6-1-1"><a href="#/bluetooth-headsets.html"><span>Bluetooth
-                            Headsets</span></a></li>
-                    </ul>
-                  </li>
-                  <li class="level1 nav-6-1 parent item"><a href="#/cameras.html"><span>Cameras</span></a>
-                    <ul class="level1">
-                      <li class="level2 nav-6-1-1"><a href="#/cameras/camcorders.html"><span>Camcorders</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/cameras/point-shoot.html"><span>Point &amp;
-                            Shoot</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/cameras/digital-slr.html"><span>Digital SLR</span></a>
-                      </li>
-                      <li class="level2 nav-6-1-1"><a href="#camera-accesories.html"><span>Camera Accesories</span></a>
-                      </li>
-                    </ul>
-                  </li>
-                  <li class="level1 nav-6-1 parent item"><a href="#/audio-video.html"><span>Audio &amp; Video</span></a>
-                    <ul class="level1">
-                      <li class="level2 nav-6-1-1"><a href="#/audio-video/mp3-players.html"><span>MP3 Players</span></a>
-                      </li>
-                      <li class="level2 nav-6-1-1"><a href="#/audio-video/ipods.html"><span>IPods</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/audio-video/speakers.html"><span>Speakers</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/audio-video/video-players.html"><span>Video
-                            Players</span></a></li>
-                    </ul>
-                  </li>
-                  <li class="level1 nav-6-1 parent item"><a href="#/computer.html"><span>Computer</span></a>
-                    <ul class="level1">
-                      <li class="level2 nav-6-1-1"><a href="#/external-hard-disk.html"><span>External Hard
-                            Disk</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/computer/pendrives.html"><span>Pendrives</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/computer/headphones.html"><span>Headphones</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/computer/pc-components.html"><span>PC
-                            Components</span></a></li>
-                    </ul>
-                  </li>
-                  <li class="level1 nav-6-1 parent item"><a href="#/home-appliances.html"><span>Appliances</span></a>
-                    <ul class="level1">
-                      <li class="level2 nav-6-1-1"><a href="#/vaccum-cleaners.html"><span>Vaccum Cleaners</span></a>
-                      </li>
-                      <li class="level2 nav-6-1-1"><a href="#/indoor-lighting.html"><span>Indoor Lighting</span></a>
-                      </li>
-                      <li class="level2 nav-6-1-1"><a href="#/kitchen-tools.html"><span>Kitchen Tools</span></a></li>
-                      <li class="level2 nav-6-1-1"><a href="#/water-purifier.html"><span>Water Purifier</span></a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-            </div>
-            <!--level0-wrapper2-->
-
-          </div>
-        </div>
-      </li>
-      <li class="mega-menu"><a class="level-top" href="grid.html"><span>Furniture</span></a>
-
-      </li>
-      <li class="level0 nav-8 level-top"><a href="grid.html" class="level-top"><span>Kids</span></a></li>
-
-    </ul>
   </div>
 </nav>
 <!-- end nav -->
@@ -514,42 +446,36 @@
       <div class="row">
         <div class="col-sm-12 col-xs-12 col-lg-8">
           <div class="footer-column pull-left">
-            <h4>CUSTOMMER SERVICE</h4>
+            <h4>{% trans 'Costumer Service' %}</h4>
             <ul class="links">
-              <li class="first"><a href="#" title="Contact us">My Account</a></li>
-              <li><a href="#" title="About us">Order History</a></li>
-              <li><a href="{% url 'faq' %}" title="faq">FAQ</a></li>
-              <li><a href="#" title="Popular Searches">Specials</a></li>
-              <li class="last"><a href="#" title="Where is my order?">Help Center</a></li>
+              <li class="first"><a href="#" title="Contact us">{% trans 'My Account' %}</a></li>
+              <li><a href="#" title="About us">{% trans 'Order History' %}</a></li>
+              <li><a href="{% url 'faq' %}" title="faq">{% trans 'FAQ' %}</a></li>
+              <li><a href="#" title="Popular Searches">{% trans 'Specials' %}</a></li>
+              <li class="last"><a href="#" title="Where is my order?">{% trans 'Help Center' %}</a></li>
+            </ul>
+          </div>
+          <div class="footer-column pull-left">
+            <h4>{% trans 'Corporation' %}</h4>
+            <ul class="links">
+              <li class="first"><a title="Your Account" href="{% url 'about_us' %}">{% trans 'About Us' %}</a></li>
+              <li><a title="Information" href="#">{% trans 'Customer Service' %}</a></li>
 
             </ul>
           </div>
           <div class="footer-column pull-left">
-            <h4>Corporation</h4>
+            <h4>{% trans 'Why Choose Us' %}</h4>
             <ul class="links">
-              <li class="first"><a title="Your Account" href="{% url 'about_us' %}">About us</a></li>
-              <li><a title="Information" href="#">Customer Service</a></li>
-              <li><a title="Addresses" href="#">Company</a></li>
-              <li><a title="Addresses" href="#">Investor Relations</a></li>
-              <li class="last"><a title="Orders History" href="#">Advanced Search</a></li>
-
-            </ul>
-          </div>
-          <div class="footer-column pull-left">
-            <h4>Why choose Us</h4>
-            <ul class="links">
-              <li class="first"><a href="#" title="About us">Shopping Guide</a></li>
-              <li><a href="{% url 'blog' %}" title="Blog">Blog</a></li>
-              <li><a href="#" title="Company">Company</a></li>
-              <li><a href="#" title="Investor Relations">Investor Relations</a></li>
-              <li class=" last"><a href="{% url 'contact_us' %}" title="Suppliers">Contact Us</a></li>
+              <li class="first"><a href="#" title="About us">{% trans 'Shopping Guide' %}</a></li>
+              <li><a href="{% url 'blog' %}" title="Blog">{% trans 'Blog' %}</a></li>
+              <li class=" last"><a href="{% url 'contact_us' %}" title="Suppliers">{% trans 'Contact Us' %}</a></li>
             </ul>
           </div>
         </div>
         <div class="col-xs-12 col-lg-4">
           <div class="footer-column-last">
             <div class="newsletter-wrap">
-              <h4>Sign up for emails</h4>
+              <h4>{% trans 'Sign Up for Emails' %}</h4>
               <form id="newsletter-validate-detail" method="post">
                 {% csrf_token %}
                 <div id="container_form_news">
@@ -563,7 +489,7 @@
             </div>
             <br>
             <div class="social">
-              <h4>Follow Us</h4>
+              <h4>{% trans 'Follow Us' %}</h4>
               <ul class="link">
                 <li class="fb pull-left"><a href="#"></a></li>
                 <li class="tw pull-left"><a href="#"></a></li>
@@ -592,7 +518,7 @@
   <div class="footer-bottom">
     <div class="container">
       <div class="row">
-        <div class="col-sm-12 col-xs-12 coppyright">&copy; 2016 ThemesGround. All Rights Reserved.</div>
+        <div class="col-sm-12 col-xs-12 coppyright">&copy; Shahan. All Rights Reserved.</div>
 
       </div>
     </div>
