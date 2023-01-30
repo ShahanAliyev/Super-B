@@ -12,6 +12,7 @@ from django.utils.http import urlsafe_base64_decode
 from .tokens import account_activation_token
 from django.utils.encoding import force_str
 from .tasks import send_confirmation_mail
+from django.utils.translation import gettext_lazy as _
 
 
 User = get_user_model()
@@ -37,7 +38,7 @@ def contact_information(request):
             messages.add_message(
                 request,
                 messages.SUCCESS,
-                "Your Contact Informations have been saved successfully ",
+                _("Your Contact Informations have been saved successfully"),
             )
             return redirect(reverse_lazy("contact_information"))
 
@@ -87,8 +88,8 @@ class ActivateAccoontView(View):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
-            messages.success(self.request, "Your account created succesfully")
+            messages.success(self.request, _("Your account created succesfully"))
             return redirect(reverse_lazy("login"))
         else:
-            messages.warning(self.request, "Something went wrong")
+            messages.warning(self.request, _("Something went wrong, try again."))
             return redirect(reverse_lazy("register"))

@@ -15,17 +15,6 @@ from .models import (
 
 admin.site.register(Discount)
 
-# admin.site.register(Color)
-# admin.site.register(Size)
-# admin.site.register(Brand)
-# admin.site.register(VersionReview)
-# admin.site.register(Product)
-# admin.site.register(ProductVersionDetail)
-# admin.site.register(ProductVersion)
-# admin.site.register(VersionImage)
-# admin.site.register(Category)
-
-
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
 

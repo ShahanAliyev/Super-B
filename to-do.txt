@@ -1,6 +1,5 @@
 to-do for tomorrow
 
- Social Login
  Multilanguage
 
  only brand admin can add product ???

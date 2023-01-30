@@ -5,6 +5,7 @@ from .forms import VersionReviewForm
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from .models import Product, Category, Color, Brand, Size, ProductVersion
+from django.utils.translation import gettext_lazy as _
 
 
 def product_detail(request):
@@ -109,8 +110,8 @@ class ProductDetailView(DetailView, CreateView):
             form.instance.user = request.user
             form.instance.version = version
             form.save()
-
+            messages.add_message(request, messages.SUCCESS, _("Your Review was sent succesfully "))
         else:
-            messages.add_message(request, messages.WARNING, "Unsuccessfull")
+            messages.add_message(request, messages.WARNING, _("Your review was not sent"))
 
         return redirect("product_detail", self.kwargs["slug"])

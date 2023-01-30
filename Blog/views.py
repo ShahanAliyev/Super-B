@@ -4,6 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView
 from .models import Blog, BlogCategory, BlogComment
 from .forms import BlogCommentForm, AuthBlogCommentForm
 from django.contrib import messages
+from django.utils.translation import gettext_lazy as _
 
 
 class BlogView(ListView):
@@ -57,8 +58,15 @@ class BlogDetailView(DetailView, CreateView):
             form.instance.blog = blog.first()
             if form.is_valid():
                 form.save()
+                messages.add_message(
+                    request, messages.SUCCESS, _("Your Comment was sent succesfully ")
+                )
             else:
-                messages.add_message(request, messages.WARNING, "Unsuccessfull")
+                messages.add_message(
+                    request,
+                    messages.WARNING,
+                    _("Something happened, please try again "),
+                )
             return redirect("blog_detail", self.kwargs["pk"])
 
         else:
@@ -71,8 +79,15 @@ class BlogDetailView(DetailView, CreateView):
 
             if form.is_valid():
                 form.save()
+                messages.add_message(
+                    request, messages.SUCCESS, _("Your Comment was sent succesfully ")
+                )
             else:
-                messages.add_message(request, messages.WARNING, "Unsuccessfull")
+                messages.add_message(
+                    request,
+                    messages.WARNING,
+                    _("Something happened, please try again "),
+                )
             return redirect("blog_detail", self.kwargs["pk"])
 
     def get_context_data(self, **kwargs):
