@@ -52,6 +52,10 @@
                   </ul>
                   {% endfor %}
                   <p class="required">* Required Fields</p>
+                  <div class="container">
+                    <a href="{% url 'social:begin' 'facebook' %}" class="social"><i class="fa fa-facebook social-login" style="font-size: 24px; color: #0D8BF0;"></i></a>
+                    <a href="{% url 'social:begin' 'google-oauth2' %}" class="social"><i class="fa fa-google-plus social-login" style="font-size: 24px; color: rgb(243, 4, 4);"></i></a>
+                  </div>
                   <div class="buttons-set">
                     <button id="send2" name="" type="submit" class="button login"><span>Login</span></button>
                     <a class="forgot-word" href="{% url 'reset_password' %}">Forgot Your Password?</a>

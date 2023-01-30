@@ -3,7 +3,6 @@ to-do for tomorrow
  Social Login
  Multilanguage
 
- Login with GWT
  only brand admin can add product ???
  After generic views were created. Go back to django tags and filters
  

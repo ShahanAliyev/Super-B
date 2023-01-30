@@ -71,6 +71,7 @@ class RegisterView(CreateView):
 
 
 class ActivateAccoontView(View):
+
     def get(self, *args, **kwargs):
 
         uidb64 = kwargs["uidb64"]
@@ -79,6 +80,7 @@ class ActivateAccoontView(View):
         try:
             uid = force_str(urlsafe_base64_decode(uidb64))
             user = User.objects.get(pk=uid)
+            
         except (TypeError, ValueError, OverflowError, User.DoesNotExist):
             user = None
 

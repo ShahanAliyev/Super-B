@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     "django_filters",
     "corsheaders",
     "django_celery_beat",
+    "social_django",
 ]
 
 MIDDLEWARE = [
@@ -68,7 +69,6 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "SuperB.urls"
 AUTH_USER_MODEL = "User.User"
-
 
 TEMPLATES = [
     {
@@ -87,7 +87,27 @@ TEMPLATES = [
     },
 ]
 
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.google.GoogleOAuth2',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+
+LOGIN_URL = '/login/'
+LOGIN_REDIRECT_URL = 'index'
+LOGOUT_URL = 'logout'
+LOGOUT_REDIRECT_URL = 'index'
+
+
+SOCIAL_AUTH_FACEBOOK_KEY = '1831470200545752'
+SOCIAL_AUTH_FACEBOOK_SECRET = '771f48e6e344989f22ce1cc72bc08584'
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '158926944213-fq2jh75bcp8lq8kh9kql3pka52042hni.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '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'
+
 WSGI_APPLICATION = "SuperB.wsgi.application"
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 CORS_ALLOW_ALL_ORIGINS = True
 
@@ -168,8 +188,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
-LOGIN_REDIRECT_URL = "index"
-LOGOUT_REDIRECT_URL = "index"
 
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
 EMAIL_FILE_PATH = BASE_DIR / "sent_emails"
