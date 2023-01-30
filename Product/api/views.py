@@ -9,7 +9,9 @@ from .serializers import (
     ProductVersionGetSerializer,
     BrandGetSerializer,
 )
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
+from rest_framework.permissions import (
+    IsAuthenticatedOrReadOnly,
+    IsAuthenticated)
 
 
 class CategoryApiView(ListAPIView):

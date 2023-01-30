@@ -7,7 +7,7 @@ User = get_user_model()
 
 class BlogCategory(models.Model):
 
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32) #db_index = True
     image = models.ImageField(null=True, blank=True, upload_to="images/blog_categories")
 
     created_at = models.DateTimeField(auto_now_add=True)
@@ -17,9 +17,9 @@ class BlogCategory(models.Model):
 
         verbose_name_plural = "Blog Categories"
         ordering = ["updated_at"]  # ? order randomly
+        indexes = [models.Index(fields = ['name'])]
 
     def __str__(self):
-
         return f"{self.name} {self.id}"
 
 
@@ -38,8 +38,10 @@ class Blog(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return f"{self.user.username}'s blog - {self.header}"
+
+    class Meta:
+        indexes = [models.Index(fields = ['header'])]
 
 
 class BlogComment(models.Model):
@@ -66,5 +68,4 @@ class BlogComment(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return f"{self.name}'s comment to {self.id}"

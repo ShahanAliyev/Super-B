@@ -21,14 +21,13 @@ class Category(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
-    class Meta:
+    def __str__(self):
+        return f"{self.name} {self.parent}"
 
+    class Meta:
         verbose_name_plural = "Categories"
         ordering = ["updated_at"]  # ? order randomly
-
-    def __str__(self):
-
-        return f"{self.name} {self.parent}"
+        indexes = [models.Index(fields = ['name'])]
 
 
 class Brand(models.Model):
@@ -45,6 +44,10 @@ class Brand(models.Model):
     def __str__(self):
         return f"{self.name} {self.id}"
 
+    class Meta:
+        # db_tablespace = 'brand'
+        indexes = [models.Index(fields = ['name'])]
+
 
 class Product(models.Model):
 
@@ -59,8 +62,11 @@ class Product(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return f"{self.name} {self.id}"
+
+    class Meta:
+        # db_tablespace = 'product'
+        indexes = [models.Index(fields = ['name'])]
 
 
 class Discount(models.Model):
@@ -72,19 +78,17 @@ class Discount(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return f"{self.amount} {self.is_percentage}"
 
 
 class Color(models.Model):
 
-    name = models.CharField(max_length=32)
+    name = models.CharField(max_length=32) #db_index = True
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return f"{self.name}"
 
 
@@ -96,7 +100,6 @@ class Size(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return f"{self.name}"
 
 
@@ -164,7 +167,6 @@ class ProductVersionDetail(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return f"{self.version.color.name} {self.version.product.name}'s details {self.size.name} {self.count}"
 
 
@@ -180,7 +182,6 @@ class VersionImage(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-
         return (
             f"{self.version.color.name} {self.version.product.name}'s image {self.id}"
         )
@@ -214,7 +215,6 @@ class VersionReview(models.Model):
         return f"{self.user.username}'s review {self.id} to { self.version }"
 
     def save(self, *args, **kwargs):
-
         self.avarege_rating = ((self.price + self.value + self.quality) * 20) / 3
         super(VersionReview, self).save(*args, **kwargs)
         self.version.save()

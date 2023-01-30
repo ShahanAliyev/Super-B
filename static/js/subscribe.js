@@ -10,13 +10,13 @@ form.addEventListener('submit', function (event) {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': csrftoken,
+        'Authorization': ''
       },
       body: JSON.stringify(data),
     })
       .then((response) => {
         if (response.ok){
             alert('Succesfully Registered')
-            // email.innerHTML = 's'
         }else{
             alert('Something went wrong, please try again')
         }

@@ -13,3 +13,5 @@ function getCookie(name) {
     }
     return cookieValue;
 }
+
+let userDetail = JSON.parse(localStorage.getItem('user-detail'));

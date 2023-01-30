@@ -10,8 +10,6 @@ Recipe.objects.aggregate(Max('id))
 Recipe.objects.aggregate(Avg('id))
 
 
-after generic views were created. Go back to django tags and filters
-
 
 
 shell

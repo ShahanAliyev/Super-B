@@ -1,12 +1,19 @@
-interests table for each user
+to-do for tomorrow
 
-create some functionality that allows user to write scripts (even for hacking) with ckeditor 
+ Social Login
+ Multilanguage
 
-countries should retrive with api 
+ Login with GWT
+ only brand admin can add product ???
+ After generic views were created. Go back to django tags and filters
+ 
+ Signals and Midlewares
+ Redis
+ Testing !!!
 
+ cookies session
+ Adding wishlist for unauthenticated user
+ interests table for each user
+ countries should retrive with api
+ Currency
 
-today 
-
-admin
-
-only brand admin can add product

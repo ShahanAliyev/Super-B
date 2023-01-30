@@ -7,6 +7,10 @@ from .serializers import (
     WishListPostSerializer,
     BasketItemPostSerializer,
 )
+from rest_framework.permissions import (
+    IsAuthenticated,
+    IsAuthenticatedOrReadOnly 
+    )
 
 
 class GenericApiSerializerMixin:
@@ -54,10 +58,15 @@ class BasketItemsApiView(GenericApiSerializerMixin, ListCreateAPIView):
     serializer_classes = {
         "GET": BasketItemSerializer,
         "POST": BasketItemPostSerializer,
-    }
+    }    
+    permission_classes = [IsAuthenticated]
+
 
     def get_queryset(self):
-        queryset = BasketItem.objects.filter(basket__user=self.request.user, basket__is_active= True)
+        if self.request.user.is_anonymous:
+            queryset = BasketItem.objects.all()
+        else:
+            queryset = BasketItem.objects.filter(basket__user=self.request.user, basket__is_active= True)
         return queryset
 
 
@@ -71,5 +80,8 @@ class RetriveUpdateDeleteBasketItemApiView(GenericApiSerializerMixin, RetrieveUp
     }
 
     def get_queryset(self):
-        queryset = BasketItem.objects.filter(basket__user=self.request.user)
+        if self.request.user.is_anonymous:
+            queryset = BasketItem.objects.all()
+        else:
+            queryset = BasketItem.objects.filter(basket__user=self.request.user)
         return queryset
