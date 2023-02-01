@@ -1,11 +1,7 @@
 to-do for tomorrow
 
- Multilanguage
-
- only brand admin can add product ???
  After generic views were created. Go back to django tags and filters
  
- Signals and Midlewares
  Redis
  Testing !!!
 
@@ -14,4 +10,4 @@ to-do for tomorrow
  interests table for each user
  countries should retrive with api
  Currency
-
+ 

@@ -2,6 +2,10 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.db.models import F, Sum, Avg, Count
+from django.dispatch import receiver
+from django.db.models.signals import (
+    pre_save
+)
 
 User = get_user_model()
 
@@ -124,13 +128,8 @@ class ProductVersion(models.Model):
         return f"{self.color} {self.product.name}"
 
     def save(self, *args, **kwargs):
-        # created
         if not self.id:
             super(ProductVersion, self).save(*args, **kwargs)
-
-        self.slug = slugify(
-            f"{self.product.brand.name}-{self.product.name}-{self.color.name}"
-        )
 
         if self.reviews.count() != 0:
             self.raiting = self.reviews.aggregate(avg=Avg("avarege_rating"))["avg"]
@@ -153,6 +152,13 @@ class ProductVersion(models.Model):
             self.sell_price = final_price
 
         super(ProductVersion, self).save(*args, **kwargs)
+
+@receiver(pre_save, sender = ProductVersion)
+def version_pre_save(instance, sender, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(
+            f"{instance.product.brand.name}-{instance.product.name}-{instance.color.name}"
+        )
 
 
 class ProductVersionDetail(models.Model):

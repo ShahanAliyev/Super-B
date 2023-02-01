@@ -133,3 +133,5 @@ env
 pgdb
 
 media
+mmain.py
+test_mmain.py

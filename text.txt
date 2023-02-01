@@ -82,3 +82,23 @@ celery -A SuperB beat -l info --scheduler django_celery_beat.schedulers:Database
 To work with tasks both have to be used
 celery -A SuperB beat -l INFO --scheduler django_celery_beat.schedulers:DatabaseScheduler
 celery -A SuperB worker --pool=solo -l info
+
+Template tags and filters
+{{ text|truncatewords:"2" }}
+{{ text|truncatechars:"2" }}
+
+
+templatetags -> custom_tags.py
+
+from django.template import Library
+from Order.models import Basket_items
+
+register = LibrarY()
+@register.simple_tag
+def get_basket_items():
+    return Basket_items.objects.all()
+
+{% load custom_tags %}
+
+{% get_basket_items as basket_items %}
+{% for basket_item in basket_items %}

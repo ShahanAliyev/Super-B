@@ -1,6 +1,11 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
+from django.utils.text import slugify
+from django.dispatch import receiver
+from django.db.models.signals import (
+    pre_save,
+)
 
 User = get_user_model()
 
@@ -33,6 +38,7 @@ class Blog(models.Model):
         BlogCategory, on_delete=models.CASCADE, related_name="blogs"
     )
     read_count = models.PositiveIntegerField(default=0)
+    slug = models.SlugField(null = True, blank = True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -42,6 +48,21 @@ class Blog(models.Model):
 
     class Meta:
         indexes = [models.Index(fields=["header"])]
+
+@receiver(pre_save, sender = Blog)
+def blog_pre_save(instance,sender,*args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.header)
+
+
+# @receiver(post_save, sender = Blog)
+# def blog_post_created_handler(sender, instance, created, *args, **kwargs):
+#     if created: 
+#         print('created')
+#     else:
+#         print(instance)
+
+# pre_save.connect(blog_post_created_handler, sender = Blog)
 
 
 class BlogComment(models.Model):
@@ -69,3 +90,4 @@ class BlogComment(models.Model):
 
     def __str__(self):
         return f"{self.name}'s comment to {self.id}"
+

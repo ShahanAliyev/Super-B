@@ -42,7 +42,7 @@ class BlogDetailView(DetailView, CreateView):
 
     def get(self, request, *args, **kwargs):
 
-        blog = Blog.objects.filter(id=self.kwargs["pk"]).first()
+        blog = Blog.objects.filter(slug=self.kwargs["slug"]).first()
         blog.read_count += 1
         blog.save()
 
@@ -50,7 +50,7 @@ class BlogDetailView(DetailView, CreateView):
 
     def post(self, request, *args, **kwargs):
 
-        blog = Blog.objects.filter(id=self.kwargs["pk"])
+        blog = Blog.objects.filter(id=self.kwargs["slug"])
 
         if request.user.is_anonymous:
 
@@ -67,7 +67,7 @@ class BlogDetailView(DetailView, CreateView):
                     messages.WARNING,
                     _("Something happened, please try again "),
                 )
-            return redirect("blog_detail", self.kwargs["pk"])
+            return redirect("blog_detail", self.kwargs["slug"])
 
         else:
 
@@ -93,7 +93,6 @@ class BlogDetailView(DetailView, CreateView):
     def get_context_data(self, **kwargs):
 
         context = super(BlogDetailView, self).get_context_data(**kwargs)
-        context["comments"] = BlogComment.objects.filter(blog__id=self.kwargs["pk"])
-        print(BlogComment.objects.filter(blog__id=self.kwargs["pk"]))
+        context["comments"] = BlogComment.objects.filter(blog__slug=self.kwargs["slug"])
 
         return context
