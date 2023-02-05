@@ -7,13 +7,33 @@ from django.shortcuts import render, redirect
 from .models import Product, Category, Color, Brand, Size, ProductVersion
 from django.utils.translation import gettext_lazy as _
 
+from django.core.cache import cache
+from django.conf import settings
+from django.core.cache.backends.base import DEFAULT_TIMEOUT
+from django.views.decorators.cache import never_cache
+from django.utils.decorators import method_decorator
+
+CACHE_TTL = getattr(settings, 'CACHE_TTL', DEFAULT_TIMEOUT)
+
 
 def product_detail(request):
     return render(request, "product-detail.html")
 
 
 def quick_view(request):
-    return render(request, "quick_view.html")
+    if 'brand_count' in cache:
+        brand_count = cache.get('brand_count')
+        print("CACHE")
+    else:
+        brand_count = Brand.objects.all().count()
+        cache.set('brand_count', brand_count, timeout = CACHE_TTL)
+        print("NOT CACHE")
+    
+    context = {
+        'brand_count': brand_count
+    }
+
+    return render(request, "quick_view.html", context)
 
 
 class ProductListView(ListView):
@@ -22,6 +42,11 @@ class ProductListView(ListView):
     template_name = "product-list.html"
     context_object_name = "versions"
     paginate_by = 4
+
+
+    @method_decorator(never_cache)
+    def dispatch(self, request, *args,  **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

@@ -2,7 +2,7 @@ let form = document.getElementById('newsletter-validate-detail')
 
 form.addEventListener('submit', function (event) {
     event.preventDefault()
-    
+    let token = localStorage.getItem('user-token')
     let email = document.getElementById('newsletter')
     let data = {email: email.value}
     fetch('/api/subscribers/', {
@@ -10,7 +10,6 @@ form.addEventListener('submit', function (event) {
       headers: {
         'Content-Type': 'application/json',
         'X-CSRFToken': csrftoken,
-        'Authorization': ''
       },
       body: JSON.stringify(data),
     })

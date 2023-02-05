@@ -102,3 +102,6 @@ def get_basket_items():
 
 {% get_basket_items as basket_items %}
 {% for basket_item in basket_items %}
+
+
+py manage.py clearcache 
