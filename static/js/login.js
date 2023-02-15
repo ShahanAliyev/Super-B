@@ -5,7 +5,7 @@ login_form.addEventListener('submit', async function(event) {
         username: login_form.username.value,
         password: login_form.password.value
     }
-    let response = await fetch(`/api/token/`, {
+    let response = await fetch(`/en/api/token/`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json"

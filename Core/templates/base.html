@@ -93,8 +93,7 @@
                 <div>
                   <div class="top-cart-content" id="cart-dropdown" style="display: none;">
                     <div class="actions">
-                      <button class="btn-checkout" title="Checkout" type="button"><span>{% trans 'Checkout'
-                          %}</span></button>
+                      <button class="btn-checkout" title="Checkout" type="button"><span>{% trans 'Checkout' %}</span></button>
                       <a href="#" class="view-cart"><span>{% trans 'View Cart' %}</span></a>
                     </div>
                     <!--block-subtitle-->
@@ -109,10 +108,10 @@
                           <div class="product-details">
                             <div class="access"><a class="btn-remove1" value="{{ basket_item.id }}"
                                 title="Remove This Item" href="">Remove</a> </div>
-                            <!--access--> <strong> Size: {{ basket_item.size.name }} Count: {{ basket_item.count
-                              }}</strong> x <span class="price">${{ basket_item.version.sell_price }}</span>
-                            <p class="product-name"><a href="#">{{basket_item.version.product.brand.name}} {{
-                                basket_item.version.color.name }} {{ basket_item.version.product.name }}</a></p>
+                            <!--access--> <strong> Size: {{ basket_item.size.name }} Count: {{ basket_item.count }}
+                            </strong> x <span class="price">${{ basket_item.version.sell_price }}</span>
+                            <p class="product-name"><a href="#">{{basket_item.version.product.brand.name}}
+                              {{ basket_item.version.color.name }} {{ basket_item.version.product.name }}</a></p>
                           </div>
                         </div>
                       </li>
@@ -164,8 +163,7 @@
 
                 <div class="myaccount"><a title="My Account" href="{% url 'index' %}"><span class="hidden-xs">
                       {% trans 'My Account' %}</span></a></div>
-                <div class="demo"><a title="Blog" href="{% url 'blog' %}"><span class="hidden-xs">{% trans 'Blog'
-                      %}</span></a></div>
+                <div class="demo"><a title="Blog" href="{% url 'blog' %}"><span class="hidden-xs">{% trans 'Blog' %}</span></a></div>
                 <!-- Header Company -->
 
                 <!-- End Header Company -->

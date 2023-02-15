@@ -5,7 +5,7 @@ form.addEventListener('submit', function (event) {
     let token = localStorage.getItem('user-token')
     let email = document.getElementById('newsletter')
     let data = {email: email.value}
-    fetch('/api/subscribers/', {
+    fetch('/en/api/subscribers/', {
       method: 'POST', // or 'PUT'
       headers: {
         'Content-Type': 'application/json',

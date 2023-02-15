@@ -30,7 +30,7 @@ function basket_buttons_function() {
             let final_size = document.getElementById('version_size')
             if (final_size) {
                 let size_id = final_size.getAttribute('value')
-                let response = await fetch('/api/basket_items/', {
+                let response = await fetch('/en/api/basket_items/', {
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken
@@ -47,7 +47,7 @@ function basket_buttons_function() {
                 console.log(response.ok);
             }
             else {
-                let response = await fetch('/api/basket_items/', {
+                let response = await fetch('/en/api/basket_items/', {
                     headers: {
                         'Content-Type': 'application/json',
                         'X-CSRFToken': csrftoken
@@ -86,7 +86,7 @@ async function remove_buttons_function(){
         remove_button.addEventListener('click', async function(event){
             event.preventDefault()
             let version = remove_button.getAttribute('value')
-            let response = await fetch(`/api/basket_items/${version}`, {
+            let response = await fetch(`/en/api/basket_items/${version}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken
@@ -100,7 +100,7 @@ async function remove_buttons_function(){
 
 
 async function show_basket_items() {
-    let response = await fetch('/api/basket_items/');
+    let response = await fetch('/en/api/basket_items/');
     let items = await response.json()
     cart_sidebar.innerHTML = ''
     Array.from(items).forEach(item => {

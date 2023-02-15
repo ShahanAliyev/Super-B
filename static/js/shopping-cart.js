@@ -4,7 +4,7 @@ let empty_cart_button = document.getElementById('empty_cart_button')
 
 
 async function retrive_basket_items(){
-    let response = await fetch('/api/basket_items/')
+    let response = await fetch('/en/api/basket_items/')
     let items = await response.json()
     await use_items(items)
 }
@@ -37,7 +37,7 @@ async function remove_items_buttons_function(){
         remove_item_button.addEventListener('click', async function(){
             let version = remove_item_button.getAttribute('value')
             items_parent.innerHTML =''
-            let response = await fetch(`/api/basket_items/${version}`, {
+            let response = await fetch(`/en/api/basket_items/${version}`, {
                 headers: {
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken
@@ -65,7 +65,7 @@ update_cart.addEventListener('click', function(){
 
 async function refresh_from_db(a,b,c){
     if (a != b){
-        let response = await fetch(`/api/basket_items/${c}`, {
+        let response = await fetch(`/en/api/basket_items/${c}`, {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken
@@ -82,7 +82,7 @@ async function refresh_from_db(a,b,c){
 
 empty_cart_button.addEventListener('click', async function(){
     let basket_id = empty_cart_button.getAttribute('value')
-    let response = await fetch(`/api/baskets/${basket_id}`, {
+    let response = await fetch(`/en/api/baskets/${basket_id}`, {
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken

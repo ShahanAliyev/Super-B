@@ -5,7 +5,7 @@ if(wishlist_buttons){
         button.addEventListener('click', async function(event) {
             event.preventDefault()
             let version = button.getAttribute('value')
-            let response = await fetch('/api/wishlists/', {
+            let response = await fetch('/en/api/wishlists/', {
             headers: {
                 'Content-Type': 'application/json',
                 'X-CSRFToken': csrftoken

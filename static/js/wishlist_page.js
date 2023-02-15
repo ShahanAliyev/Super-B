@@ -3,7 +3,7 @@ let all_adder = document.getElementById('add-all-to-cart')
 
 
 async function get_wislist_items() {
-    let response = await fetch('/api/wishlists/')
+    let response = await fetch('/en/api/wishlists/')
     let wishlist_items = await response.json()
     wishlist_items_parent.innerHTML = ''
     Array.from(wishlist_items).forEach(wishlist_item => {
@@ -39,7 +39,7 @@ async function remove_wishlist_buttons_function(){
         Array.from(remove_wishlist_buttons).forEach(remove_wishlist_button => {
         remove_wishlist_button.addEventListener('click', async function(){
             wishlist_id = remove_wishlist_button.getAttribute('value')
-            let remove_response = await fetch(`/api/wishlists/${wishlist_id}`, {
+            let remove_response = await fetch(`/en/api/wishlists/${wishlist_id}`, {
                 headers:{
                     'Content-Type': 'application/json',
                     'X-CSRFToken': csrftoken
@@ -68,14 +68,14 @@ async function remove_and_add_basket(){
 
 async function send_to_basket(wishlist, version){
     
-    let remove_wislist_response = await fetch(`/api/wishlists/${wishlist}`, {
+    let remove_wislist_response = await fetch(`/en/api/wishlists/${wishlist}`, {
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,
         },
         method: "DELETE",
     });
-    let add_to_basket_response = await fetch('/api/basket_items/', {
+    let add_to_basket_response = await fetch('/en/api/basket_items/', {
         headers: {
             'Content-Type': 'application/json',
             'X-CSRFToken': csrftoken,

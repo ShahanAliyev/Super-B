@@ -72,7 +72,7 @@ Celery Redis
 docker ps -a
 docker exec -it b11bd77797fe /bin/sh
 
-python -m celery -A SuperB  worker -l info
+python -m celery -A SuperB  worker -l info -D (D(detach) enables celery to work in background, to stop worker we should use pkill -f "celery -A app name control shotdown" ) 
 python -m celery -A SuperB worker -l info --without-gossip --without-mingle --without-heartbeat -Ofair --pool=solo
 
 Celery Beat for periodic or scheduled tasks

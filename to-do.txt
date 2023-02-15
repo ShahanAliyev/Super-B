@@ -1,11 +1,7 @@
 to-do for tomorrow
 
- After generic views were created. Go back to django tags and filters
- 
- Redis
- Testing !!!
-
  cookies session
+  
  Adding wishlist for unauthenticated user
  interests table for each user
  countries should retrive with api

@@ -66,7 +66,7 @@ class BasketItemsApiView(GenericApiSerializerMixin, ListCreateAPIView):
         if self.request.user.is_anonymous:
             queryset = BasketItem.objects.all()
         else:
-            queryset = BasketItem.objects.filter(basket__user=self.request.user, basket__is_active= True)
+            queryset = BasketItem.objects.filter(basket__user=self.request.user, basket__is_active=True)
         return queryset
 
 
