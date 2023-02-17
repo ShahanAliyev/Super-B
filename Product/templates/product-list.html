@@ -197,15 +197,11 @@
                 <div class="block-title"> Recently Viewed </div>
                 <div class="block-content">
                   <ol id="recently-viewed-items">
+                    {% for recent in recents %}
                     <li class="item odd">
-                      <p class="product-name"><a href="#"> Retis lapen casen</a></p>
+                        <p class="product-name"><a href="{% url 'product_detail' recent.slug %}">{{ recent.product.brand.name}} {{ recent.color.name }} {{ recent.product.name }}</a></p>
                     </li>
-                    <li class="item even">
-                      <p class="product-name"><a href="#"> Retis lapen casen</a></p>
-                    </li>
-                    <li class="item last odd">
-                      <p class="product-name"><a href="#"> Retis lapen casen</a></p>
-                    </li>
+                    {% endfor %}
                   </ol>
                 </div>
               </div>

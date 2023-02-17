@@ -55,6 +55,12 @@ class ProductListView(ListView):
         context["brands"] = Brand.objects.all()
         context["sizes"] = Size.objects.all()
         context["products"] = Product.objects.all()
+        if 'recently_viewed' in self.request.session:
+            products = ProductVersion.objects.filter(pk__in = self.request.session['recently_viewed'])
+            recently_viewed = sorted(products,
+                key = lambda x: self.request.session['recently_viewed'].index(x.id)
+                                     )
+            context["recents"] = recently_viewed
 
         context["name"] = "name"
         context["price"] = "price"
@@ -111,6 +117,23 @@ class ProductDetailView(DetailView, CreateView):
     template_name = "product-detail.html"
     model = ProductVersion
     form_class = VersionReviewForm
+
+    def get(self, request,*args, **kwargs):
+        slug = self.kwargs.get(self.slug_url_kwarg)
+        version = ProductVersion.objects.filter(slug=slug).first()
+
+        if 'recently_viewed' in self.request.session:
+            if version.id in self.request.session['recently_viewed']:
+                self.request.session['recently_viewed'].remove(version.id)
+            self.request.session['recently_viewed'].insert(0,version.id)
+            if len(self.request.session['recently_viewed']) > 5:
+                self.request.session['recently_viewed'].pop()
+        else:
+            self.request.session['recently_viewed'] = [version.id]
+        
+        self.request.session.modified = True
+
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
 

@@ -1,9 +1,12 @@
 to-do for tomorrow
 
- cookies session
-  
- Adding wishlist for unauthenticated user
- interests table for each user
- countries should retrive with api
- Currency
+recently viewed
+checkout
+
+payment
+convert order to excel
+
+Currency
+dockerization 
+ 
  
