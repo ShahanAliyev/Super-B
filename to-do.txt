@@ -1,12 +1,9 @@
 to-do for tomorrow
 
-recently viewed
-checkout
-
-payment
-convert order to excel
-
 Currency
+payment
+
+convert order to excel
 dockerization 
  
  

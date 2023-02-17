@@ -13,6 +13,7 @@ from .tokens import account_activation_token
 from django.utils.encoding import force_str
 from .tasks import send_confirmation_mail
 from django.utils.translation import gettext_lazy as _
+from .models import ContactInformation
 
 
 User = get_user_model()
@@ -26,29 +27,27 @@ def address_book(request):
     return render(request, "address_book.html")
 
 
-def contact_information(request):
 
-    form = ContactInformationForm()
+def forgot_password(request):
+    return render(request, "forgot_password.html")
 
-    if request.method == "POST":
 
+class ContactInformationView(CreateView):
+
+    form_class = ContactInformationForm
+    template_name = "contact_information.html"
+
+    def post(self, request, *args: str, **kwargs):
         form = ContactInformationForm(data=request.POST)
         if form.is_valid():
+            form.instance.user = request.user
             form.save()
             messages.add_message(
                 request,
                 messages.SUCCESS,
                 _("Your Contact Informations have been saved successfully"),
             )
-            return redirect(reverse_lazy("contact_information"))
-
-    context = {"form": form}
-    return render(request, "contact_information.html", context)
-
-
-def forgot_password(request):
-    return render(request, "forgot_password.html")
-
+            return redirect(reverse_lazy("checkout"))
 
 class CustomLoginView(LoginView):
 

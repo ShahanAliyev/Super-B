@@ -42,7 +42,7 @@
                   </thead>
                   <tfoot>
                     <tr class="first last">
-                      <td class="a-right last" colspan="50"><button onclick="" class="button btn-continue" title="Continue Shopping" type="button"><span>Continue Shopping</span></button>
+                      <td class="a-right last" colspan="50"><a href="{% url 'product_list' %}"><button onclick="" class="button btn-continue" title="Continue Shopping" type="button"><span>Continue Shopping</span></button></a>
                         {% csrf_token %}
                         <button class="button btn-update" title="Update Cart" value="update_qty" name="update_cart_action" id="update-cart" type="button"><span>Update Cart</span></button>
                         {% csrf_token %}
@@ -77,7 +77,7 @@
                   </table>
                   <ul class="checkout">
                     <li>
-                      <button class="button btn-proceed-checkout" title="Proceed to Checkout" type="button"><span>Proceed to Checkout</span></button>
+                      <button class="button btn-proceed-checkout" title="Proceed to Checkout" type="button"><a href="{% url 'checkout' %}"><span>Proceed to Checkout</span></a></button>
                     </li>
                     <br>
                     <li><a title="Checkout with Multiple Addresses" href="#">Checkout with Multiple Addresses</a> </li>

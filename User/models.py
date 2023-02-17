@@ -46,8 +46,8 @@ class ContactInformation(models.Model):
         blank=True,
     )
     postal_code = models.CharField(max_length=8, null=True, blank=True)
-    default_billing_address = models.BooleanField(default=False)
-    default_shipping_address = models.BooleanField(default=False)
+    default_billing_address = models.BooleanField(default=True)
+    default_shipping_address = models.BooleanField(default=True)
 
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)

@@ -2,18 +2,20 @@ from django.urls import path, include
 from .views import (
     account_information,
     address_book,
-    contact_information,
     forgot_password,
 )
 
-from .views import CustomLoginView, ActivateAccoontView, RegisterView
+from .views import (
+        CustomLoginView, ActivateAccoontView,
+        RegisterView, ContactInformationView
+)
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     path("account_information/", account_information, name="account_information"),
     path("address_book/", address_book, name="address_book"),
-    path("contact_information/", contact_information, name="contact_information"),
+    path("contact_information/", ContactInformationView.as_view(), name="contact_information"),
     path("login/", CustomLoginView.as_view(), name="login"),
     path("logout/", LogoutView.as_view(), name="logout"),
     path("register/", RegisterView.as_view(), name="register"),
