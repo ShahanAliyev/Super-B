@@ -1,111 +1,188 @@
 ﻿{% extends 'base.html' %}
 {% load static %}
 {% block title %}
-  <title>Superb, premium HTML5 &amp; CSS3 template</title>
+<title>Superb, premium HTML5 &amp; CSS3 template</title>
 {% endblock %}
 
 
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="{% static 'css/internal.css' %}">
-  <link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}" media="all">
+<link rel="stylesheet" type="text/css" href="{% static 'css/internal.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'css/animate.css' %}" media="all">
 {% endblock %}
 
 
 <body class="onestepcheckout-index-index inner-page">
-<div id="page"> 
-  
-  
-{% block content %}
-  <!-- Main Container -->
-  <section class="main-container col2-right-layout bounceInUp animated">
-    <div class="main container">
-      <div class="row">
-        <div class="col-main col-sm-9">
-          <div class="page-title">
-            <h1>Checkout</h1>
-          </div>
-          <ol class="one-page-checkout" id="checkoutSteps">
-            <li id="opc-billing" class="section allow active">
-              <div class="step-title"> <span class="number">1</span>
-                <h3>Checkout Method</h3>
-              </div>
-              <div id="checkout-step-billing" class="step a-item" >
-                <form id="co-billing-form" >
-                  <fieldset class="group-select">
-                    <ul>
-                      <li>
-                        <label for="billing-address-select">Select a billing and shipping address.</label>
-                        <br>
-                        <select name="" id="billing-address-select" class="address-select" title="" onChange="">
-                          <option value="1" selected="selected">{{ billing_address.first_name }}
-                            {{ billing_address.last_name }}
-                            {{ billing_address.address1 }}
-                            {{ billing_address.get_country_display }}
-                          </option>
-                        </select>
-                      </li>
-                      <br>
-                    </ul>
-                    <a href="{% url 'shopping_cart' %}"><button type="button" class="button continue" ><span>Check Shopping cart</span></button></a>
-                    <br> <br>
-                    <a href=""><button type="button" class="button continue" ><span>Continue checkout</span></button></a>
-                  </fieldset>
-                </form>
-              </div>
-            </li>
-          </ol>
-        </div>
-        <aside class="col-right sidebar col-sm-3">
-          <div class="block block-progress">
-            <div class="block-title ">Your Checkout</div>
-            <div class="block-content">
-              <dl>
-                <dt class="complete"> Billing Address </dt>
-                <dd class="complete">
-                  <address>
-                  {{ billing_address.first_name }}<br>
-                  {{ billing_address.last_name }}<br>
-                  {{ billing_address.phone }}<br>
-                  {{ billing_address.address1 }}<br>
-                  {{ billing_address.address2 }}<br>
-                  {{ billing_address.get_country_display }}<br>
-                  {{ billing_address.city }}<br>
-                  {{ billing_address.phone }}<br>
-                  </address>
-                </dd>
-                <dt class="complete"> Shipping Address <span class="separator"></dt>
-                <dd class="complete">
-                  <address>
-                    {{ shipping_address.first_name }}<br>
-                    {{ shipping_address.last_name }}<br>
-                    {{ shipping_address.phone }}<br>
-                    {{ shipping_address.address1 }}<br>
-                    {{ shipping_address.address2 }}<br>
-                    {{ shipping_address.get_country_display }}<br>
-                    {{ shipping_address.city }}<br>
-                    {{ shipping_address.phone }}<br>
-                    </address>
-                </dd>
-                <dd class="complete"> Flat Rate - Fixed <br>
-                  <span class="price">$49.00</span> </dd>
-              </dl>
+  <div id="page">
+
+
+    {% block content %}
+    <!-- Main Container -->
+    <section class="main-container col2-right-layout bounceInUp animated">
+      <div class="main container">
+        <div class="row">
+          <div class="col-main col-sm-9">
+            <div class="page-title">
+              <h1>Checkout</h1>
             </div>
+            <ol class="one-page-checkout" id="checkoutSteps">
+              <li id="opc-billing" class="section allow active">
+                <div class="step-title"> <span class="number">1</span>
+                  <h3>Checkout Method</h3>
+                </div>
+                <div id="checkout-step-billing" class="step a-item">
+                  <form id="co-billing-form">
+                    <fieldset class="group-select">
+                      <ul>
+                        <li>
+                          <label for="billing-address-select">Select a billing and shipping address.</label>
+                          <br>
+                          <select name="" id="billing-address-select" class="address-select" title="" onChange="">
+                            <option value="1" selected="selected">{{ billing_address.first_name }}
+                              {{ billing_address.last_name }}
+                              {{ billing_address.address1 }}
+                              {{ billing_address.get_country_display }}
+                            </option>
+                          </select>
+                        </li>
+                        <br>
+                      </ul>
+                      <a href="{% url 'shopping_cart' %}"><button type="button" class="button"><span>Check
+                            Shopping cart</span></button></a>
+                      <br> <br>
+                      <button id="continue-checkout" type="button" class="button continue"><span>Continue
+                            checkout</span></button>
+                    </fieldset>
+                  </form>
+                  <br>
+                  <!-- Set up a container element for the button -->
+                  <div id="paypal-button-container" style="display: none;"></div>
+
+                  <!-- Include the PayPal JavaScript SDK -->
+                  <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD&disable-funding=credit"></script>
+                  <script>
+                      let continueCheckout = document.getElementById('continue-checkout')
+                      let payment = document.getElementById('paypal-button-container')
+                          continueCheckout.addEventListener('click', function(){
+                            continueCheckout.style.display = 'none'
+                            payment.style.display = 'block'
+                          })
+                  </script>
+
+                  <script>
+                    // Render the PayPal button into #paypal-button-container
+                    paypal.Buttons({
+
+                      // Call your server to set up the transaction
+                      createOrder: function (data, actions) {
+                        return fetch('/demo/checkout/api/paypal/order/create/', {
+                          method: 'post'
+                        }).then(function (res) {
+                          return res.json();
+                        }).then(function (orderData) {
+                          return orderData.id;
+                        });
+                      },
+
+                      // Call your server to finalize the transaction
+                      onApprove: function (data, actions) {
+                        return fetch('/demo/checkout/api/paypal/order/' + data.orderID + '/capture/', {
+                          method: 'post'
+                        }).then(function (res) {
+                          return res.json();
+                        }).then(function (orderData) {
+                          // Three cases to handle:
+                          //   (1) Recoverable INSTRUMENT_DECLINED -> call actions.restart()
+                          //   (2) Other non-recoverable errors -> Show a failure message
+                          //   (3) Successful transaction -> Show confirmation or thank you
+
+                          // This example reads a v2/checkout/orders capture response, propagated from the server
+                          // You could use a different API or structure for your 'orderData'
+                          var errorDetail = Array.isArray(orderData.details) && orderData.details[0];
+
+                          if (errorDetail && errorDetail.issue === 'INSTRUMENT_DECLINED') {
+                            return actions.restart(); // Recoverable state, per:
+                            // https://developer.paypal.com/docs/checkout/integration-features/funding-failure/
+                          }
+
+                          if (errorDetail) {
+                            var msg = 'Sorry, your transaction could not be processed.';
+                            if (errorDetail.description) msg += '\n\n' + errorDetail.description;
+                            if (orderData.debug_id) msg += ' (' + orderData.debug_id + ')';
+                            return alert(msg); // Show a failure message (try to avoid alerts in production environments)
+                          }
+
+                          // Successful capture! For demo purposes:
+                          console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                          var transaction = orderData.purchase_units[0].payments.captures[0];
+                          alert('Transaction ' + transaction.status + ': ' + transaction.id + '\n\nSee console for all available details');
+
+                          // Replace the above to show a success message within this page, e.g.
+                          // const element = document.getElementById('paypal-button-container');
+                          // element.innerHTML = '';
+                          // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                          // Or go to another URL:  actions.redirect('thank_you.html');
+                        });
+                      }
+
+                    }).render('#paypal-button-container');
+                  </script>
+                </div>
+              </li>
+            </ol>
           </div>
-        </aside>
+          <aside class="col-right sidebar col-sm-3">
+            <div class="block block-progress">
+              <div class="block-title ">Your Checkout</div>
+              <div class="block-content">
+                <dl>
+                  <dt class="complete"> Billing Address </dt>
+                  <dd class="complete">
+                    <address>
+                      {{ billing_address.first_name }}<br>
+                      {{ billing_address.last_name }}<br>
+                      {{ billing_address.phone }}<br>
+                      {{ billing_address.address1 }}<br>
+                      {{ billing_address.address2 }}<br>
+                      {{ billing_address.get_country_display }}<br>
+                      {{ billing_address.city }}<br>
+                      {{ billing_address.phone }}<br>
+                    </address>
+                  </dd>
+                  <dt class="complete"> Shipping Address <span class="separator"></dt>
+                  <dd class="complete">
+                    <address>
+                      {{ shipping_address.first_name }}<br>
+                      {{ shipping_address.last_name }}<br>
+                      {{ shipping_address.phone }}<br>
+                      {{ shipping_address.address1 }}<br>
+                      {{ shipping_address.address2 }}<br>
+                      {{ shipping_address.get_country_display }}<br>
+                      {{ shipping_address.city }}<br>
+                      {{ shipping_address.phone }}<br>
+                    </address>
+                  </dd>
+                  <dd class="complete"> Flat Rate - Fixed <br>
+                    <span class="price">$49.00</span>
+                  </dd>
+                </dl>
+              </div>
+            </div>
+          </aside>
+        </div>
       </div>
-    </div>
-  </section>
-  <!-- Main Container End --> 
-{% endblock %}
+    </section>
+    <!-- Main Container End -->
+    {% endblock %}
 
-</div>
-{% block footer %}
+  </div>
+  {% block footer %}
 
-{% endblock %}
-{% block js %}
-  <script type="text/javascript" src="{% static 'js/parallax.js' %}"></script> 
-  <script type="text/javascript" src="{% static 'js/jquery.flexslider.js' %}"></script> 
+  {% endblock %}
+  {% block js %}
+  <script type="text/javascript" src="{% static 'js/parallax.js' %}"></script>
+  <script type="text/javascript" src="{% static 'js/jquery.flexslider.js' %}"></script>
   <script type="text/javascript" src="{% static 'js/cloud-zoom.js' %}"></script>
-{% endblock %}
+  {% endblock %}
 </body>
+
 </html>

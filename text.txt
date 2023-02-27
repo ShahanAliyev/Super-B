@@ -104,4 +104,10 @@ def get_basket_items():
 {% for basket_item in basket_items %}
 
 
-py manage.py clearcache 
+py manage.py clearcache
+
+
+dump db
+docker exec -t 6aa61207109b  pg_dumpall -c -U user > dump_new.sql
+restore db
+cat dump_new.sql | docker exec -i 6aa61207109b psql -U user -d superb

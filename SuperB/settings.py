@@ -26,7 +26,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure--*a6k6b+d52==cv+mx4w#v5v*d92*@5t7ijsdo3bfw&zojuvi0"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False if os.environ.get('DEBUG') else True
+PROD = not DEBUG
 
 ALLOWED_HOSTS = ["*"]
 
@@ -143,11 +144,11 @@ REST_FRAMEWORK = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "superb",
-        "USER": "user",
-        "PORT": 5432,
-        "HOST": "localhost",
-        "PASSWORD": "12345",
+        "NAME": os.environ.get( "POSTGRES_DB" ,"superb"),
+        "USER": os.environ.get( "POSTGRES_USER" ,"user"),
+        "PORT": os.environ.get( "POSTGRES_PORT" ,"5432"),
+        "HOST": os.environ.get( "POSTGRES_HOST" ,"localhost"),
+        "PASSWORD": os.environ.get( "POSTGRES_PASSWORD", "12345"),
     }
 }
 
@@ -196,7 +197,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = "static/"
-STATICFILES_DIRS = [BASE_DIR / "static/"]
+
+if PROD:
+    STATIC_ROOT = BASE_DIR / "static/"
+    # STATIC_ROOT = os.path.join(BASE_DIR, "static/")
+else:
+    STATICFILES_DIRS = [BASE_DIR / "static/"]
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
 
@@ -249,8 +256,8 @@ SIMPLE_JWT = {
 
 
 # CELERY_BROKER_URL = "redis://localhost:6379"
-BROKER_URL = "redis://localhost:6379"
-CELERY_RESULT_BACKEND = "redis://localhost:6379"
+BROKER_URL = f"redis://( {os.environ.get('REDIS_HOST')} ,'localhost'):6379"
+CELERY_RESULT_BACKEND = f"redis://( {os.environ.get('REDIS_HOST')} ,'localhost'):6379"
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_RESULT_SERIALIZER = 'json'

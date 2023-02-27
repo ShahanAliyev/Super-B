@@ -1,6 +1,15 @@
 version: '3.1'
 
 services:
+  nginx:
+    build: ./nginx
+    ports:
+      - 80:80
+    depends_on:
+      - web
+    volumes:
+      - ./static/:/code/static
+      - ./media/:/code/media
 
   db:
     image: postgres
@@ -9,18 +18,31 @@ services:
       - ./pgdb:/var/lib/postgresql/data 
     ports:
       - 5432:5432
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: 12345
-      POSTGRES_DB: superb
-
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8080:8080
+    env_file: .env
 
   redisdb:
     image: redis
     ports:
       - 6379:6379
+
+  web:
+    build: .
+    volumes:
+      - .media:/code/media
+    ports:
+      - 8000:8000
+    depends_on:
+      - "db"
+    env_file: .env
+
+  celery:
+    build:
+      context: .
+      dockerfile: celery.dockerfile
+    volumes:
+      - .media:/code/media
+    command: celery -A SuperB worker --beat --scheduler django --loglevel=info
+    depends_on:
+      - "db"
+      - "redisdb"
+    env_file: .env

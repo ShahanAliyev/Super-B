@@ -1,9 +1,7 @@
 to-do for tomorrow
 
-Currency
 payment
 
-convert order to excel
 dockerization 
  
  
